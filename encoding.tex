@@ -77,7 +77,7 @@ For a process $i$, a receive \texttt{R} has a nearest-enclosing barrier \texttt{
 \end{definition}
 
 \subsubsection{Program Order}
-We relax the program order between a point-to-point operation and the barrier issued later in the same same process so we are able to correctly encode the infinite-buffering setting. This is because the issuing of barrier does not enforce the completion of a previous issued point-to-point operation. There is only one situation that a receive must be completed before the issuing of barrier: the nearest-enclosing wait of a receive is issued before this barrier. As such, the program order between the nearest-enclosing wait and the barrier has to be enforced.
+The encoding does not constrain the program order that a point-to-point operation happens before a barrier issued later on an identical process in most cases because a barrier does not enforce the completion of a point-to-point operation. There is only one situation that an operation must be completed before issuing a barrier: a receive must be witnessed by its nearest-enclosing wait before issuing the barrier. As such, such program order that the nearest-enclosing wait happens before the barrier has to be enforced.
 
 \paragraph*{Step 1} For each task, if there are sequential send
 operations, say $\mathtt{S}$ and $\mathtt{S^\prime}$, from that task
@@ -109,7 +109,16 @@ $\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{B}$.
 $\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{O_i}$.
 
 \subsection{Zero-Buffering}
-Under a infinite-buffering setting, the MPI semantics allows a message to be buffered either in the destination process or in the system runtime. As a consequence, the message comes later may be received first. Our encoding so far focuses on infinite-buffering, therefore, does not have a restricted ordering on 
+Under an infinite buffering setting, the MPI semantics allows a message to be buffered in system runtime. Consequently, the message comes later may be received first if the message buffered is not received immediately with respect to the runtime behavior. Our encoding so far focuses on infinite-buffering, therefore, does not have a direct ordering rule for two racing messages to an identical process. 
 %:TODO 
-. In contrast, the zero-buffering setting restricts the buffer size to zero, so each message must be passed substantially once it is sent out. To encode zero-buffering setting, we need to refine our existing ordering rules in such a way that each issued send operation must be received immediately. 
+. In contrast, the zero buffer setting restricts the buffer size to zero, so each message must be passed substantially once it is sent out. To encode zero-buffering setting, we need to refine our existing ordering rules in such a way that each issued send operation must be received immediately. 
+
+\begin{definition}[Racing Messages in Zero-Buffering]
+Under zero-buffering, a send \texttt{S} matches a receive \texttt{R} if and only if
+\begin{equation*}
+\forall S'\neq S \cdot( (S' \mathrm{\prec_\mathtt{HB}} S) \wedge (R \mathrm{\prec_\mathtt{HB}} S') 
+                         \vee ((S' \mathrm{\prec_\mathtt{HB}} R) \wedge (S \mathrm{\prec_\mathtt{HB}} S')))
+\end{equation*}
+ 
+\end{definition}
 
