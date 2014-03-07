@@ -1,0 +1,115 @@
+\section{SMT Encoding}
+The SMT encoding is generated from two inputs: 1) an execution trace of an MPI program that includes a sequence of events, i.e., point-to-point operations, collective operations, control flow assumptions and property assertions; and 2) a set of possible match pairs. Intuitively, a match pair is a coupling of a send and a receive where this send may match this receive in runtime. 
+
+\subsection{Infinite-Buffering}
+\subsubsection{Point-To-Point Operation}
+In the previous running example,   
+%: TODO  
+The direct use of match pair, rather than a state based \cite{} or a indirect use of match pair in an order based encoding \cite{}, is 
+%: flexible or easy TODO
+to reason about the MPI non-determinism under either a infinite-buffering or a zero-buffering setting. 
+
+The SMT encoding asks a modern SMT solver, such as CVC4 \cite{} or Z3 \cite{}, to search for necessary assignments to a set of variables defined in the encoding such that it returns a satisfactory solution. Within those assignments, the SMT solver is able to resolve all match pairs. In other words, the SMT solver finds a violating execution trace of events that follows the control flow and message communication.   
+
+%:Definitions
+
+\begin{definition}[Happens-Before]
+The \emph{Happens-Before} $(\mathtt{HB})$ relation, denoted as
+$\mathrm{\prec_\mathtt{HB}}$, is a partial order over operations.
+\label{def:hb}
+\end{definition}
+
+\begin{definition}[Wait] \label{def:event}
+The occurrence of a wait operation, \texttt{W}, is captured by a
+single variable, $\mathit{order}_\mathtt{W}$, that constrains when
+the wait occurs.
+\end{definition}
+
+\begin{definition}[Send] \label{def:snd}
+A send operation $\mathtt{S}$, is a four-tuple of variables:
+\begin{compactenum}
+\item $M_\mathtt{S}$, the order of the matching receive event;
+\item $\mathit{order}_\mathtt{S}$, the order of the send;
+\item $e_\mathtt{S}$, the endpoint; and,
+\item $\mathit{value}_\mathtt{S}$, the transmitted value.
+\end{compactenum}
+\end{definition}
+
+\begin{definition}[Nearest-Enclosing Wait] \label{def:nw}
+A wait that witnesses the completion of a receive by indicating that
+the message is delivered and that all the previous receives in the
+same task issued earlier are complete as well.
+\end{definition}
+
+\begin{definition}[Receive] \label{def:rcv}
+A receive operation $\mathtt{R}$ is modeled by a five-tuple of variables:
+\begin{compactenum}
+\item $M_\mathtt{R}$, the order of the matching send event;
+\item $\mathit{order}_\mathtt{R}$, the order of the receive;
+\item $e_\mathtt{R}$, the endpoint;
+\item $\mathit{value}_\mathtt{R}$, the received value; and,
+\item $\mathit{nw}_\mathtt{R}$, the order of the nearest enclosing wait.
+\end{compactenum}
+\end{definition}
+
+%\begin{definition}[Concatenate]
+%An operation \texttt{A} concatenates an operation \texttt{B} if and only if A
+%\end{definition}
+
+\subsubsection{Collective Operation}
+
+\begin{definition}[Barrier]\label{def:barrier}
+The occurrence of a barrier operation, \texttt{B}, is captured by a
+single variable, $\mathit{order}_\mathtt{B}$, that constrains when a group of barriers $\{B_0, B_1, ..., B_n\}$ are matched.  
+Each barrier $B_i, i\in{0 ... n}$, is issued by process $i$. 
+\end{definition}
+
+%A barrier $\mathtt{B}$ represents a group of barriers $\{B_0, B_1, ..., B_n\}$ in an program execution. Each barrier $B_i, i\in{0 ... n}$ is issued by process $i$. 
+
+The barrier \texttt{B} synchronizes the program by constraining several program orders in each process. To be precise, a happens-before relation between $B$ and the operation issued before or after any barrier $B_i$ is enforced in the encoding. We will explain the ordering rules later.
+
+\begin{definition}[Nearest-Enclosing Barrier]\label{def:nb}
+For a process $i$, a receive \texttt{R} has a nearest-enclosing barrier \texttt{B} if and only if
+\begin{compactenum}
+\item the nearest-enclosing wait \texttt{W} of \texttt{R} is issued before $B_i\in B$, and
+\item there does not exist any receive \texttt{R'} that has its nearest-enclosing wait \texttt{W'} issued after \texttt{W} and issued before $B_i$.
+\end{compactenum}
+\end{definition}
+
+\subsubsection{Program Order}
+We relax the program order between a point-to-point operation and the barrier issued later in the same same process so we are able to correctly encode the infinite-buffering setting. This is because the issuing of barrier does not enforce the completion of a previous issued point-to-point operation. There is only one situation that a receive must be completed before the issuing of barrier: the nearest-enclosing wait of a receive is issued before this barrier. As such, the program order between the nearest-enclosing wait and the barrier has to be enforced.
+
+\paragraph*{Step 1} For each task, if there are sequential send
+operations, say $\mathtt{S}$ and $\mathtt{S^\prime}$, from that task
+to a common endpoint, $e_\mathtt{S} = e_\mathtt{S^\prime}$, then those
+sends must follow program order: $\mathit{order}_\mathtt{S}$
+$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{S^\prime}$.
+
+\paragraph*{Step 2} For each task, if there are sequential receive
+operations, say $\mathtt{R}$ and $\mathtt{R^\prime}$, in that task
+on a common endpoint, $e_\mathtt{R} = e_\mathtt{R^\prime}$, then those
+receives must follow program order: $\mathit{order}_\mathtt{R}$
+$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{R^\prime}$.
+
+\paragraph*{Step 3} For every receive \texttt{R} and its nearest
+enclosing wait \texttt{W}, $\mathit{order}_\mathtt{R}$
+$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{W}$.
+
+\paragraph*{Step 4} For any pair of sends $\mathtt{S}$ and
+$\mathtt{S'}$ on common endpoints, $e_{\mathtt{S}}=e_{\mathtt{S'}}$,
+such that
+$\mathit{order}_\mathtt{S}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{order}_\mathtt{S'}$,
+then those sends must be received in the same order:
+$M_{\mathtt{S}}\ \mathrm{\prec_{\mathtt{HB}}}\ M_{\mathtt{S'}}$.
+
+\paragraph*{Step 5} For any receive \texttt{R} that has a nearest-enclosing barrier \texttt{B}, and its nearest-enclosing wait \texttt{W}, $\mathit{order}_\mathtt{W}$
+$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{B}$.
+
+\paragraph*{Step 6} For any barrier $\mathtt{B} = \{B_0, B_1, ..., B_n\}$ and any operation $\mathtt{O_i}, i\in n$, following $\mathtt{B_i}$ in process $i$, $\mathit{order}_\mathtt{B}$
+$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{O_i}$.
+
+\subsection{Zero-Buffering}
+Under a infinite-buffering setting, the MPI semantics allows a message to be buffered either in the destination process or in the system runtime. As a consequence, the message comes later may be received first. Our encoding so far focuses on infinite-buffering, therefore, does not have a restricted ordering on 
+%:TODO 
+. In contrast, the zero-buffering setting restricts the buffer size to zero, so each message must be passed substantially once it is sent out. To encode zero-buffering setting, we need to refine our existing ordering rules in such a way that each issued send operation must be received immediately. 
+

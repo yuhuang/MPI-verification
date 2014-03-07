@@ -1,4 +1,6 @@
-﻿\section{Deadlock in MPI}
+\section{Deadlock in MPI}
+fdgfgfdg
+
 The complexity proof is on a
 new decision problem: \emph{Verifying Deadlock Violation in an MPI program}
 (VDMPI).
@@ -14,7 +16,8 @@ is orphaned?
 \label{def:np1}
 \end{definition}
 
-The VDMPI problem is NP-Complete. The proof is reducing the problem from SAT in polynomial time. In particular, given an instance $Q$ of SAT consisting of a set of variables $U$ and a set of clauses $C$ over $U$, an instance $V$ of VDMPI is constructed such that $V$ has a coherent schedule $S$ for the operations of $P$ that a deadlock occurs if and only if a satisfying assignment for $Q$ exists. Coherent in this context indicates the schedule is allowed by the MPI semantics.
+
+The VDMPI problem is NP-Complete. The proof is reducing the problem from SAT in polynomial ? time. In particular, given an instance $Q$ of SAT consisting of a set of variables $U$ and a set of clauses $C$ over $U$, an instance $V$ of VDMPI is constructed such that $V$ has a coherent schedule $S$ for the operations of $P$ that a deadlock occurs if and only if a satisfying assignment for $Q$ exists. Coherent in this context indicates the schedule is allowed by the MPI semantics.
 
 The reduction is illustrated in \figref{fig:vdmpi}. The wait functions are omitted because each of them follows its send/receive directly in the figure. The subscript notations of all sends/receives are omitted as well because they are redundant. The values sent are added to the sends as they are essential to the reduction. 
 

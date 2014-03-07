@@ -3,27 +3,19 @@
 % for Lecture Notes in Computer Science,
 % version 2.4 for LaTeX2e as of 16. April 2010
 %
-\documentclass[conference]{IEEEtran}
+\documentclass[conference]{acm_proc_article-sp}
 %
 \usepackage{comment}
 \usepackage{mathpartir}
 \usepackage{listings}
 \usepackage{alltt}
 \usepackage{graphicx}
-\usepackage{amssymb,amsthm}
+\usepackage{amssymb}
 \usepackage{paralist, tabularx}
 \usepackage{flushend}
 
 \def\UrlBreaks{\do\/\do-}
 
-%%
-%% STANDARD SMC CUSTOMIZATION
-
-% This is my comments.  The color and text style means it
-% came from Eric Mercer.
-% I am including 2 versions:
-%   a) includes my comments in the final document
-%   b) excludes my comments in the final document
 \usepackage{color}
 \definecolor{egmcolor}{rgb}{1.0,0.0,0.722}
 \newcommand*{\egm}[1]%
@@ -45,33 +37,45 @@
 
 %
 \begin{document}
-%
-%\pagestyle{headings}  % switches on printing of running heads%
-%
 
-\title{Proving MCAPI Executions Are Correct using SMT}
+\title{Detecting MPI Assertion Violations by SMT}
 
-% author names and affiliations
-% use a multiple column layout for up to three different
-% affiliations
-\author{\authorblockN{Yu Huang, Eric Mercer, and Jay McCarthy}
-\authorblockA{Department of Computer Science\\
-Brigham Young University\\
-Provo, UT, 84602, USA \\
-Email: \{yuHuang,egm,jay\}@byu.edu}}
+\numberofauthors{2} 
+\author{
+\alignauthor
+Yu Huang\\
+\affaddr{Department of Computer Science,\\Brigham Young University,\\Provo, UT, 84602, USA}
+\email{yuHuang@byu.edu}
+\alignauthor
+Eric Mercer\\
+\affaddr{Department of Computer Science,\\Brigham Young University,\\Provo, UT, 84602, USA}
+\email{egm@byu.edu}
+}
+
+%\authorblockN{Yu Huang, Eric Mercer, and Jay McCarthy}
+%\authorblockA{Department of Computer Science\\
+%Brigham Young University\\
+%Provo, UT, 84602, USA \\
+%Email: \{yuHuang,egm,jay\}@byu.edu}}
 
 \maketitle
-
 %
 %
-%\begin{abstract}
-%\input{abstract}
 
-%\IEEEkeywords Abstraction, Refinement, SMT, Message Passing
-%\end{abstract}
-%
+\begin{abstract}
+\input{abstract}
+\end{abstract}
+\keywords{MPI, SMT, Message Passing}
 
-\input{deadlock-proof}
+\input{example-defs}
+\input{introduction}
+\input{example}
+\input{encoding}
+\input{mp-generation}
+\input{experiment}
+\input{related}
+\input{conclusion}
+
 %\newpage
 %\bibliographystyle{splncs03}
 %\bibliography{../bib/paper}

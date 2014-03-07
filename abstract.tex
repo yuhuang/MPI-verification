@@ -1,0 +1,33 @@
+Asynchronous message passing systems are fast becoming a common means for communication between devices.
+%
+One of the more common standards is the message passing interface (MPI).
+%
+A problem in any MPI program, intended or otherwise, is message race where a receive may match with more than one send in the runtime system.
+%
+This non-determinism often leads to intermittent and unexpected behavior and is notorious for its difficulty to test or debug without exploring the full program state space. 
+%
+Besides the point-to-point operations (send and receive), the collective operations that synchronize the program usually constrain the possibility that a send and a receive can be potentially matched. 
+%
+As a result, the semantics becomes more difficult to analyze formally. 
+%
+As both runtime semantics -- infinite-buffering (the message is copied into a runtime buffer on the API call) and zero-buffering (the message has no buffering) are imperatively requested by many MPI applications, they should be both supported by an formal analysis as well. 
+%
+This paper presents an algorithm that encodes an MPI execution as a Satisfiability Modulo Theories (SMT) problem, which if satisfiable, yields a feasible execution schedule on the same trace, such that it resolves non-determinism in the MPI runtime in a way that it now fails user provided assertions.
+%
+This encoding correctly defines the MPI semantics including both point-to-point operations, i.e., send and receive, and collective operations, i.e., barrier.
+%
+It is also efficient given that few terms are used compared to the prior works.
+%
+Based on the encoding rules for infinite-buffering, the encoding is able to be adjusted to zero-buffering by adding and/or removing some constraints.
+%
+Generally, the novelty of this encoding is the direct use of send-revive match pairs, which is simple to reason about the program behavior. 
+%
+However, it is non-trivial to obtain all potential send-receive matches that may occur in system runtime.
+%
+Based on this fact, this paper provides an algorithm that runs with low cost to generate an over-approximation of potential send-receive matches. 
+%
+Though inaccurate, the generated set is sufficient to let an SMT solver works efficiently because most obvious bogus matches are discarded by this algorithm.
+%
+Results demonstrate that the SMT encoding runs fast and correctly. 
+%
+As a result, the encoding scales well for programs with high levels of non-determinism in how sends and receives may potentially match.

@@ -1,0 +1,218 @@
+% ---------------------------------------------------------------------
+% Save boxes for the various figures in the example section
+% ---------------------------------------------------------------------
+\newsavebox{\boxTZero}
+\begin{lrbox}{\boxTZero}
+\begin{minipage}[t]{0.8\linewidth}
+\small
+\begin{alltt}
+	---
+00 Irecv(from MPI_ANY_SRC, A, &h1);
+01 Wait(&h1);
+
+02 Irecv(from MPI_ANY_SRC, B, &h2);
+03 Wait(&h2);
+
+04 assert(A == 4);
+	---
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxBTZero}
+\begin{lrbox}{\boxBTZero}
+\begin{minipage}[t]{0.8\linewidth}
+\small
+\begin{alltt}
+	---
+00 Irecv(from MPI_ANY_SRC, A, &h1);
+01 Wait(&h1);
+
+03 \underline{Barrier(comm);}
+
+04 Irecv(from MPI_ANY_SRC, B, &h2);
+05 Wait(&h2);
+
+06 assert(A == 4);
+	---
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxATZero}
+\begin{lrbox}{\boxATZero}
+\begin{minipage}[t]{0.65\linewidth}
+\begin{alltt}
+08 0_0         (0_0 (rcvi rcvA 0 a))
+09 (0_1 (0 1)) (0_1 (wait rcvA))
+
+10 0_2         (0_2 (rcvi rcvB 0 b))
+11 (0_3 (0 2)) (0_3 (wait rcvB))
+
+12 0_4         (0_4 (assume (> b 0)))
+13 0_5         (0_5 (assert (= a 4)))
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxTOne}
+\begin{lrbox}{\boxTOne}
+\begin{minipage}[t]{0.8\linewidth}
+\small
+\begin{alltt}
+---
+10 Irecv(from MPI_ANY_SRC, C, &h3);
+11 Wait(&h3);
+
+12 Isend(to P0, "1", &h4);
+13 Wait(&h4);
+---
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxBTOne}
+\begin{lrbox}{\boxBTOne}
+\begin{minipage}[t]{0.8\linewidth}
+\small
+\begin{alltt}
+---
+10 \underline{Barrier(comm);}
+
+11 Irecv(from MPI_ANY_SRC, C, &h3);
+12 Wait(&h3);
+
+13 Isend(to P0, "1", &h4);
+14 Wait(&h4);
+---
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxATOne}
+\begin{lrbox}{\boxATOne}
+\begin{minipage}[t]{0.65\linewidth}
+\begin{alltt}
+04 1_0         (1_0 (rcvi rcvC 1 c))
+05 (1_1 (1 2)) (1_1 (wait rcvC))
+
+06 1_2         (1_2 (sndi snd3 1 0 0x1))
+07 1_3         (1_3 (wait snd3))
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxTTwo}
+\begin{lrbox}{\boxTTwo}
+\begin{minipage}[t]{0.8\linewidth}
+\small
+\begin{alltt}
+---
+20 Isend(to P0, "4", &h5);
+21 Wait(&h5);
+
+22 Isend(to P1, "Go", &h6);
+23 Wait(&h6);
+---
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxBTTwo}
+\begin{lrbox}{\boxBTTwo}
+\begin{minipage}[t]{0.8\linewidth}
+\small
+\begin{alltt}
+---
+20 Isend(to P0, "4", &h5);
+21 Wait(&h5);
+
+22 \underline{Barrier(comm);}
+
+23 Isend(to P1, "Go", &h6);
+24 Wait(&h6);
+---
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxATTwo}
+\begin{lrbox}{\boxATTwo}
+\begin{minipage}[t]{0.65\linewidth}
+\begin{alltt}
+00 2_0        (2_0 (sndi snd1 2 0 0x4))
+01 2_1        (2_1 (wait snd1))
+
+02 2_2        (2_2 (sndi snd2 2 1 0x476f00))
+03 2_3        (2_3 (wait snd2))
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+
+\newsavebox{\boxSMT}
+\begin{lrbox}{\boxSMT}
+\begin{minipage}[c]{0.4\linewidth}
+\begin{alltt}
+(HB rcvA_loc wait_rcvA_loc)
+(HB wait_rcvA_loc rcvB_loc)
+(HB rcvB_loc wait_rcvB_loc)
+(HB wait_rcvB_loc assume_loc)
+(HB assume_loc assert_loc)
+(HB rcvC_loc wait_rcvC_loc)
+(HB wait_rcvC_loc snd3_loc)
+(HB snd3_loc wait_snd3_loc)
+(HB snd1_loc wait_snd1_loc)
+(HB wait_snd1_loc snd2_loc)
+(HB snd2_loc wait_snd2_loc)
+
+(or (MATCH rcvA snd3)
+    (MATCH rcvA snd1))
+(or (MATCH rcvB  snd1)
+    (MATCH rcvB snd3))
+(NE rcvA rcvB)
+
+(MATCH rcvC snd2)
+
+(assert (> b 0))
+(assert (not (= a 4)))
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+% ---------------------------------------------------------------------
+% END Save boxes
+% ---------------------------------------------------------------------
+
+\newcommand\examplefigone{
+\begin{figure*}[t]
+\begin{center}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}[t]{c|c|c}
+P0 & P1 & P2 \\
+\hline
+\scalebox{0.8}{\usebox{\boxTZero}}&
+\scalebox{0.8}{\usebox{\boxTOne}} &
+\scalebox{0.8}{\usebox{\boxTTwo}}\\
+\end{tabular}
+\end{center}
+\caption{An MPI concurrent trace program}
+\label{fig:mpi}
+\end{figure*}
+}
+
+\newcommand\examplefigoneB{
+\begin{figure*}[t]
+\begin{center}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}[t]{c|c|c}
+P0 & P1 & P2 \\
+\hline
+\scalebox{0.8}{\usebox{\boxBTZero}}&
+\scalebox{0.8}{\usebox{\boxBTOne}} &
+\scalebox{0.8}{\usebox{\boxBTTwo}}\\
+\end{tabular}
+\end{center}
+\caption{An MCAPI concurrent trace program with Barriers}
+\label{fig:mpi_barrier}
+\end{figure*}
+}
