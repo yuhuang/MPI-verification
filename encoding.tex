@@ -200,7 +200,7 @@ $\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{S}$.
 \subsection{Correctness}
 
 \begin{definition}[Equivalency Relation]
-For zero buffering, two feasible schedules $\rho_1 = t_1...t_i\cdot t_{i+1}...t_n$ and $\rho_2 = t_1...t_{i+1}\cdot t_i...t_n$ are equivalent with respect to the message communication, denoted as $\rho_1 \simeq \rho_2$, implies one of the following conditions:
+For zero buffering, two feasible schedules $\rho_1 = t_1...t_i\cdot t_{i+1}...t_n$ and $\rho_2 = t_1...t_{i+1}\cdot t_i...t_n$ are equivalent with respect to the message communication, denoted as $\rho_1 \simeq \rho_2$, only if one of the following conditions holds:
 \begin{compactenum} 
 \item $t_i$ and $t_{i+1}$ are both receive operations.
 \item $t_i$ ($t_{i+1}$) is a send operation and $t_{i+1}$ ($t_i$) is a receive operation.
