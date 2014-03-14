@@ -200,11 +200,11 @@ $\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{S}$.
 \subsection{Correctness}
 
 \begin{definition}[Equivalency Relation]
-Two program schedules $\rho_1 = t_1...t_i\cdot t_{i+1}...t_n$ and $\rho_2 = t_1...t_{i+1}\cdot t_i...t_n$ are equivalent, denoted as $\rho_1 \simeq \rho_2$, if the following conditions do not hold for $t_i$ and $t_{i+1}$:
-\begin{compactenum}
-\item $t_i$ ($t_{i+1}$) is an assumption or an assertion;
-\item $t_i$ ($t_{i+1}$) is a point-to-point operation and $t_{i+1}$ ($t_i$) is a wait operation for $t_i$ ($t_{i+1}$); and
-\item $t_i$ and $t_{i+1}$ are both receive (send) operations. 
+For zero buffering, two feasible schedules $\rho_1 = t_1...t_i\cdot t_{i+1}...t_n$ and $\rho_2 = t_1...t_{i+1}\cdot t_i...t_n$ are equivalent with respect to the message communication, denoted as $\rho_1 \simeq \rho_2$, implies one of the following conditions:
+\begin{compactenum} 
+\item $t_i$ and $t_{i+1}$ are both receive operations.
+\item $t_i$ ($t_{i+1}$) is a send operation and $t_{i+1}$ ($t_i$) is a receive operation.
+\item $t_i$ ($t_{i+1}$) is a point-to-point operation or wait operation and $t_{i+1}$ ($t_i$) is a wait operation that does not confirm the completion of $t_i$ ($t_{i+1}$).
 \end{compactenum}
 \end{definition}
 
