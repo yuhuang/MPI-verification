@@ -320,3 +320,58 @@ sat
  :restarts                351
  :time                    721.66
  :total-time              721.77)
+
+80 messages:
+
+infinite buffer:
+
+Program is in process...
+Program starts at 1396477514903
+Message Size: 80
+Match Pair set: 6400
+Over-Approximiated possible choices: 1.7668470647783846E152
+========================================
+Generating Match Pair for 2.012seconds
+Program ends at 1396477517107
+Program executes 2.204seconds
+
+
+
+zero buffer:
+
+Program is in process...
+Program starts at 1396477584036
+Message Size: 80
+Match Pair set: 6400
+Over-Approximiated possible choices: 1.7668470647783846E152
+========================================
+Generating Match Pair for 2.025seconds
+Program ends at 1396477586220
+Program executes 2.184seconds
+
+
+90 messages:
+
+infinite buffer:
+
+Program is in process...
+Program starts at 1396477812138
+Message Size: 90
+Match Pair set: 8100
+Over-Approximiated possible choices: 7.617734804586648E175
+========================================
+Generating Match Pair for 3.361seconds
+Program ends at 1396477815654
+Program executes 3.516seconds
+
+zero buffer:
+
+Program is in process...
+Program starts at 1396477770737
+Message Size: 90
+Match Pair set: 8100
+Over-Approximiated possible choices: 7.617734804586648E175
+========================================
+Generating Match Pair for 3.333seconds
+Program ends at 1396477774235
+Program executes 3.498seconds
