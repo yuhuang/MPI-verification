@@ -1,0 +1,21 @@
+infinite buffer:
+
+Program is in process...
+Program starts at 1396474214342
+Match Pair set: 1998
+Over-Approximiated possible choices: 9.378532489310389E79
+========================================
+Generating Match Pair for 0.275seconds
+Program ends at 1396474214703
+Program executes 0.361seconds
+
+zero buffer:
+
+Program is in process...
+Program starts at 1396474297093
+Match Pair set: 1998
+Over-Approximiated possible choices: 9.378532489310389E79
+========================================
+Generating Match Pair for 0.274seconds
+Program ends at 1396474297454
+Program executes 0.361seconds
