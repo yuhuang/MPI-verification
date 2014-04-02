@@ -1,0 +1,137 @@
+Infinite Buffering:
+
+sat
+(model
+  (define-fun recvT0_2 () (Recv Int Int Int Int Int)
+    (mk-recv (- 1342) 0 4 454 455))
+  (define-fun T0_2 () Int
+    454)
+  (define-fun sendT2_0 () (Send Int Int Int Int)
+    (mk-send 454 0 4 (- 1342)))
+  (define-fun T0_1 () Int
+    2736)
+  (define-fun T0_4 () Int
+    456)
+  (define-fun T2_2 () Int
+    2284)
+  (define-fun T0_3 () Int
+    455)
+  (define-fun T2_0 () Int
+    (- 1342))
+  (define-fun T1_1 () Int
+    2734)
+  (define-fun sendT2_2 () (Send Int Int Int Int)
+    (mk-send 2733 1 111 2284))
+  (define-fun T1_0 () Int
+    2733)
+  (define-fun recvT1_0 () (Recv Int Int Int Int Int)
+    (mk-recv 2284 1 111 2733 2734))
+  (define-fun a () Int
+    1)
+  (define-fun b () Int
+    4)
+  (define-fun T1_2 () Int
+    2735)
+  (define-fun T0_0 () Int
+    453)
+  (define-fun sendT1_2 () (Send Int Int Int Int)
+    (mk-send 453 0 1 2735))
+  (define-fun c () Int
+    111)
+  (define-fun recvT0_0 () (Recv Int Int Int Int Int)
+    (mk-recv 2735 0 1 453 2736))
+)
+(:add-rows                19
+ :added-eqs               77
+ :assert-lower            8
+ :assert-upper            10
+ :binary-propagations     22
+ :conflicts               1
+ :datatype-accessor-ax    6
+ :datatype-constructor-ax 6
+ :datatype-occurs-check   6
+ :decisions               10
+ :del-clause              2
+ :eq-adapter              4
+ :final-checks            1
+ :fixed-eqs               4
+ :memory                  2.18
+ :mk-clause               4
+ :pivots                  13
+ :propagations            22
+ :time                    0.02
+ :total-time              0.13)
+
+
+Zero Buffering:
+
+unsat
+
+(:add-rows                42
+ :added-eqs               79
+ :assert-lower            9
+ :assert-upper            16
+ :binary-propagations     34
+ :bound-prop              8
+ :conflicts               2
+ :datatype-accessor-ax    6
+ :datatype-constructor-ax 6
+ :decisions               1
+ :del-clause              1
+ :eq-adapter              11
+ :fixed-eqs               6
+ :memory                  2.19
+ :mk-clause               17
+ :pivots                  16
+ :propagations            34
+ :time                    0.02
+ :total-time              0.03)
+
+
+Infinite Buffer for barrier:
+
+unsat
+
+(:add-rows                22
+ :added-eqs               61
+ :assert-lower            9
+ :assert-upper            12
+ :binary-propagations     6
+ :bound-prop              1
+ :conflicts               1
+ :datatype-accessor-ax    6
+ :datatype-constructor-ax 6
+ :eq-adapter              5
+ :fixed-eqs               5
+ :memory                  2.19
+ :mk-clause               5
+ :pivots                  14
+ :propagations            6
+ :time                    0.02
+ :total-time              0.07)
+
+
+Zero buffer for barrier:
+
+unsat
+
+(:add-rows                40
+ :added-eqs               63
+ :assert-lower            10
+ :assert-upper            15
+ :binary-propagations     11
+ :bound-prop              2
+ :conflicts               1
+ :datatype-accessor-ax    6
+ :datatype-constructor-ax 6
+ :eq-adapter              11
+ :fixed-eqs               6
+ :memory                  2.19
+ :mk-clause               11
+ :pivots                  16
+ :propagations            11
+ :time                    0.02
+ :total-time              0.03)
+
+
+

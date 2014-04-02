@@ -1,0 +1,44 @@
+Infinite Buffering:
+sat
+(:add-rows                999
+ :added-eqs               278
+ :assert-lower            71
+ :assert-upper            89
+ :datatype-accessor-ax    22
+ :datatype-constructor-ax 22
+ :datatype-occurs-check   242
+ :decisions               18
+ :eq-adapter              33
+ :final-checks            12
+ :fixed-eqs               33
+ :interface-eqs           11
+ :memory                  2.86
+ :mk-clause               41
+ :offset-eqs              3
+ :pivots                  131
+ :propagations            15
+ :time                    0.02
+ :total-time              0.02)
+
+
+Zero Buffering:
+
+sat
+(:add-rows                645
+ :added-eqs               264
+ :assert-lower            66
+ :assert-upper            93
+ :binary-propagations     22
+ :datatype-accessor-ax    22
+ :datatype-constructor-ax 22
+ :datatype-occurs-check   22
+ :del-clause              11
+ :eq-adapter              33
+ :final-checks            1
+ :fixed-eqs               22
+ :memory                  2.82
+ :mk-clause               11
+ :pivots                  117
+ :propagations            22
+ :time                    0.02
+ :total-time              0.02)

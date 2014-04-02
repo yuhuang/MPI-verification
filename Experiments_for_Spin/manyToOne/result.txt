@@ -1,0 +1,194 @@
+30 Messages:
+Infinite Buffer:
+
+sat
+(:add-rows                318834
+ :added-eqs               6964068
+ :arith-conflicts         61
+ :assert-diseq            3313147
+ :assert-lower            403048
+ :assert-upper            468790
+ :binary-propagations     2889223
+ :bound-prop              12836
+ :conflicts               9732
+ :datatype-accessor-ax    59
+ :datatype-constructor-ax 59
+ :datatype-occurs-check   1121
+ :decisions               1019789
+ :del-clause              20783
+ :eq-adapter              6273
+ :final-checks            20
+ :fixed-eqs               324206
+ :interface-eqs           19
+ :memory                  19.53
+ :minimized-lits          1133
+ :mk-clause               39657
+ :offset-eqs              394494
+ :pivots                  2093
+ :propagations            4378326
+ :restarts                68
+ :time                    27.08
+ :total-time              27.10)
+
+Zero Buffer:
+
+sat
+(:add-rows                33245
+ :added-eqs               81010
+ :arith-conflicts         10
+ :assert-diseq            49323
+ :assert-lower            10053
+ :assert-upper            14662
+ :binary-propagations     153375
+ :bound-prop              18739
+ :conflicts               755
+ :datatype-accessor-ax    59
+ :datatype-constructor-ax 59
+ :datatype-occurs-check   118
+ :decisions               31562
+ :del-clause              5652
+ :eq-adapter              3330
+ :final-checks            3
+ :fixed-eqs               335
+ :interface-eqs           2
+ :memory                  15.17
+ :minimized-lits          1612
+ :mk-clause               16963
+ :offset-eqs              1022
+ :pivots                  600
+ :propagations            303605
+ :restarts                7
+ :time                    1.03
+ :total-time              1.05)
+
+comments: the zero buffer encoding returns much faster than the infinite buffer encoding. The only difference is the way to define match pairs, i.e., the zero buffer encoding uses the equality theory to define HB relation. 
+
+
+40 messages:
+
+infinite buffer:
+
+sat
+(:add-rows                2771282
+ :added-eqs               46122047
+ :arith-conflicts         90
+ :assert-diseq            22676183
+ :assert-lower            2765648
+ :assert-upper            3045409
+ :binary-propagations     17556457
+ :bound-prop              63147
+ :conflicts               61711
+ :datatype-accessor-ax    79
+ :datatype-constructor-ax 79
+ :datatype-occurs-check   2449
+ :decisions               5471628
+ :del-clause              79193
+ :eq-adapter              12214
+ :final-checks            32
+ :fixed-eqs               1744780
+ :interface-eqs           31
+ :memory                  48.41
+ :minimized-lits          60378
+ :mk-clause               156176
+ :offset-eqs              4414663
+ :pivots                  12611
+ :propagations            32172474
+ :restarts                272
+ :time                    210.62
+ :total-time              210.67)
+
+zero buffer:
+
+sat
+(:add-rows                545813
+ :added-eqs               464900
+ :arith-conflicts         276
+ :assert-diseq            357125
+ :assert-lower            114438
+ :assert-upper            125835
+ :binary-propagations     971133
+ :bound-prop              106383
+ :conflicts               2844
+ :datatype-accessor-ax    79
+ :datatype-constructor-ax 79
+ :datatype-occurs-check   11297
+ :decisions               146771
+ :del-clause              14268
+ :eq-adapter              8073
+ :final-checks            144
+ :fixed-eqs               5567
+ :interface-eqs           143
+ :memory                  43.81
+ :minimized-lits          14735
+ :mk-clause               60147
+ :offset-eqs              9541
+ :pivots                  2843
+ :propagations            1965480
+ :restarts                18
+ :time                    8.04
+ :total-time              8.08)
+
+
+50 messages:
+
+infinite buffer:
+
+sat
+(:add-rows                6582439
+ :added-eqs               141289910
+ :arith-conflicts         186
+ :assert-diseq            62031167
+ :assert-lower            10528590
+ :assert-upper            11177614
+ :binary-propagations     53437630
+ :bound-prop              135956
+ :conflicts               156372
+ :datatype-accessor-ax    99
+ :datatype-constructor-ax 99
+ :datatype-occurs-check   2079
+ :decisions               14089716
+ :del-clause              205033
+ :eq-adapter              15243
+ :final-checks            22
+ :fixed-eqs               6890723
+ :interface-eqs           21
+ :memory                  91.26
+ :minimized-lits          190410
+ :mk-clause               331015
+ :offset-eqs              11054260
+ :pivots                  21450
+ :propagations            100347513
+ :restarts                485
+ :time                    763.19
+ :total-time              763.25)
+
+zero buffer:
+
+sat
+(:add-rows                1445785
+ :added-eqs               1137967
+ :arith-conflicts         490
+ :assert-diseq            885901
+ :assert-lower            335872
+ :assert-upper            352104
+ :binary-propagations     3069636
+ :bound-prop              255462
+ :conflicts               8285
+ :datatype-accessor-ax    99
+ :datatype-constructor-ax 99
+ :datatype-occurs-check   211761
+ :decisions               426347
+ :del-clause              40650
+ :eq-adapter              17234
+ :final-checks            2140
+ :fixed-eqs               23669
+ :interface-eqs           2139
+ :memory                  78.03
+ :minimized-lits          118828
+ :mk-clause               127841
+ :offset-eqs              42325
+ :pivots                  6152
+ :propagations            6396901
+ :restarts                33
+ :time                    27.46
+ :total-time              27.52)

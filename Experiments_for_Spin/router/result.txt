@@ -1,0 +1,56 @@
+Infinite Buffering:
+
+sat
+(:add-rows                14967
+ :added-eqs               205969
+ :arith-conflicts         97
+ :assert-diseq            104901
+ :assert-lower            18813
+ :assert-upper            20038
+ :binary-propagations     200640
+ :bound-prop              329
+ :conflicts               613
+ :datatype-accessor-ax    422
+ :datatype-constructor-ax 422
+ :datatype-occurs-check   29540
+ :decisions               142150
+ :del-clause              8947
+ :eq-adapter              4499
+ :final-checks            71
+ :fixed-eqs               1114
+ :interface-eqs           70
+ :memory                  16.98
+ :minimized-lits          20
+ :mk-clause               10518
+ :offset-eqs              239
+ :pivots                  1516
+ :propagations            231312
+ :restarts                5
+ :time                    1.67
+ :total-time              1.72)
+
+Zero Buffering:
+
+unsat
+(:add-rows                27895
+ :added-eqs               4652
+ :arith-conflicts         3
+ :assert-lower            530
+ :assert-upper            1374
+ :binary-propagations     1865
+ :bound-prop              748
+ :conflicts               3
+ :datatype-accessor-ax    422
+ :datatype-constructor-ax 422
+ :decisions               8
+ :del-clause              3
+ :eq-adapter              1080
+ :fixed-eqs               422
+ :memory                  31.30
+ :mk-clause               2142
+ :pivots                  1136
+ :propagations            2131
+ :time                    0.30
+ :total-time              0.34)
+
+zero buffer encoding does not work because the program issues two sends on each process. Each process waits on the first send without proceeding because zero buffering does not allow this message to be buffered.
