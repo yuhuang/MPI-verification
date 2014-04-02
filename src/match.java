@@ -55,6 +55,20 @@ public double possibleChoice_overappromiation()
 	return choice;
 }
 
+public int messageSize()
+{
+	if(recvlist.equals(null))
+		return 0;
+	
+	int size = 0;
+	for(int i = 0; i < recvlist.length; i++)
+	{
+		size += recvlist[i].size();
+	}
+	
+	return size;
+}
+
 public void generateMatch(){
 	 for(int i = 0; i < recvlist.length; i ++){
 		 Iterator<recv> ite_r = recvlist[i].iterator();

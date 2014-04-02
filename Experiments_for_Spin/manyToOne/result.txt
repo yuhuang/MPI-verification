@@ -261,6 +261,35 @@ sat
 
 infinite buffer:
 
+sat
+(:add-rows                68594969
+ :added-eqs               745976802
+ :arith-conflicts         600
+ :assert-diseq            290271574
+ :assert-lower            84054620
+ :assert-upper            87301595
+ :binary-propagations     286996082
+ :bound-prop              647289
+ :conflicts               673663
+ :datatype-accessor-ax    139
+ :datatype-constructor-ax 139
+ :datatype-occurs-check   3614
+ :decisions               54984198
+ :del-clause              880873
+ :eq-adapter              27559
+ :final-checks            27
+ :fixed-eqs               48758057
+ :interface-eqs           26
+ :memory                  312.35
+ :minimized-lits          1431475
+ :mk-clause               1304724
+ :offset-eqs              63703527
+ :pivots                  126122
+ :propagations            585166252
+ :restarts                996
+ :time                    5536.46
+ :total-time              5536.65)
+
 zero buffer:
 
 sat

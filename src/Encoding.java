@@ -458,7 +458,7 @@ void GenerateEncoding() throws IOException{
 	long t1 = System.currentTimeMillis();
 	mc.generateMatch();
 	//print out the match pair
-	System.out.println("Match Pair set: " + mc.matchSize() + "\nOver-Approximiated possible choices: " + mc.possibleChoice_overappromiation());
+	System.out.println("Message Size: " + mc.messageSize() + "\nMatch Pair set: " + mc.matchSize() + "\nOver-Approximiated possible choices: " + mc.possibleChoice_overappromiation());
 	System.out.println("========================================");
 	Hashtable<String, LinkedList<String>> matchtable = mc.match_table;
 	
