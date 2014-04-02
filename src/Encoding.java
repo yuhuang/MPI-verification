@@ -58,8 +58,8 @@ DataOutputStream out;
 BufferedReader br;
 BufferedWriter bw;
 
-boolean debug = true;
-boolean debug2 = true;
+boolean debug = false;
+boolean debug2 = false;
 
 boolean isZero = false;
 
@@ -355,22 +355,30 @@ void Extract(String s){
 			def += "(declare-const " + event + " Int)\n";
 		barriers[endpoint].addLast(event);
 		
+		//HB over barrier and any operation on ep because all the barriers are witnessed
+		//may be revised to get rid of some redundant HB relations TODO
+		if(!current_barrier[endpoint].equals("") )
+		{
+			//HB relation
+			hb += "(HB " + current_barrier[endpoint] + " " + event +") ";
+		}
+		
 		//current barrier for process ep is changed
 		current_barrier[endpoint] = event; 
 	}
 	else
 	{
 		def += "(declare-const " + event + " Int)\n";
+		//HB over barrier and any operation on ep because all the barriers are witnessed
+		//may be revised to get rid of some redundant HB relations TODO
+		if(!current_barrier[endpoint].equals("") )
+		{
+			//HB relation
+			hb += "(HB " + current_barrier[endpoint] + " " + event +") ";
+		}
 	}
 	
-	//HB over barrier and any operation on ep because all the barriers are witnessed
-	//may be revised to get rid of some redundant HB relations TODO
-	if(!current_barrier[endpoint].equals("") )
-	{
-		//HB relation
-		hb += "(HB " + current_barrier[endpoint] + " " + event +") ";
-	}
-	
+
 	if(isZero)
 	{
 		//for zero buffering, a send happens before any operation except the wait on an idential process
@@ -449,6 +457,9 @@ void GenerateEncoding() throws IOException{
 	//generate matches
 	long t1 = System.currentTimeMillis();
 	mc.generateMatch();
+	//print out the match pair
+	System.out.println("Match Pair set: " + mc.matchSize() + "\nOver-Approximiated possible choices: " + mc.possibleChoice_overappromiation());
+	System.out.println("========================================");
 	Hashtable<String, LinkedList<String>> matchtable = mc.match_table;
 	
 	if(matchtable.isEmpty()){
@@ -498,6 +509,7 @@ public static void main(String[] args)throws IOException{
 	long t2 = System.currentTimeMillis();
 	System.out.println("Program ends at " + t2);
 	System.out.println("Program executes " + ((double)(t2-t1))/(double)1000 + "seconds");
+	
 }
 
 }

@@ -32,6 +32,29 @@ public recv createRecv(String ex, int r, String e){
 	return new recv(ex, r, e);
 }
 
+public int matchSize()
+{
+	int size = 0;
+	for(String key : match_table.keySet())
+	{
+		size += match_table.get(key).size();
+	}
+	
+	return size;
+}
+
+public double possibleChoice_overappromiation()
+{
+	double choice = 1;
+//	double index = 0;
+	for(String key : match_table.keySet())
+	{
+		choice *= (double)match_table.get(key).size();
+//		index++;
+	}
+	return choice;
+}
+
 public void generateMatch(){
 	 for(int i = 0; i < recvlist.length; i ++){
 		 Iterator<recv> ite_r = recvlist[i].iterator();

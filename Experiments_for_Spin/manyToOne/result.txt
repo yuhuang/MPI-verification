@@ -192,3 +192,102 @@ sat
  :restarts                33
  :time                    27.46
  :total-time              27.52)
+
+
+
+60 messages:
+infinite buffer:
+sat
+(:add-rows                26157100
+ :added-eqs               387038294
+ :arith-conflicts         262
+ :assert-diseq            151944855
+ :assert-lower            36860461
+ :assert-upper            37710827
+ :binary-propagations     147498600
+ :bound-prop              336093
+ :conflicts               450022
+ :datatype-accessor-ax    119
+ :datatype-constructor-ax 119
+ :datatype-occurs-check   4522
+ :decisions               29136181
+ :del-clause              555449
+ :eq-adapter              15754
+ :final-checks            39
+ :fixed-eqs               22837823
+ :interface-eqs           38
+ :memory                  174.83
+ :minimized-lits          847524
+ :mk-clause               822051
+ :offset-eqs              39511950
+ :pivots                  62679
+ :propagations            296442545
+ :restarts                841
+ :time                    2215.64
+ :total-time              2215.76)
+
+zero buffer:
+sat
+(:add-rows                20557271
+ :added-eqs               11284821
+ :arith-conflicts         1422
+ :assert-diseq            11850916
+ :assert-lower            4759355
+ :assert-upper            4847343
+ :binary-propagations     56152931
+ :bound-prop              742147
+ :conflicts               175748
+ :datatype-accessor-ax    119
+ :datatype-constructor-ax 119
+ :datatype-occurs-check   359618
+ :decisions               1190864
+ :del-clause              244264
+ :eq-adapter              19599
+ :final-checks            3023
+ :fixed-eqs               172292
+ :interface-eqs           3022
+ :memory                  210.82
+ :minimized-lits          3765429
+ :mk-clause               583218
+ :offset-eqs              467614
+ :pivots                  94549
+ :propagations            124690341
+ :restarts                332
+ :time                    492.96
+ :total-time              493.04)
+
+
+70 messages:
+
+infinite buffer:
+
+zero buffer:
+
+sat
+(:add-rows                26236127
+ :added-eqs               15418154
+ :arith-conflicts         1923
+ :assert-diseq            16750882
+ :assert-lower            6956491
+ :assert-upper            6939964
+ :binary-propagations     74324828
+ :bound-prop              1242371
+ :conflicts               192861
+ :datatype-accessor-ax    139
+ :datatype-constructor-ax 139
+ :datatype-occurs-check   506238
+ :decisions               2541811
+ :del-clause              289895
+ :eq-adapter              41299
+ :final-checks            3643
+ :fixed-eqs               264251
+ :interface-eqs           3642
+ :memory                  320.49
+ :minimized-lits          4392118
+ :mk-clause               769701
+ :offset-eqs              677417
+ :pivots                  105439
+ :propagations            164547651
+ :restarts                351
+ :time                    721.66
+ :total-time              721.77)
