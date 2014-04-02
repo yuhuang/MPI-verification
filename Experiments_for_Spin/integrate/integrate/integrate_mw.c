@@ -167,7 +167,7 @@ double integral(double a, double b, double tolerance, double f(double) ,int* lin
   MPI_Comm_size(MPI_COMM_WORLD, &nprocs);
   MPI_Comm_rank(MPI_COMM_WORLD, &rank);
   numWorkers = nprocs - 1;
-  numTasks = numWorkers*100;
+  numTasks = numWorkers*20;//manually reduce the problem size from 100*numWorkers to 20*numWorkers.
   subintervalLength = (b-a)/numTasks;
   subtolerance = tolerance/numTasks;
   if (rank == 0) {
