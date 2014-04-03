@@ -349,6 +349,35 @@ Generating Match Pair for 2.025seconds
 Program ends at 1396477586220
 Program executes 2.184seconds
 
+sat
+(:add-rows                157891548
+ :added-eqs               89774586
+ :arith-conflicts         4303
+ :assert-diseq            104252819
+ :assert-lower            36194012
+ :assert-upper            36699559
+ :binary-propagations     443832355
+ :bound-prop              2856425
+ :conflicts               1124727
+ :datatype-accessor-ax    160
+ :datatype-constructor-ax 160
+ :datatype-occurs-check   591200
+ :decisions               5679893
+ :del-clause              1302326
+ :eq-adapter              41662
+ :final-checks            3696
+ :fixed-eqs               1062917
+ :interface-eqs           3695
+ :memory                  728.97
+ :minimized-lits          29144213
+ :mk-clause               2374044
+ :offset-eqs              2500205
+ :pivots                  600801
+ :propagations            999235539
+ :restarts                983
+ :time                    5587.87
+ :total-time              5588.12)
+
 
 90 messages:
 
