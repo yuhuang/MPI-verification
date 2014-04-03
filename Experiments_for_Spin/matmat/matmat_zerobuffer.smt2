@@ -21,8 +21,7 @@ false
 )
 )
 
-(declare-const T0_0 Int)
-(declare-const T1_0 Int)
+(declare-const TB_comm Int)
 (declare-const T0_1 Int)
 (declare-const T0_2 Int)
 (declare-const T0_3 Int)
@@ -136,7 +135,7 @@ false
 (assert (= (nearestwait recvT1_21) T1_22))
 
 (assert (and
-(HB T1_0 T0_1) (HB T1_0 T0_2) (HB T1_0 T0_3) (HB T0_1 T0_3) (HB T1_0 T0_4) (HB T0_3 T0_4) (HB T1_0 T0_5) (HB T0_1 T0_5) (HB T0_4 T0_5) (HB T1_0 T0_6) (HB T1_0 T0_7) (HB T0_5 T0_7) (HB T0_3 T0_7) (HB T1_0 T0_8) (HB T0_7 T0_8) (HB T1_0 T0_9) (HB T0_5 T0_9) (HB T0_8 T0_9) (HB T1_0 T0_10) (HB T1_0 T0_11) (HB T0_9 T0_11) (HB T0_7 T0_11) (HB T1_0 T0_12) (HB T0_11 T0_12) (HB T1_0 T0_13) (HB T0_9 T0_13) (HB T0_12 T0_13) (HB T1_0 T0_14) (HB T1_0 T0_15) (HB T0_13 T0_15) (HB T0_11 T0_15) (HB T1_0 T0_16) (HB T0_15 T0_16) (HB T1_0 T0_17) (HB T0_13 T0_17) (HB T0_16 T0_17) (HB T1_0 T0_18) (HB T1_0 T0_19) (HB T0_17 T0_19) (HB T0_15 T0_19) (HB T1_0 T0_20) (HB T0_19 T0_20) (HB T1_0 T0_21) (HB T0_17 T0_21) (HB T0_20 T0_21) (HB T1_0 T0_22) (HB T1_0 T1_1) (HB T1_0 T1_2) (HB T1_1 T1_2) (HB T1_0 T1_3) (HB T1_2 T1_3) (HB T1_0 T1_4) (HB T1_0 T1_5) (HB T1_3 T1_5) (HB T1_1 T1_5) (HB T1_0 T1_6) (HB T1_5 T1_6) (HB T1_0 T1_7) (HB T1_3 T1_7) (HB T1_6 T1_7) (HB T1_0 T1_8) (HB T1_0 T1_9) (HB T1_7 T1_9) (HB T1_5 T1_9) (HB T1_0 T1_10) (HB T1_9 T1_10) (HB T1_0 T1_11) (HB T1_7 T1_11) (HB T1_10 T1_11) (HB T1_0 T1_12) (HB T1_0 T1_13) (HB T1_11 T1_13) (HB T1_9 T1_13) (HB T1_0 T1_14) (HB T1_13 T1_14) (HB T1_0 T1_15) (HB T1_11 T1_15) (HB T1_14 T1_15) (HB T1_0 T1_16) (HB T1_0 T1_17) (HB T1_15 T1_17) (HB T1_13 T1_17) (HB T1_0 T1_18) (HB T1_17 T1_18) (HB T1_0 T1_19) (HB T1_15 T1_19) (HB T1_18 T1_19) (HB T1_0 T1_20) (HB T1_0 T1_21) (HB T1_19 T1_21) (HB T1_17 T1_21) (HB T1_0 T1_22) (HB T1_21 T1_22) ))
+(HB TB_comm T0_1) (HB TB_comm T0_2) (HB TB_comm T0_3) (HB T0_1 T0_3) (HB TB_comm T0_4) (HB T0_3 T0_4) (HB TB_comm T0_5) (HB T0_1 T0_5) (HB T0_4 T0_5) (HB TB_comm T0_6) (HB TB_comm T0_7) (HB T0_5 T0_7) (HB T0_3 T0_7) (HB TB_comm T0_8) (HB T0_7 T0_8) (HB TB_comm T0_9) (HB T0_5 T0_9) (HB T0_8 T0_9) (HB TB_comm T0_10) (HB TB_comm T0_11) (HB T0_9 T0_11) (HB T0_7 T0_11) (HB TB_comm T0_12) (HB T0_11 T0_12) (HB TB_comm T0_13) (HB T0_9 T0_13) (HB T0_12 T0_13) (HB TB_comm T0_14) (HB TB_comm T0_15) (HB T0_13 T0_15) (HB T0_11 T0_15) (HB TB_comm T0_16) (HB T0_15 T0_16) (HB TB_comm T0_17) (HB T0_13 T0_17) (HB T0_16 T0_17) (HB TB_comm T0_18) (HB TB_comm T0_19) (HB T0_17 T0_19) (HB T0_15 T0_19) (HB TB_comm T0_20) (HB T0_19 T0_20) (HB TB_comm T0_21) (HB T0_17 T0_21) (HB T0_20 T0_21) (HB TB_comm T0_22) (HB TB_comm T1_1) (HB TB_comm T1_2) (HB T1_1 T1_2) (HB TB_comm T1_3) (HB T1_2 T1_3) (HB TB_comm T1_4) (HB TB_comm T1_5) (HB T1_3 T1_5) (HB T1_1 T1_5) (HB TB_comm T1_6) (HB T1_5 T1_6) (HB TB_comm T1_7) (HB T1_3 T1_7) (HB T1_6 T1_7) (HB TB_comm T1_8) (HB TB_comm T1_9) (HB T1_7 T1_9) (HB T1_5 T1_9) (HB TB_comm T1_10) (HB T1_9 T1_10) (HB TB_comm T1_11) (HB T1_7 T1_11) (HB T1_10 T1_11) (HB TB_comm T1_12) (HB TB_comm T1_13) (HB T1_11 T1_13) (HB T1_9 T1_13) (HB TB_comm T1_14) (HB T1_13 T1_14) (HB TB_comm T1_15) (HB T1_11 T1_15) (HB T1_14 T1_15) (HB TB_comm T1_16) (HB TB_comm T1_17) (HB T1_15 T1_17) (HB T1_13 T1_17) (HB TB_comm T1_18) (HB T1_17 T1_18) (HB TB_comm T1_19) (HB T1_15 T1_19) (HB T1_18 T1_19) (HB TB_comm T1_20) (HB TB_comm T1_21) (HB T1_19 T1_21) (HB T1_17 T1_21) (HB TB_comm T1_22) (HB T1_21 T1_22) ))
 
 
 (assert (and
