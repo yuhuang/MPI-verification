@@ -6,7 +6,7 @@
 
 
 # define DEBUG             0
-# define CHUNKSIZE      1000
+# define CHUNKSIZE      10000
 # define RANDOM_SEED       0
 
 /*
