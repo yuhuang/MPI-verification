@@ -28,8 +28,8 @@ sat
  :offset-eqs              3
  :pivots                  131
  :propagations            15
- :time                    0.02
- :total-time              0.02)
+ :time                    0.11
+ :total-time              0.11)
 
 
 Zero Buffering:
@@ -61,5 +61,5 @@ sat
  :mk-clause               11
  :pivots                  117
  :propagations            22
- :time                    0.02
- :total-time              0.02)
+ :time                    0.04
+ :total-time              0.04)
