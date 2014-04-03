@@ -1,0 +1,25 @@
+infinite buffer:
+
+Program is in process...
+Program starts at 1396493365375
+Message Size: 49
+Match Pair set: 465
+Over-Approximiated possible choices: 2.669569307015625E29
+========================================
+Generating Match Pair for 0.038seconds
+Program ends at 1396493365499
+Program executes 0.124seconds
+
+
+zero buffer:
+
+
+Program is in process...
+Program starts at 1396493413507
+Message Size: 49
+Match Pair set: 465
+Over-Approximiated possible choices: 2.669569307015625E29
+========================================
+Generating Match Pair for 0.035seconds
+Program ends at 1396493413636
+Program executes 0.129seconds
