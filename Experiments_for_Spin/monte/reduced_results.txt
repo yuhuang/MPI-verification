@@ -10,6 +10,35 @@ Generating Match Pair for 0.038seconds
 Program ends at 1396493365499
 Program executes 0.124seconds
 
+sat
+(:add-rows                296857
+ :added-eqs               201972
+ :arith-conflicts         290
+ :assert-diseq            174545
+ :assert-lower            33896
+ :assert-upper            39551
+ :binary-propagations     111270
+ :bound-prop              5191
+ :conflicts               1023
+ :datatype-accessor-ax    98
+ :datatype-constructor-ax 98
+ :datatype-occurs-check   7546
+ :decisions               54835
+ :del-clause              6924
+ :eq-adapter              3028
+ :final-checks            78
+ :fixed-eqs               1469
+ :interface-eqs           77
+ :memory                  18.08
+ :minimized-lits          790
+ :mk-clause               9790
+ :offset-eqs              1486
+ :pivots                  2696
+ :propagations            193096
+ :restarts                9
+ :time                    2.18
+ :total-time              2.20)
+
 
 zero buffer:
 
@@ -23,3 +52,32 @@ Over-Approximiated possible choices: 2.669569307015625E29
 Generating Match Pair for 0.035seconds
 Program ends at 1396493413636
 Program executes 0.129seconds
+
+sat
+(:add-rows                302051
+ :added-eqs               64029
+ :arith-conflicts         193
+ :assert-diseq            52339
+ :assert-lower            7546
+ :assert-upper            17363
+ :binary-propagations     47434
+ :bound-prop              8714
+ :conflicts               306
+ :datatype-accessor-ax    98
+ :datatype-constructor-ax 98
+ :datatype-occurs-check   4410
+ :decisions               41510
+ :del-clause              6660
+ :eq-adapter              2789
+ :final-checks            46
+ :fixed-eqs               170
+ :interface-eqs           45
+ :memory                  21.76
+ :minimized-lits          7
+ :mk-clause               7860
+ :offset-eqs              54
+ :pivots                  2057
+ :propagations            70644
+ :restarts                2
+ :time                    1.87
+ :total-time              1.92)

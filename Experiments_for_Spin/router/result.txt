@@ -1,5 +1,15 @@
 Infinite Buffering:
 
+Program is in process...
+Program starts at 1396566131273
+Message Size: 200
+Match Pair set: 654
+Over-Approximiated possible choices: 2.6022778312198226E96
+========================================
+Generating Match Pair for 0.047seconds
+Program ends at 1396566131932
+Program executes 0.659seconds
+
 sat
 (:add-rows                14967
  :added-eqs               205969
@@ -30,6 +40,16 @@ sat
  :total-time              1.72)
 
 Zero Buffering:
+
+Program is in process...
+Program starts at 1396566175270
+Message Size: 200
+Match Pair set: 654
+Over-Approximiated possible choices: 2.6022778312198226E96
+========================================
+Generating Match Pair for 0.034seconds
+Program ends at 1396566175695
+Program executes 0.425seconds
 
 unsat
 (:add-rows                27895
