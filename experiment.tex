@@ -67,20 +67,21 @@ Given the bound on match resolutions, we compare several benchmark programs to t
 
 \end{compactitem}
 
+
 \begin{table}[t]
 \begin{center}
 \scriptsize
-\caption{Tests on Selected Benchmarks}
+\caption{Tests on Selected Benchmarks}\label{table:benchmarks}
 \begin{tabular}{|l|c|c|c|c|}
 		\hline
          \multicolumn{3}{|c|}{Test Programs} & \multicolumn{2}{|c|}{Performance} \\ \hline
           $Name$&\# Mesg&Buffering&Time(hh:mm:ss)&Memory(MB) \\ \hline
+           \textit{Matmat} & 11 & 0 & $<$00:00:01 & 2.86\\
+          	      & &  $\infty$ & $<$00:00:01 & 2.82\\ \hline
 	 \textit{Mento} & 49 & 0 & 00:00:02 & 21.76\\
           \textit{Carlo}    & & $\infty$ & 00:00:02 & 18.08 \\ \hline
 	 \textit{Router}   & 200 & 0 & -- & --\\
           	      & & $\infty$ & 00:00:02 & 16.98 \\ \hline
-	  \textit{Matmat} & 11 & 0 & $<$00:00:01 & 2.86\\
-          	      & &  $\infty$ & $<$00:00:01 & 2.82\\ \hline
 	 \textit{Integrate}  & 123 & 0 & 00:00:45 & 135.06 \\
           	      & & $\infty$ & 00:08:07 & 238.68\\ \hline
 	  \textit{Diffusion}  & 54 & 0 & 00:00:09 & 44.01 \\
@@ -88,5 +89,7 @@ Given the bound on match resolutions, we compare several benchmark programs to t
           		\end{tabular}
 \end{center}
 \end{table}
+
+As before, we test both buffering settings for each benchamrk program. The runtime and memory usage are  measured in \tableref{table:benchmarks}. \textit{Matmat} has only 11 messages thus is very easy to be solved. 
 
 
