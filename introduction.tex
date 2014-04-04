@@ -19,10 +19,13 @@ In the context of Multicore Application Interface (MCAPI), another message passi
 Elwakil et al. encode a message passing program execution into a Satisfiability Modulo Theories (SMT) problem \cite{}. This approach fails for two reasons. First, the encoding dos not support infinite-buffering. Second, it assumes that a precise set of potential send-receive matches is given as an input to the encoding. However, to generate such a set is non-trivial.
 
 %our solution: SMT, statically encode MPI semantics
-This paper presents a encoding algorithm that takes input an MPI execution trace and a set of over-approximated send-receive matches. This algorithm encodes non-blocking send and receive as point-to-point operations and barrier as collective operation into constraints. By resolving these constraints, an SMT solver is able to report an assertion violation if there is a satisfying assignment; or to prove the execution is correct if it is unsatisfying.  The encoding supports both infinite-buffering and zero-buffering semantics with different rules. The encoding requires fewer terms to capture all possible program behavior when compared to other proposed methods. To summarize, the main contributions of this paper is,
+This paper presents a encoding algorithm that takes input an MPI execution trace and a set of over-approximated send-receive matches. This algorithm encodes non-blocking send and receive as point-to-point operations and barrier as collective operation into constraints. By resolving these constraints, an SMT solver is able to report an assertion violation if there is a satisfying assignment; or to prove the execution is correct if it is unsatisfying.  The encoding supports both infinite-buffering and zero-buffering semantics with different rules. The encoding requires fewer terms to capture all possible program behavior when compared to other proposed methods. To summarize, the main contributions of our encoding are,
 %Contribution:
 \begin{itemize}
-\item a correct and efficient SMT encoding algorithm to define the MPI behaviors under both infinite-buffering and zero-buffering so that assertion violations in an MPI program execution can be detected
+\item  MPI collective operations supported in the new encoding;
+\item dramatric improvement on zero-buffer encoding from the prior paper \cite{};
+\item capbility of detecting zero-buffer compatibility; and
+\item a set of benchmarks demonsting the correctness and efficiency of the new encoding.
 \end{itemize}
 
 %section Organization
