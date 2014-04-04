@@ -53,16 +53,18 @@ The scalability of our encoding is affected by the number of messages and the le
 \end{table}
 The first comparison is between two buffering settings for each test program. The results are shown as expected. The zero-buffer encoding always return faster than the infinite-buffer encoding. This observation demonstrates that the SMT solver considers less resolutions for the zero-buffer encoding as it is further constrained by our adjustment rules. It is also true for the runtime behavior, because zero-buffer semantics always have less freedom of message communication, thus imply less possible ways to execute the program. 
 
-The results also show the comparison between various message sizes for each buffering setting. The test starts with $30$ messages. They can be resolved fast using low memory, even though the possible choices of match pair resolution is already very large. However, the size of choices is expanded unusually along with the linear increase of message size. With such expansion, the SMT solver has to spend much more time to resolve those choices. When $\mathit{N}$ increases to 70, the massive size of match resolutions hardly exists in a common MPI program. However, the encoding is still able to scale to it. When $\mathit{N}$ increases to 80, however, the encoding for infinite-buffer semantics is impossible to return within two hours. By running this test, we are able to provide a bound on expected cost for analysis given the message non-determinism in a program. As such, any program with less than 70! possible match resolutions can be reasonably checked by our infinite-buffer encoding. The bound is set to 80! for our zero-buffer encoding.
+The results also show the comparison between various message sizes for each buffering setting. The test starts with $30$ messages. The encoding can be resolved fast using low memory, even though the possible choices of match pair resolution is already very large. However, the size of choices is expanded unusually along with the linear increase of message size. With such expansion, the SMT solver has to spend much more time to resolve the encoding. When $\mathit{N}$ increases to 70, the massive size of match resolutions hardly exists in a common MPI program. However, the encoding is still able to scale to it. When $\mathit{N}$ increases to 80, however, the encoding for infinite-buffer semantics is impossible to return within two hours. By running this test, we are able to provide a bound on expected cost for analysis given the message non-determinism in a program. As such, any program with less than 70! possible match resolutions can be reasonably checked by our infinite-buffer encoding. The bound is set to 80! for our zero-buffer encoding.
 
 \subsection{Benchmark Test}
+Given the bound on match resolutions, we compare several benchmark programs to test our new encoding. The goal is to further understand how our encoding scales to those programs that are publicly available from a variety of sources:
 
 \begin{compactitem}
-\item \textit{Matmat} 
-\item \textit{Mento Carlo}
-\item \textit{Router}
-\item \textit{Integrate}
-\item \textit{Diffusion 2D}
+\item \textit{Mento Carlo} implements the Mento Carlo method to compute $\pi$ \cite{}. It uses one manger process and three worker processes to send messages back of forth. In addition, it repeatedly uses barrier operations in many places to synchronize the program. 
+\item \textit{Router} is an algorithm to update routing tables \cite{} for 50 nodes. Each node is in a ring and communicates only with immediate neighbors to update the tables. The program ends when all the routing tables are updated. This program is unavailable to execute under zero-buffer mainly because each node intends to send two messages before issuing a receive. However, the zero-buffer semantics do not allow the first message to be buffered before sending the second message.
+\item \textit{Matmat} implements the matrix multiplication \cite{}. It reads two matrices from the files and output their product. In this program, there are only two processes to communicate messages. The message size is also low.
+\item \textit{Integrate} uses heavy non-determinism in message communication to compute an integral of $\sin$ function over the interval $[0, \pi]$ \cite{}. This benchmark also has a manger-worker pattern where the root process divides the interval in a certain number of tasks. It then distributes those tasks to three worker processes. Each worker continues working on a task until it receives a termination message from the manger.
+\item \textit{Diffusion 2D} is also from \cite{}. It has an interesting computation pattern that uses barriers to ``partition" the message communication into several sections for four processes. A message from a send can only be delivered to a receive in a common section. 
+
 \end{compactitem}
 
 \begin{table}[t]
@@ -73,12 +75,12 @@ The results also show the comparison between various message sizes for each buff
 		\hline
          \multicolumn{3}{|c|}{Test Programs} & \multicolumn{2}{|c|}{Performance} \\ \hline
           $Name$&\# Mesg&Buffering&Time(hh:mm:ss)&Memory(MB) \\ \hline
-          \textit{Matmat} & 11 & 0 & $<$00:00:01 & 2.86\\
-          	      & &  $\infty$ & $<$00:00:01 & 2.82\\ \hline
 	 \textit{Mento} & 49 & 0 & 00:00:02 & 21.76\\
           \textit{Carlo}    & & $\infty$ & 00:00:02 & 18.08 \\ \hline
-	 \textit{Router}   & 200 & 0 & 00:00:02 & 16.98\\
-          	      & & $\infty$ & $<$00:00:01 & 31.30 \\ \hline
+	 \textit{Router}   & 200 & 0 & -- & --\\
+          	      & & $\infty$ & 00:00:02 & 16.98 \\ \hline
+	  \textit{Matmat} & 11 & 0 & $<$00:00:01 & 2.86\\
+          	      & &  $\infty$ & $<$00:00:01 & 2.82\\ \hline
 	 \textit{Integrate}  & 123 & 0 & 00:00:45 & 135.06 \\
           	      & & $\infty$ & 00:08:07 & 238.68\\ \hline
 	  \textit{Diffusion}  & 54 & 0 & 00:00:09 & 44.01 \\
