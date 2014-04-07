@@ -358,6 +358,6 @@ false
 (or (MATCH recvT0_50 sendT1_0) (MATCH recvT0_50 sendT2_0) (MATCH recvT0_50 sendT3_0) (MATCH recvT0_50 sendT4_0) (MATCH recvT0_50 sendT5_0) (MATCH recvT0_50 sendT6_0) (MATCH recvT0_50 sendT7_0) (MATCH recvT0_50 sendT8_0) (MATCH recvT0_50 sendT9_0) (MATCH recvT0_50 sendT10_0) (MATCH recvT0_50 sendT11_0) (MATCH recvT0_50 sendT12_0) (MATCH recvT0_50 sendT13_0) (MATCH recvT0_50 sendT14_0) (MATCH recvT0_50 sendT15_0) (MATCH recvT0_50 sendT16_0) (MATCH recvT0_50 sendT17_0) (MATCH recvT0_50 sendT18_0) (MATCH recvT0_50 sendT19_0) (MATCH recvT0_50 sendT20_0) (MATCH recvT0_50 sendT21_0) (MATCH recvT0_50 sendT22_0) (MATCH recvT0_50 sendT23_0) (MATCH recvT0_50 sendT24_0) (MATCH recvT0_50 sendT25_0) (MATCH recvT0_50 sendT26_0) (MATCH recvT0_50 sendT27_0) (MATCH recvT0_50 sendT28_0) (MATCH recvT0_50 sendT29_0) )
 ))
 
-(assert (= buf_30 30))
+(assert (not (and (= buf_30 30) (= buf_29 29) (= buf_28 28) (= buf_27 27) (= buf_26 26) (= buf_25 25) (= buf_24 24) (= buf_23 23) (= buf_22 22) (= buf_21 21) (= buf_20 20) (= buf_19 19) (= buf_18 18) (= buf_17 17) (= buf_16 16) (= buf_15 15) (= buf_14 14) (= buf_13 13) (= buf_12 12) (= buf_11 11) (= buf_10 10) (= buf_9 9) (= buf_8 8) (= buf_7 7) (= buf_6 6) (= buf_5 5) (= buf_4 4) (= buf_3 3) (= buf_2 2) (= buf_1 1))))
 
 (check-sat)
