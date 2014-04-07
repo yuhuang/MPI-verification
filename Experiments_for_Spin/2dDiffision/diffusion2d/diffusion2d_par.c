@@ -71,6 +71,7 @@ int left;      /* rank of left neighbor on torus */
 int right;     /* rank of right neighbor on torus */
 double **u;//[nxl+2][nyl+2];  /* values of the discretized function */
 
+
 void quit() {
   printf("Input file must have format:\n\n");
   printf("nx = <INTEGER>\n");
@@ -249,7 +250,7 @@ void write_frame(int time,int* line,int* ite,FILE* fp_trace) {
       for (i = 1; i <= nxl; i++) buf[i-1] = u[i][j];
       MPI_Send(buf, nxl, MPI_DOUBLE, 0, j-1, MPI_COMM_WORLD);
         //printing trace
-        fprintf(fp_trace,"T%d_%d: snd(%d, %d)\n",rank,(*line)++,0,(int)*buf);
+        fprintf(fp_trace,"T%d_%d: snd(%d, %d)\n",rank,(*line)++,0,(int)buf[0]);
         fprintf(fp_trace,"T%d_%d: wait(T%d_%d)\n",rank,*line,rank,(*line)-1);
         (*line)++;
     }
@@ -281,9 +282,12 @@ void write_frame(int time,int* line,int* ite,FILE* fp_trace) {
       MPI_Recv(buf, nxl, MPI_DOUBLE, MPI_ANY_SOURCE, MPI_ANY_TAG,
 	       MPI_COMM_WORLD, &status);
         //printing trace
+        char tempbuf[20];
+        sprintf(tempbuf,"rB_%d_%d", rank,*ite);
         fprintf(fp_trace,"T%d_%d: rcv(%d, rB_%d_%d)\n",rank,(*line)++,rank,rank,(*ite)++);
         fprintf(fp_trace,"T%d_%d: wait(T%d_%d)\n",rank,*line,rank,(*line)-1);
         (*line)++;
+        fprintf(fp_trace,"T%d_%d: assert(not (= %s %d))\n",rank,(*line)++,tempbuf,(int)buf[0]);
         
       procx = status.MPI_SOURCE % nprocsx;
       procy = status.MPI_SOURCE / nprocsx;
