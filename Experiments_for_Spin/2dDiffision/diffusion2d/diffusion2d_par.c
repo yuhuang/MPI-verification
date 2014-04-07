@@ -287,7 +287,7 @@ void write_frame(int time,int* line,int* ite,FILE* fp_trace) {
         fprintf(fp_trace,"T%d_%d: rcv(%d, rB_%d_%d)\n",rank,(*line)++,rank,rank,(*ite)++);
         fprintf(fp_trace,"T%d_%d: wait(T%d_%d)\n",rank,*line,rank,(*line)-1);
         (*line)++;
-        fprintf(fp_trace,"T%d_%d: assert(not (= %s %d))\n",rank,(*line)++,tempbuf,(int)buf[0]);
+        fprintf(fp_trace,"T%d_%d: assert(= %s %d)\n",rank,(*line)++,tempbuf,(int)buf[0]);
         
       procx = status.MPI_SOURCE % nprocsx;
       procy = status.MPI_SOURCE / nprocsx;

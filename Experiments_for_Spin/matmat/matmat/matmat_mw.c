@@ -91,11 +91,18 @@ int main(int argc, char *argv[]) {
     for (i = 0; i < N; i++) {
       MPI_Recv(tmp, M, MPI_DOUBLE, MPI_ANY_SOURCE, MPI_ANY_TAG, comm, &status);
         //printing trace
+        char var_check[20];
+        sprintf(var_check,"rB_%d_%d",rank,ite);
         fprintf(fp_trace,"T%d_%d: rcv(%d, rB_%d_%d)\n",rank,line++,rank,rank,ite++);
         fprintf(fp_trace,"T%d_%d: wait(T%d_%d)\n",rank,line,rank,line-1);
         line++;
         
+        
       for (j = 0; j < M; j++) c[status.MPI_TAG-1][j] = tmp[j];
+      
+      fprintf(fp_trace,"T%d_%d: assert(= %s %d)\n",rank,line++,var_check,(int)tmp[0]);
+        
+        
       if (count < N) {
 	MPI_Send(&a[count][0], L, MPI_DOUBLE, status.MPI_SOURCE, count+1, comm);
           //printing trace, what is mpi_source
@@ -104,6 +111,8 @@ int main(int argc, char *argv[]) {
           line++;
 	count++;
       }
+        
+     
     }
       for (i = 1; i < nprocs; i++)
       {
