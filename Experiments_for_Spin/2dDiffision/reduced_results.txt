@@ -11,33 +11,33 @@ Program ends at 1396476551697
 Program executes 0.373seconds
 
 sat
-(:add-rows                40790116
- :added-eqs               59618163
- :arith-conflicts         406
- :assert-diseq            65091088
- :assert-lower            12705546
- :assert-upper            12082267
- :binary-propagations     37356908
- :bound-prop              438541
- :conflicts               55058
+(:add-rows                42517695
+ :added-eqs               59384648
+ :arith-conflicts         485
+ :assert-diseq            60094054
+ :assert-lower            10528483
+ :assert-upper            10449949
+ :binary-propagations     32173689
+ :bound-prop              427094
+ :conflicts               66824
  :datatype-accessor-ax    108
  :datatype-constructor-ax 108
- :datatype-occurs-check   8208
- :decisions               7776328
- :del-clause              61581
- :eq-adapter              18877
- :final-checks            77
- :fixed-eqs               175530
- :interface-eqs           76
- :memory                  92.08
- :minimized-lits          58021
- :mk-clause               168904
- :offset-eqs              375622
- :pivots                  106064
- :propagations            84578493
- :restarts                251
- :time                    565.00
- :total-time              565.04)
+ :datatype-occurs-check   9396
+ :decisions               7173396
+ :del-clause              58647
+ :eq-adapter              18137
+ :final-checks            88
+ :fixed-eqs               128466
+ :interface-eqs           87
+ :memory                  104.39
+ :minimized-lits          137570
+ :mk-clause               178505
+ :offset-eqs              277324
+ :pivots                  111153
+ :propagations            74099758
+ :restarts                290
+ :time                    590.80
+ :total-time              590.86)
 
 
 zero buffer:
@@ -52,31 +52,31 @@ Generating Match Pair for 0.253seconds
 Program ends at 1396476597738
 Program executes 0.368seconds
 
-sat
-(:add-rows                1056032
- :added-eqs               443835
- :arith-conflicts         551
- :assert-diseq            251185
- :assert-lower            40215
- :assert-upper            104048
- :binary-propagations     376564
- :bound-prop              33262
- :conflicts               1687
+unsat
+(:add-rows                333904
+ :added-eqs               190514
+ :arith-conflicts         254
+ :assert-diseq            105912
+ :assert-lower            18393
+ :assert-upper            39075
+ :binary-propagations     152830
+ :bound-prop              28433
+ :conflicts               579
  :datatype-accessor-ax    108
  :datatype-constructor-ax 108
- :datatype-occurs-check   239976
- :decisions               345824
- :del-clause              21181
- :eq-adapter              9233
- :final-checks            2223
- :fixed-eqs               2856
- :interface-eqs           2222
- :memory                  44.01
- :minimized-lits          1690
- :mk-clause               29945
- :offset-eqs              8705
- :pivots                  3460
- :propagations            671979
- :restarts                14
- :time                    9.08
- :total-time              9.15)
+ :decisions               91452
+ :del-clause              21825
+ :eq-adapter              8291
+ :fixed-eqs               188
+ :memory                  37.05
+ :minimized-lits          200
+ :mk-clause               28697
+ :offset-eqs              2382
+ :pivots                  1441
+ :propagations            273857
+ :restarts                5
+ :time                    3.08
+ :total-time              3.12)
+
+comment:
+zero-buffer encoding returns unsat. We check if there is another match resolution exist for message communication.
