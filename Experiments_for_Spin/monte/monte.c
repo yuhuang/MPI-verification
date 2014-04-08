@@ -204,6 +204,8 @@ int main ( int argc, char *argv[] )
                              MPI_COMM_WORLD, &mesgStatus );
             
             //printing trace
+            char var_check[20];
+            sprintf(var_check, "rB_%d_%d", my_id,*ite);
             fprintf(fp_trace,"T%d_%d: rcv(%d, rB_%d_%d)\n",my_id,(*line)++,my_id,my_id,(*ite)++);
             fprintf(fp_trace,"T%d_%d: wait(T%d_%d)\n",my_id,*line,my_id,(*line)-1);
             (*line)++;
@@ -218,9 +220,15 @@ int main ( int argc, char *argv[] )
                                  mesgStatus.MPI_SOURCE, RANDOM_NUMBERS, MPI_COMM_WORLD );
                 
                 //printing trace
+                fprintf(fp_trace,"T%d_%d: assert(not (= %s 0))\n", my_id, (*line)++,var_check);
                 fprintf(fp_trace,"T%d_%d: snd(%d, %d)\n",my_id,(*line)++,mesgStatus.MPI_SOURCE,randNums[0]);
                 fprintf(fp_trace,"T%d_%d: wait(T%d_%d)\n",my_id,*line,my_id,(*line)-1);
                 (*line)++;
+            }
+            else
+            {
+                //printing trace
+                fprintf(fp_trace,"T%d_%d: assert(= %s 0)\n", my_id, (*line)++,var_check);
             }
         } while ( 0 < request );
         

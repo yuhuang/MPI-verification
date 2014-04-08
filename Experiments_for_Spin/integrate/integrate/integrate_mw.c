@@ -92,6 +92,8 @@ double worker(double a, double f(double),int* line,int* ite,FILE* fp_trace, int 
   while (1) {
     MPI_Recv(&task, 1, MPI_INT, 0, MPI_ANY_TAG, MPI_COMM_WORLD, &status);
       //printing trace,need to trace deterministic receive
+      char var_check[20];
+      sprintf(var_check,"rB_%d_%d",rank,*ite);
       fprintf(fp_trace,"T%d_%d: rcv(%d, rB_%d_%d)\n",rank,(*line)++,rank,rank,(*ite)++);
       fprintf(fp_trace,"T%d_%d: wait(T%d_%d)\n",rank,*line,rank,(*line)-1);
       (*line)++;
@@ -102,10 +104,13 @@ double worker(double a, double f(double),int* line,int* ite,FILE* fp_trace, int 
       result = integral_seq(left, right, subtolerance, f);
       MPI_Send(&result, 1, MPI_DOUBLE, 0, RESULT_TAG, MPI_COMM_WORLD);
         //printing trace
+        fprintf(fp_trace,"T%d_%d: assert(not (= %s -1))\n",rank,(*line)++,var_check);
         fprintf(fp_trace,"T%d_%d: snd(%d, %d)\n",rank,(*line)++,0,(int)result);
         fprintf(fp_trace,"T%d_%d: wait(T%d_%d)\n",rank,*line,rank,(*line)-1);
         (*line)++;
     } else {
+        //printing trace
+        fprintf(fp_trace,"T%d_%d: assert(= %s -1)\n",rank,(*line)++,var_check);
       break;
     }
   }
