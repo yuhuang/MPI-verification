@@ -11,33 +11,33 @@ Program ends at 1396476551697
 Program executes 0.373seconds
 
 sat
-(:add-rows                42517695
- :added-eqs               59384648
- :arith-conflicts         485
- :assert-diseq            60094054
- :assert-lower            10528483
- :assert-upper            10449949
- :binary-propagations     32173689
- :bound-prop              427094
- :conflicts               66824
+(:add-rows                39956131
+ :added-eqs               65290753
+ :arith-conflicts         443
+ :assert-diseq            67648024
+ :assert-lower            12911482
+ :assert-upper            11900818
+ :binary-propagations     38447972
+ :bound-prop              627943
+ :conflicts               64356
  :datatype-accessor-ax    108
  :datatype-constructor-ax 108
- :datatype-occurs-check   9396
- :decisions               7173396
- :del-clause              58647
- :eq-adapter              18137
- :final-checks            88
- :fixed-eqs               128466
- :interface-eqs           87
- :memory                  104.39
- :minimized-lits          137570
- :mk-clause               178505
- :offset-eqs              277324
- :pivots                  111153
- :propagations            74099758
- :restarts                290
- :time                    590.80
- :total-time              590.86)
+ :datatype-occurs-check   7992
+ :decisions               8312662
+ :del-clause              63631
+ :eq-adapter              18336
+ :final-checks            75
+ :fixed-eqs               186771
+ :interface-eqs           74
+ :memory                  98.56
+ :minimized-lits          79837
+ :mk-clause               165068
+ :offset-eqs              339106
+ :pivots                  113413
+ :propagations            85323380
+ :restarts                280
+ :time                    593.92
+ :total-time              593.97)
 
 
 zero buffer:

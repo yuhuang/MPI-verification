@@ -1,65 +1,58 @@
 Infinite Buffering:
 
 Program is in process...
-Program starts at 1396566797709
-Message Size: 11
-Match Pair set: 11
-Over-Approximiated possible choices: 1.0
-========================================
-Generating Match Pair for 0.004seconds
-Program ends at 1396566797770
-Program executes 0.061seconds
-
-sat
-(:add-rows                999
- :added-eqs               278
- :assert-lower            71
- :assert-upper            89
- :datatype-accessor-ax    22
- :datatype-constructor-ax 22
- :datatype-occurs-check   242
- :decisions               18
- :eq-adapter              33
- :final-checks            12
- :fixed-eqs               33
- :interface-eqs           11
- :memory                  2.86
- :mk-clause               41
- :offset-eqs              3
- :pivots                  131
- :propagations            15
- :time                    0.11
- :total-time              0.11)
-
-
-Zero Buffering:
-
-Program is in process...
-Program starts at 1396566844252
+Program starts at 1396981720578
 Message Size: 11
 Match Pair set: 11
 Over-Approximiated possible choices: 1.0
 ========================================
 Generating Match Pair for 0.002seconds
-Program ends at 1396566844287
-Program executes 0.035seconds
+Program ends at 1396981720622
+Program executes 0.044seconds
 
-sat
-(:add-rows                645
- :added-eqs               264
- :assert-lower            66
- :assert-upper            93
- :binary-propagations     22
+unsat
+(:add-rows                209
+ :added-eqs               236
+ :assert-lower            38
+ :assert-upper            61
+ :conflicts               1
  :datatype-accessor-ax    22
  :datatype-constructor-ax 22
- :datatype-occurs-check   22
- :del-clause              11
+ :eq-adapter              22
+ :memory                  2.58
+ :mk-clause               1
+ :pivots                  91
+ :time                    0.02
+ :total-time              0.03)
+
+
+Zero Buffering:
+
+Program is in process...
+Program starts at 1396981764700
+Message Size: 11
+Match Pair set: 11
+Over-Approximiated possible choices: 1.0
+========================================
+Generating Match Pair for 0.002seconds
+Program ends at 1396981764749
+Program executes 0.049seconds
+
+unsat
+(:add-rows                310
+ :added-eqs               247
+ :assert-lower            44
+ :assert-upper            81
+ :binary-propagations     22
+ :conflicts               1
+ :datatype-accessor-ax    22
+ :datatype-constructor-ax 22
  :eq-adapter              33
- :final-checks            1
- :fixed-eqs               22
- :memory                  2.82
- :mk-clause               11
- :pivots                  117
+ :memory                  2.60
+ :mk-clause               12
+ :pivots                  105
  :propagations            22
- :time                    0.04
- :total-time              0.04)
+ :time                    0.03
+ :total-time              0.03)
+
+comment: unsat means all assertions hold
