@@ -280,7 +280,7 @@ void ExtractAssumeAssert(int ep, String statement){
 		System.out.println("statement in ExtractAssumeAssert: " + content);
 	}
 	ExtractVariable(content);
-	asserts += "(assert " + content + ")\n";
+	//asserts += "(assert " + content + ")\n";
 	/*String[] variables = statement.split("\\(|\\)| |\\+|-|\\*|/|^|%|[0-9]+");//????
 	for(String var : variables){
 		if(!variableSet.contains(var)){
@@ -288,6 +288,13 @@ void ExtractAssumeAssert(int ep, String statement){
 			variableSet.add(var); 
 		}
 	}*/
+	
+	if(asserts.equals(""))
+	{
+		asserts = "(assert( not (and ";
+	}
+	
+	asserts+=content+" ";
 }
 
 void ExtractVariable(String st){
@@ -488,7 +495,7 @@ void GenerateEncoding() throws IOException{
 	fostream = new FileOutputStream(fileoutput);
     out = new DataOutputStream(fostream);
     bw = new BufferedWriter(new OutputStreamWriter(out));
-    bw.write(TYPE + "\n" + HBdef + "\n" + MATCH + "\n" + def + "\n" + mdef + "\n" + hb + "\n" + match + "\n" + asserts + "\n(check-sat)\n");
+    bw.write(TYPE + "\n" + HBdef + "\n" + MATCH + "\n" + def + "\n" + mdef + "\n" + hb + "\n" + match + "\n" + asserts+")))\n" + "\n(check-sat)\n");
     bw.close();
 }
 
