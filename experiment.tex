@@ -13,7 +13,7 @@ We evaluate the correctness of our encoding by testing the running examples in \
 \begin{tabular}{|c|c|c|c|c|c|}
 		\hline
          \multicolumn{3}{|c|}{Test Programs} & \multicolumn{3}{|c|}{Performance} \\ \hline
-          $Source$&Matches&Buffering&Violation&Time(s)&Memory(MB) \\ \hline
+          $Source$&Matches&Buffering&Error&Time(s)&Mem(MB) \\ \hline
           \figref{fig:mpi} & 2 & 0 & No & 0.03 & 2.19 \\
           	     & 2 & $\infty$ & Yes & 0.13 & 2.18 \\ \hline
           \figref{fig:mpi_barrier} & 2 & 0 & No & 0.03  & 2.19 \\
@@ -35,13 +35,13 @@ The scalability of our encoding is affected by the number of messages and the le
 \begin{tabular}{|c|c|c|c|c|}
 		\hline
          \multicolumn{3}{|c|}{Test Programs} & \multicolumn{2}{|c|}{Performance} \\ \hline
-          $\mathit{N}$ & Matches & Buffering  & Time(hh:mm:ss) & Memory(MB) \\ \hline
-          30 & 30!($\sim$3E32) & 0 & 00:00:01 & 15.17\\
-               & & $\infty$ & 00:00:27 & 19.53 \\ \hline
-          40 & 40!($\sim$8E47) & 0 & 00:00:08 & 43.81\\
-               &  & $\infty$ & 00:03:31 & 48.41 \\ \hline
-          50 & 50!($\sim$3E64) & 0 & 00:00:28 & 78.03\\
-               & & $\infty$ & 00:12:43 & 91.26\\ \hline
+          $\mathit{N}$ & Matches & Buffering  & Time(hh:mm:ss) & Mem(MB) \\ \hline
+          30 & 30!($\sim$3E32) & 0 & 00:00:02 & 18.45\\
+               & & $\infty$ & 00:00:32 & 19.31 \\ \hline
+          40 & 40!($\sim$8E47) & 0 & 00:00:05 & 33.68\\
+               &  & $\infty$ & 00:03:08 & 47.12 \\ \hline
+          50 & 50!($\sim$3E64) & 0 & 00:00:32 & 75.11\\
+               & & $\infty$ & 00:16:06 & 85.68\\ \hline
           60 & 60!($\sim$8E81) & 0 & 00:08:13 & 210.82\\
                &  & $\infty$ & 00:36:56 & 174.83\\ \hline
           70 & 70!($\sim$1E100) & 0 & 00:12:02 & 320.49\\
@@ -72,20 +72,20 @@ Given the bound on match resolutions, we compare several benchmark programs to t
 \begin{center}
 \scriptsize
 \caption{Tests on Selected Benchmarks}\label{table:benchmarks}
-\begin{tabular}{|l|c|c|c|c|}
+\begin{tabular}{|l|c|c|c|c|c|}
 		\hline
-         \multicolumn{3}{|c|}{Test Programs} & \multicolumn{2}{|c|}{Performance} \\ \hline
-          $Name$&\# Mesg&Buffering&Time(hh:mm:ss)&Memory(MB) \\ \hline
-           \textit{Matmat} & 11 & 0 & $<$00:00:01 & 2.86\\
-          	      & &  $\infty$ & $<$00:00:01 & 2.82\\ \hline
-	 \textit{Mento} & 49 & 0 & 00:00:02 & 21.76\\
-          \textit{Carlo}    & & $\infty$ & 00:00:02 & 18.08 \\ \hline
-	 \textit{Router}   & 200 & 0 & -- & --\\
-          	      & & $\infty$ & 00:00:02 & 16.98 \\ \hline
-	 \textit{Integrate}  & 123 & 0 & 00:00:45 & 135.06 \\
-          	      & & $\infty$ & 00:08:07 & 238.68\\ \hline
-	  \textit{Diffusion}  & 54 & 0 & 00:00:09 & 44.01 \\
-           \textit{2D} &  & $\infty$ & 00:09:15 & 92.08\\ \hline          
+         \multicolumn{3}{|c|}{Test Programs} & \multicolumn{3}{|c|}{Performance} \\ \hline
+          $Name$&\# Mesg&Buffering&Error&Time(hh:mm:ss)&Mem(MB) \\ \hline
+           \textit{Matmat} & 11 & 0 & No & $<$00:00:01 & 2.60\\
+          	      & &  $\infty$ & No & $<$00:00:01 & 2.58\\ \hline
+	 \textit{Mento} & 49 & 0 & No & 00:00:02 & 21.52\\
+          \textit{Carlo}  & & $\infty$ & No & 00:00:03 & 17.29 \\ \hline
+	 \textit{Router}   & 200 & 0 & -- & -- & --\\
+          	      & & $\infty$ & Yes & 00:00:02 & 17.07 \\ \hline
+	 \textit{Integrate}  & 123 & 0 & No & 00:00:59 & 134.95 \\
+          	      & &  $\infty$ & No & 00:08:23 & 238.68\\ \hline
+	  \textit{Diffusion}  & 54 & 0 & Yes & 00:00:11 & 52.54 \\
+           \textit{2D} &  & $\infty$ & Yes & 00:09:54 & 98.56\\ \hline          
           		\end{tabular}
 \end{center}
 \end{table}
