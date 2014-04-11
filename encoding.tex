@@ -210,7 +210,7 @@ $\mathtt{R}$ and a send $\mathtt{S}$ corresponds to the constraints:
 \end{compactenum}
 \end{definition}
 
-Informally, the encoding constrains that each send and its matching receive are ordered consecutively so any resolved execution has a unique form that alternately orders sends and receives. Further, since a send has to be completed immediately when it is issued, a few new rules are added: two sends are ordered on each process (step 1*); each send is ordered before any receive issued after it on each process (step 8); and similar to each send and any barrier issued after it (step 9).
+Intuitively, the consecutive order over each send and the matching receive is constrained. As a result, any resolved execution alternately orders a send followed by a receive. To further constrain the program order for zero buffer semantics, new rules are added: two sends are ordered on each process (step 1*); a send happens before a receive issued later on each process (step 8); and similarly, a send happens before a barrier issued later on each process (step 9).
 
 \paragraph*{Step 1*} For each process, if there are sequential send
 operations, say $\mathtt{S}$ and $\mathtt{S^\prime}$, then those
@@ -225,7 +225,7 @@ $\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{R}$.
 $\mathit{order}_\mathtt{S}$
 $\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{B}$.
 
-Step $1$ is extended to step $1^*$ because the zero-buffering asks a send to complete its message transfer before issuing any send on a common process. Step $8$ and step $9$ constrain the program order of sends for the same reason.
+Step $1^*$ extends step $1$ as zero buffer semantics do not allow a new send to be issued before the pending send is completed on a common process. Step $8$ and step $9$ constrain for the same purpose.
 
 \subsection{Correctness}
 
@@ -265,76 +265,76 @@ Give two match pair sets $m$ and $m'$, $m \subseteq m' \Rightarrow \mathcal{SOL}
   $\mathbb{UNSAT} \sqsubseteq \sigma$.
 \end{theorem}
 
-\begin{figure}[h1]
-\begin{center}
-\setlength{\tabcolsep}{2pt}
-\small \begin{tabular}[t]{l}
-P2 $\mathtt{S(to\ P0, "4", \&h5)}$ \\
-P2 $\mathtt{S: 4}$\\
-P0 $\mathtt{R(from\ P2, A, \&h1)}$ \\
-P0 $\mathtt{R: 4}$ \\
-P2 $\mathtt{S(to\ P1, "Go", \&h6)}$ \\
-P2 $\mathtt{S: Go}$ \\
-P1 $\mathtt{R(from\ P2, C, \&h3)}$ \\
-P1 $\mathtt{R: Go}$ \\
-P1 $\mathtt{S(to\ P0, "1", \&h4)}$ \\
-P1 $\mathtt{S: 1}$ \\
-P0 $\mathtt{R(from\ P1, B, \&h2)}$ \\
-P0 $\mathtt{R: 1}$ \\
-\end{tabular}
-\end{center}
-\caption{The legal history of the MPI program execution in \figref{fig:mpi}}
-\label{fig:history}
-\end{figure}
+%\begin{figure}[h1]
+%\begin{center}
+%\setlength{\tabcolsep}{2pt}
+%\small \begin{tabular}[t]{l}
+%P2 $\mathtt{S(to\ P0, "4", \&h5)}$ \\
+%P2 $\mathtt{S: 4}$\\
+%P0 $\mathtt{R(from\ P2, A, \&h1)}$ \\
+%P0 $\mathtt{R: 4}$ \\
+%P2 $\mathtt{S(to\ P1, "Go", \&h6)}$ \\
+%P2 $\mathtt{S: Go}$ \\
+%P1 $\mathtt{R(from\ P2, C, \&h3)}$ \\
+%P1 $\mathtt{R: Go}$ \\
+%P1 $\mathtt{S(to\ P0, "1", \&h4)}$ \\
+%P1 $\mathtt{S: 1}$ \\
+%P0 $\mathtt{R(from\ P1, B, \&h2)}$ \\
+%P0 $\mathtt{R: 1}$ \\
+%\end{tabular}
+%\end{center}
+%\caption{The legal history of the MPI program execution in \figref{fig:mpi}}
+%\label{fig:history}
+%\end{figure}
+%
+%\begin{figure}[h2]
+%\begin{center}
+%\setlength{\tabcolsep}{2pt}
+%\small \begin{tabular}[t]{l}
+%P0 $\mathtt{R(from\ P2, A, \&h1)}$ \\
+%P1 $\mathtt{R(from\ P2, C, \&h3)}$ \\
+%P2 $\mathtt{S(to\ P0, "4", \&h5)}$ \\
+%P2 $\mathtt{S: 4}$\\
+%P0 $\mathtt{R: 4}$ \\
+%P2 $\mathtt{S(to\ P1, "Go", \&h6)}$ \\
+%P2 $\mathtt{S: Go}$ \\
+%P1 $\mathtt{R: Go}$ \\
+%P1 $\mathtt{S(to\ P0, "1", \&h4)}$ \\
+%P1 $\mathtt{S: 1}$ \\
+%P0 $\mathtt{R(from\ P1, B, \&h2)}$ \\
+%P0 $\mathtt{R: 1}$ \\
+%\end{tabular}
+%\end{center}
+%\caption{The second legal history of the MPI program execution in \figref{fig:mpi}}
+%\label{fig:history}
+%\end{figure}
 
-\begin{figure}[h2]
-\begin{center}
-\setlength{\tabcolsep}{2pt}
-\small \begin{tabular}[t]{l}
-P0 $\mathtt{R(from\ P2, A, \&h1)}$ \\
-P1 $\mathtt{R(from\ P2, C, \&h3)}$ \\
-P2 $\mathtt{S(to\ P0, "4", \&h5)}$ \\
-P2 $\mathtt{S: 4}$\\
-P0 $\mathtt{R: 4}$ \\
-P2 $\mathtt{S(to\ P1, "Go", \&h6)}$ \\
-P2 $\mathtt{S: Go}$ \\
-P1 $\mathtt{R: Go}$ \\
-P1 $\mathtt{S(to\ P0, "1", \&h4)}$ \\
-P1 $\mathtt{S: 1}$ \\
-P0 $\mathtt{R(from\ P1, B, \&h2)}$ \\
-P0 $\mathtt{R: 1}$ \\
-\end{tabular}
-\end{center}
-\caption{The second legal history of the MPI program execution in \figref{fig:mpi}}
-\label{fig:history}
-\end{figure}
-
-So far, we have proved the infinite-buffer encoding is correct. Next, we want to prove the correctness of the zero-buffer encoding. As shown earlier, the zero-buffer encoding extends the rules for match pair and program order. An essential rule is the the use of $\mathtt{HB^*}$ relation that constrains a send and its matching receive in a consecutive order. Based on this rule, the encoding assumes that a send and a receive can only be ordered alternately in any resolved execution. This assumption is inspired by Concurrent CBMC that assumes a lock and its paired unlock can only be ordered alternately in any execution \cite{DBLP:conf/cav/RabinovitzG05}. Similarly, the encoding in this paper detects the assertion violation by only considering this alternate order in an execution. One may argue that such a encoding dose not cover all possible ways of message communication without considering arbitrary order over sends and receives. However, we claim this assumption is enough to provide a full message communication topology. To prove that, we need to show these resolved executions actually reflect all message communication behavior. Before stating the theorem, we must define a few terms.
+So far, we have proved the infinite buffer encoding is correct. Next, we want to prove the correctness of the zero buffer encoding. As shown earlier, the zero buffer encoding extends the rules for match pair and program order. An essential rule is the the use of $\mathtt{HB^*}$ relation that constrains a send and its matching receive in a consecutive order. Based on this rule, the encoding assumes that a send and a receive can only be ordered alternately in any resolved execution. This assumption is inspired by Concurrent CBMC that assumes a lock and its paired unlock can only be ordered alternately in any execution \cite{DBLP:conf/cav/RabinovitzG05}. Similarly, the encoding in this paper detects the assertion violation by only considering this alternate order in an execution. One may argue that such a encoding dose not cover all possible ways of message communication without considering arbitrary order over sends and receives. However, we claim this assumption is enough to provide a full message communication topology. To prove it, we state a theorem below.  We also define a few terms to support the proof of this theorem.
 
 We use a legal history to represent a total order over events. In a legal history, an operation is split into two events: method invocation and method response. The invocation is a event that starts this operation. It contains a method name and method arguments with deterministic values. The response is a event that ends this operation. It contains the return value for this operation. The following definition relies on both events.
 
 \begin{definition}[Legal History]
-Under zero buffering, a history of an MPI program is a sequence of send and receive operations over method invocations and method responses. It is legal if
+Under zero buffer semantics, a history of an MPI program is a sequence of send and receive operations over method invocations and method responses. It is legal if
 \begin{compactenum}
 \item the partial order over method invocations obeys the steps \textit{1*} and \textit{2} $to$ \textit{9}; and 
 \item each send and its matching receive are ordered consecutively if this send is invoked first; or such an order is not enforced if the receive is invoked first.
 \end{compactenum}
 \end{definition}
 
-Unlike a program execution that includes all sorts of events, a legal history only takes care of send invocation, send response, receive invocation and receive response because they are essential to the message communication. In other words, these events can be used to evaluate how each message flows in a legal history. For a feasible message transfer, the legal history has to satisfy two conditions in the definition. The first condition has already been defined in the encoding. Interestingly, the second condition states two possible ways that a send and its matching receive are ordered under zero buffering. Since the zero buffering semantics transfer a message by copying it directly into a receive buffer, it only affects the partial order when a send is first invoked. If a receive is invoked first, however, there is no need to constrain this order. 
+Unlike a program execution that has all sorts of events ordered, a legal history only takes care of send invocation, send response, receive invocation and receive response because they are essential to the message communication. In other words, these events can be used to evaluate how each message may flow in a runtime system. For a feasible message flow, the legal history has to satisfy two conditions in the definition. The first condition has already been defined in the encoding. Interestingly, the second condition states two possible ways that a send and its matching receive can be ordered. Since the zero buffer semantics deliver a message by copying it directly into a receive buffer, it only affects the partial order when a send is first invoked. If a receive is invoked first, however, there is no need to constrain this order. 
 
 %As an example, \figref{fig:history} shows a legal history for \figref{fig:mpi}. In this history, each event is paired with a process rank. Each send and its matching receive are order alternately so that each message flows across a receive once it is sent out. This history also reveals the message communications by showing the sequence of all receive responses. 
 
-Two legal histories can be compared for equivalency based on \defref{def:er}. To be precise, two histories should receive a common sequence of messages on each process. 
+Two legal histories can be compared for equivalency based on \defref{def:er}. Intuitively, two legal histories should receive a common sequence of messages on each process. 
 
 \begin{definition}[Equivalency Relation]\label{def:er}
 Two legal histories, say $H$ and $L$, are equivalent, denoted as $H$ $\sim$ $L$, if and only if their projections to the receive responses on each single process $p$, $H | p$ and $L | p$ respectively, agree on the order and value of messages received.
 \end{definition}
 
-It is easy to prove that this relation is reflexive, symmetric and transitive. Therefore, it is enough to identify the equivalent classes among all legal histories. In a equivalent class, all legal histories have a common sequence of received messages on each process. The following theorem further states that a representative exists for each equivalent class. 
+It is easy to prove that this relation is reflexive, symmetric and transitive. Therefore, it is enough to identify the equivalent classes among all legal histories. The equivalent legal histories have a common sequence of received messages on each process. The following theorem further states that a representative legal history exists for each equivalent class. 
 
 \begin{theorem}
-For zero-buffering, there exists a legal history in each equivalent class that orders sends and receives alternately.
+For zero buffer semantics, there exists a legal history in each equivalent class that orders sends and receives alternately.
 \end{theorem}
 
 \begin{proof}
