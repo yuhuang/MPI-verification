@@ -229,41 +229,7 @@ Step $1^*$ extends step $1$ as zero buffer semantics do not allow a new send to 
 
 \subsection{Correctness}
 
-\begin{definition}
-For all SMT problems, $s$, let $\mathcal{SOL}(s)$ be in $\sigma +
-\mathbb{UNSAT}$, where $\sigma$ is a satisfying assignment of
-variables to values.
-\end{definition}
-
-\begin{definition}[Semantics]
-For all programs, $p$, and traces $t$, $\mathcal{SEM}(p, t)$ is either
-$\mathbb{BAD}$ or $\mathbb{OK}$.
-\end{definition}
-
-\begin{theorem}[Soundness]
-For all programs, $p$, and match pair sets, $m$,
-$\mathcal{SOL}(\mathcal{SMT}(p, m)) = t \Rightarrow \mathcal{SEM}(p, t) =
-\mathbb{BAD}$.
-\end{theorem}
-
-
-\begin{lemma} \label{lem:bogus}
-Any match pair $\langle \mathtt{R}, \mathtt{S}\rangle$ used in a
-satisfying assignment of an SMT encoding is a valid match pair and
-reflects an actual possible MCAPI program execution.
-\end{lemma}
-
-\begin{theorem}[Completeness]
-For all programs, $p$, and traces, $t$, $\mathcal{SEM}(p, t) =
-\mathbb{BAD} \Rightarrow \exists m . \mathcal{SOL}(\mathcal{SMT}(p,
-m)) = t$.
-\end{theorem}
-
-\begin{theorem}[Approximation]
-Give two match pair sets $m$ and $m'$, $m \subseteq m' \Rightarrow \mathcal{SOL}(\mathcal{SMT}(p, m))
-  \sqsubseteq \mathcal{SOL}(\mathcal{SMT}(p, m'))$, where
-  $\mathbb{UNSAT} \sqsubseteq \sigma$.
-\end{theorem}
+The prior work \cite{} has already proved the correctness of our infinite buffer encoding. Informally, 
 
 %\begin{figure}[h1]
 %\begin{center}
