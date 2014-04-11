@@ -14,7 +14,7 @@ The order of an event $\mathtt{e}$, denoted as $\mathit{order}_\mathtt{e}$, is c
 
 \begin{definition}[Happens-Before]\label{def:happens-before}
 The \emph{Happens-Before} $(\mathtt{HB})$ relation, denoted as
-$\mathit{order}_\mathtt{e1} \mathrm{\prec_\mathtt{HB}} \mathit{order}_\mathtt{e2}$, is a partial order over two event orders $\mathit{order}_\mathtt{e1}$ and $\mathit{order}_\mathtt{e2}$ such that a logic formula $\mathit{order}_\mathtt{e1} <  \mathit{order}_\mathtt{e2}$ is constrained. 
+$\mathit{order}_\mathtt{e1} \mathrm{\prec_\mathtt{HB}} \mathit{order}_\mathtt{e2}$, is a partial order over two events, $\mathtt{e1}$ and $\mathtt{e2}$ respectively, that constrains the logic formula $\mathit{order}_\mathtt{e1} <  \mathit{order}_\mathtt{e2}$. 
 \label{def:hb}
 \end{definition}
 
@@ -43,7 +43,7 @@ single variable, $\mathit{order}_\mathtt{W}$, that constrains when
 the wait occurs.
 \end{definition}
 
-In MPI semantics, a non-blocking send is paired with a wait operation (\defref{def:wait}) that returns if the message has been copied out of the send buffer. The wait for a send does not affect the message communication mainly because it can not detect the matching receive. A wait is also paired with a non-blocking receive but is able to confirm the message communication this time. This is because the wait does not return until the message is copied into the receive buffer. So the wait detects the matching send when it returns. This behavior confirms two things: 1) the receive is issued before the wait; and 2) the matching send is issued before the wait. The encoding defines this behavior in the program order rules. Further, the MPI semantics allow a single wait to witness the completion of one or more receives due to the message non-overtaking property. Such a wait is the nearest-enclosing wait.
+In MPI semantics, a non-blocking send is paired with a wait operation that confirms the message has been copied out of the send buffer. The wait for a send does not affect message communication mainly because it is not able to detect a matching receive when it returns. As such, the encoding simply ignore the wait for a send. In contrast,  a wait for a receive is able to confirm message communication. The encoding defines such a wait operation in \defref{def:wait}. The wait for a receive witnesses the message is copied into the receive buffer. So a matching send must be detected when the wait returns. This behavior confirms two things: 1) a receive is issued before its wait; and 2) a  send is issued before the wait of a matching receive. The encoding constrains this behavior with a few rules discussed later. Further, the MPI semantics allow a single wait to witness the completion of one or more receives due to the message non-overtaking property. Such a wait is the nearest-enclosing wait. 
 
 \begin{definition}[Nearest-Enclosing Wait] \label{def:nw}
 A wait that witnesses the completion of a receive by indicating that
@@ -66,9 +66,9 @@ A receive operation $\mathtt{R}$ is modeled by a five-tuple of variables:
 \end{compactenum}
 \end{definition}
 
-Similarly, a receive has the destination endpoint deterministic. It also defines two free variables $\mathit{order}_\mathtt{R}$ and $M_\mathtt{R}$, for the event orders of itself and the matching send, respectively. The transmitted (received) value is not determinestic now because it is not known until a send is matched. Interestingly, the source endpoint for a receive may or may not be deterministic because the MPI semantics support both deterministic receive (a constant source endpoint) and wildcard receive (a uncertain source endpoint). The order of the nearest-enclosing wait, as discussed earlier, is used to make a match pair decision. 
+The encoding of a receive has a variable for the destination endpoint that is evaluated from the existing trace. It defines two free variables $\mathit{order}_\mathtt{R}$ and $M_\mathtt{R}$, for the event orders of itself and the matching send, respectively. The transmitted (received) value is not known until a send is matched. Interestingly, the source endpoint for a receive may or may not be known depending which receive it defines. The MPI semantics support both deterministic receive with a constant source endpoint and wildcard receive with a uncertain source endpoint. The nearest-enclosing wait, as discussed earlier, is used to make a match pair decision. 
 
-The encoding uses match pairs directly to express the message communication. Informally, \defref{def:match} constrains the event order, the endpoints and the transmitted value are matched for $\mathtt{R}$ and $\mathtt{S}$. Also, $\mathtt{S}$ should be issued before the nearest-enclosing wait of $\mathtt{R}$. 
+The encoding uses match pairs directly to express the message communication. Intuitively, \defref{def:match} constrains the event order, the endpoints and the transmitted value are matched for $\mathtt{R}$ and $\mathtt{S}$. Also, $\mathtt{S}$ should be issued before the nearest-enclosing wait of $\mathtt{R}$. 
 
 \begin{definition}[Match Pair] \label{def:match}
 A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle$, for a receive
@@ -83,7 +83,7 @@ $\mathtt{R}$ and a send $\mathtt{S}$ corresponds to the constraints:
 \end{compactenum}
 \end{definition}
 
-The use of a set of match pairs may reflect all possible ways for the message communication. There may exist several match pairs for a single receive indicating more messages may flow across this receive. However, there is no way to receive all the messages in a single execution, even though all the match pairs are considered. Therefore, the encoding does not combine these match pairs in a single conjunction. Instead, it constrains them for a single receive in a disjunction (\defref{def:receive_match}). As the $M$ values for both a receive and a send are deterministic once they are matched, only one match pair can be used in a final resolution.
+The use of a set of match pairs may reflect all possible ways for the message communication. There may exist several match pairs for a single receive indicating more messages may flow across this receive. However, there is no way to receive all the messages in a single execution, even though all the match pairs should be considered. Therefore, the encoding does not combine these match pairs in a single conjunction. Instead, it constrains them for a single receive in a disjunction (\defref{def:receive_match}). As the $M$ values for both a receive and a send are deterministic once they are matched, only one match pair can be used in a final resolution.
 
 \begin{definition}[Receive Matches] \label{def:receive_match}
 For each receive $\mathtt{R}$, if $\langle\mathtt{R},
@@ -94,9 +94,7 @@ are match pairs, then $\bigvee_{i}^{n} \langle\mathtt{R},
 
 
 \subsection{Collective Communication}
-Collective communication is another significant part in MPI semantics. 
-%The collective operations synchronize a program in such a way that each process operates a task by evaluating the execution of all other processes. 
-This paper only considers barrier in the discussion as it is the most interesting and the most frequently used collective operation. In MPI semantics, each process waits on a barrier without proceeding until all barriers are witnessed. Therefore, any operation issued before the barriers can not interleave any operation issued after the barriers, and vice versa. The encoding defines the barrier in \defref{def:barrier}. 
+Collective communication is also significant in MPI semantics. There are various collective operations used for this communication.  Take barriers as an example, they are issued in a group. Each process waits on a barrier without proceeding until all group members are completed. The other collective operations synchronize the program similarly except that they additionally address the tasks of internal message communication and/or computation. Those tasks are not interrupted by MPI point-to-point communication, and vice versa. According to this fact, the algorithm only needs to consider how to constrain the concurrent behavior, but simply constrains each task as an assertion. As such, we take barriers in the following discussion as it is merely used for program synchronization. Because of the concurrent behavior, an operation issued before the barriers is not able to interleave any operations issued after the barriers. The encoding defines the barrier in \defref{def:barrier}. 
 
 \begin{definition}[Barrier]\label{def:barrier}
 The occurrence of a barrier operation, \texttt{B}, is captured by a
@@ -117,7 +115,7 @@ Each barrier $B_i, i\in{0 ... n}$, is issued by process $i$.
 \caption{An Example of Message Communication with Barriers} \label{fig:mc_barrier1}
 \end{figure}
 
-Unlike the process interleaving, the message communication may not be affected by barriers. As an example, executing the program in \figref{fig:mc_barrier1} may flow the message ``$1$" across $\mathtt{R}$ even though $\mathtt{R}$ is issued before the barriers and $\mathtt{S}$ is issued after the barriers. However, if the program issues $\mathtt{W(\&h2)}$ before barriers, $\mathtt{R}$ has to be completed before barriers meaning a message has to be delivered. In this situation, the barriers affect the message communication. Therefore, the message communication has to be constrained based on the receives, the waits and the barriers. We further define the \textit{nearest-enclosing barrier} (\defref{def:nb}) for the later discussion on this constraint.
+As for the affection on message communication, the barriers may not prevent a send from matching a receive in some case, even though their issuing order is affected. As an example, executing the program in \figref{fig:mc_barrier1} may flow the message ``$1$" across $\mathtt{R}$ even though $\mathtt{R}$ is issued before the barriers and $\mathtt{S}$ is issued after the barriers. However, if the program issues $\mathtt{W(\&h2)}$ before barriers, $\mathtt{R}$ has to be completed before barriers meaning a message has to be delivered. In this situation, the message communication is affected. The algorithm further defines the \textit{nearest-enclosing barrier} (\defref{def:nb}) to constrain this affection.
 
 \begin{definition}[Nearest-Enclosing Barrier]\label{def:nb}
 For a process $i$, a receive \texttt{R} has a nearest-enclosing barrier \texttt{B} if and only if
@@ -142,7 +140,7 @@ an SMT assertion.
 \end{definition}
 
 \subsection{Program Order}
-The encoding thus far defines a few terms that are used to constrain the program order for infinite-buffering semantics. To be precise, the program order can be added in seven steps: we must ensure that two sends to a common endpoint must be ordered on each process (step 1); similar to the receives (step 2); receives happen before their nearest-enclosing wait (step 3); the nearest-enclosing wait for a receive happens before a following send if this order is enforced by a process (step 4); for a receive, the nearest-enclosing wait happens before the nearest-enclosing barrier (step 5); barriers happen before operations after it (step 6); and sends are received in the order they are sent (step 7). 
+The encoding thus far defines a few terms that are used to constrain the program order for infinite buffer semantics. The program order can be added in seven steps: we must ensure that two sends to a common endpoint must be ordered on each process (step 1); similar to the receives (step 2); receives happen before their nearest-enclosing wait (step 3); the nearest-enclosing wait for a receive happens before a following send if this order is enforced by a process (step 4); for a receive, the nearest-enclosing wait happens before the nearest-enclosing barrier (step 5); barriers happen before operations after it (step 6); and sends are received in the order they are sent (step 7). 
 
 \paragraph*{Step 1} For each process, if there are sequential send
 operations, say $\mathtt{S}$ and $\mathtt{S^\prime}$, from that task
@@ -176,7 +174,7 @@ $\mathit{order}_\mathtt{S}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{order}_\mathtt{S
 then those sends must be received in the same order:
 $M_{\mathtt{S}}\ \mathrm{\prec_{\mathtt{HB}}}\ M_{\mathtt{S'}}$.
 
-As discussed earlier, issuing a send (receive) before or after a barrier may not affect the message communication. Therefore, step $5$ only constrains the program order over the nearest-enclosing wait and the nearest-enclosing barrier for a receive. For step $6$, the program order over a barrier and any operation after it should be constrained so any resolved execution ensures that no operation after the barrier interleaves an operation before it. Step $7$ enforces the non-overtaking order over two sends to a common process. So two matching receives, recoded in the ``$\mathtt{M}$" values, have to be ordered.
+As discussed earlier, the message communication may not be affected by barriers. Therefore, step $5$ only constrains the program order over the nearest-enclosing wait and the nearest-enclosing barrier for a receive. The order over this receive and the nearest-enclosing barrier is not constrained. For step $6$, a barrier has to happen before any operations after it. Step $7$ enforces the non-overtaking order over two sends to a common process. So two matching receives, recoded in the ``$\mathtt{M}$" values, have to be ordered in a proper way.
 
 %: DO WE MISS W(R) <_HB S IN A SEQUENTIAL ORDER for infinite buffering?
 
@@ -188,12 +186,12 @@ As discussed earlier, issuing a send (receive) before or after a barrier may not
 
 %: show encoding for figure 4
 
-\subsection{Zero-Buffering}
-The zero-buffer semantics behave differently from the infinite-buffer semantics. The major difference is each message must be transferred substantially once it is sent out. To encode zero-buffering, we need to refine the existing rules. The significant change is the new \emph{happens-before} relation, we call \textit{happens-before*}, that further constrains the partial order over a send and its matching receive based on equality relation. 
+\subsection{Zero Buffering Encoding}
+The zero buffer semantics behave differently from the infinite buffer semantics.  The zero buffer semantics enforces each message to be delivered substantially once it is sent out. To correctly encode zero buffer semantics, we need to refine the existing rules. The significant change is the new \emph{happens-before} relation, we call \textit{happens-before*}, that further constrains the partial order over a send and its matching receive based on equality relation. 
 
 \begin{definition}[Happens-Before*]
-The \emph{Happens-Before*} $(\mathtt{HB^*})$ relation over two consecutive events, $\mathtt{e1}$ and $\mathtt{e2}$ respectively, denoted as
-$\mathit{order}_\mathtt{e1} \mathrm{\prec_\mathtt{HB*}} \mathit{order}_\mathtt{e2}$, is a constraint with the logic formula $\mathit{order}_\mathtt{e1} =  \mathit{order}_\mathtt{e2} - 1$.
+The \emph{Happens-Before*} $(\mathtt{HB^*})$ relation, denoted as
+$\mathit{order}_\mathtt{e1} \mathrm{\prec_\mathtt{HB*}} \mathit{order}_\mathtt{e2}$, is a partial order over two consecutive events, $\mathtt{e1}$ and $\mathtt{e2}$ respectively, that constrains the logic formula $\mathit{order}_\mathtt{e1} =  \mathit{order}_\mathtt{e2} - 1$.
 \label{def:hb*}
 \end{definition}
 
