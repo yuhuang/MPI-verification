@@ -293,7 +293,7 @@ Under zero buffer semantics, a history of an MPI program is a sequence of send a
 \end{compactenum}
 \end{definition}
 
-We use a legal history to represent a total order over events. A legal history only takes care of sends and receives because they are essential to the message communication. In other words, these events can be used to evaluate how each message may flow in a runtime system. Since the return value is deterministic for each operation, a legal history corresponds to a precise message communication. For a feasible message flow, the legal history has to satisfy two conditions in the definition. The first condition is the partial order over events that is already defined in the encoding. The second condition states two possible ways a send and a matching receive is ordered. Since zero buffer semantics do not proceed the execution on a process if a pending message is not delivered, the legal history only needs to ensure that the partial order exists when the send is issued earlier than the matching receive. 
+We use a legal history to represent a total order over events. A legal history only takes care of sends and receives because they are essential to the message communication. In other words, these events can be used to evaluate how each message may flow in a runtime system. Since the return value is deterministic for each operation, a legal history corresponds to the precise message communication. For a feasible message flow, the legal history has to satisfy two conditions in the definition. The first condition is the partial order over events that is already defined in the encoding. The second condition states two possible ways a send and the matching receive is ordered. Since zero buffer semantics do not proceed the execution on a process if a pending message is not delivered, the legal history only needs to ensure that the partial order exists when the send is issued earlier than the matching receive. 
 
 %As an example, \figref{fig:history} shows a legal history for \figref{fig:mpi}. In this history, each event is paired with a process rank. Each send and its matching receive are order alternately so that each message flows across a receive once it is sent out. This history also reveals the message communications by showing the sequence of all receive responses. 
 
@@ -311,8 +311,8 @@ For zero buffer semantics, there exists a legal history in each equivalent class
 
 \begin{proof}
 First, assume there is a legal history $\mathtt{H}$ for a set of sends $\mathit{S}$ and a set of receives $\mathit{R}$. 
-Projecting this legal history to $\mathit{R}$ produces a message sequences. This sequence reflects how messages are received in this legal history. Since the message communication is deterministic so each receive in $\mathit{R}$ is matched with a send in $\mathit{S}$. Inserting the matching send proceeding each receive in the projection produces another sequence that alternately orders sends and receives. This sequence obeys two conditions stated in \defref{def:legal}, therefore, is a legal history and is equivalent to $\mathtt{H}$.
-For any existing legal history, the procedures above is able to find a equivalent legal history that alternatively orders sends and receives.  
+Projecting this legal history to $\mathit{R}$ produces a message sequence. This sequence reflects how messages are received in this legal history. Since the message communication is deterministic so each receive in $\mathit{R}$ is matched with a send in $\mathit{S}$. Inserting the matching send proceeding each receive in the projection produces another sequence that alternately orders sends and receives. This sequence obeys two conditions stated in \defref{def:legal}, therefore, is a legal history and is equivalent to $\mathtt{H}$.
+Therefore, for any existing legal history, the procedure above is able to find a equivalent legal history that alternatively orders sends and receives.  
 \end{proof}
 
 

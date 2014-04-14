@@ -1,1 +1,19 @@
 \section{Zero Buffer Compatibility}
+The correctness discussed above further demonstrates the possibility to precisely check the zero buffer compatibility of an MPI program execution. Observe that the input trace of our encoding is generated from infinite buffer semantics, the matches over sends and receives may not be resolved in such a way that each obeys zero buffer semantics. For example, \figref{fig:compatible} shows a simple scenario that issues two consecutive sends on each process. 
+
+\begin{figure}[h]
+\[
+\begin{array}{l|l}
+\;\;\;\;\;\;\;\;\mathtt{Process\ 0}\;\;\;\;\;\;\;\; & \;\;\;\;\;\;\;\; \mathtt{Process\ 1}\;\;\;\;\;\;\;\; \\
+\hline
+\;\;\;\;\;\;\;\;\mathtt{S(to\ P1, ``1",\&h1)}\;\;\;\;\;\;\;\; & \;\;\;\;\;\;\;\; \mathtt{S(to\ P0,``2"\&h2)}\;\;\;\;\;\;\;\; \\
+\;\;\;\;\;\;\;\;\mathtt{W(\&h1)}\;\;\;\;\;\;\;\; & \;\;\;\;\;\;\;\; \mathtt{W(\&h2)}\;\;\;\;\;\;\;\; \\
+\;\;\;\;\;\;\;\;\mathtt{S(to\ P1,``3",\&h3)}\;\;\;\;\;\;\;\; & \;\;\;\;\;\;\;\; \mathtt{S(to\ P0,``4",\&h4)}\;\;\;\;\;\;\;\; \\
+\;\;\;\;\;\;\;\;\mathtt{W(\&h3)}\;\;\;\;\;\;\;\; & \;\;\;\;\;\;\;\; \mathtt{W(\&h4)}\;\;\;\;\;\;\;\; \\
+\;\;\;\;\;\;\;\;\mathtt{\cdots}\;\;\;\;\;\;\;\; & \;\;\;\;\;\;\;\; \mathtt{\cdots}\;\;\;\;\;\;\;\; 
+\end{array}
+\]
+\caption{An Example of Zero Buffer Compatibility} \label{fig:compatible}
+\end{figure}
+
+There is no way to execute the scenario under zero buffer because the first send on each process never returns leading to a deadlock of the program. We are able to check the compatibility of this scenario by resolving the partial order constraints in our zero buffer encoding. We simply removes the constraints for user provided assertions because they are irrelevant for this purpose. If the encoding is satisfiable, the scenario is compatible with zero buffer semantics; otherwise, it can not be executed under zero buffer. 
