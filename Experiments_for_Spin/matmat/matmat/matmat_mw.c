@@ -62,6 +62,7 @@ int main(int argc, char *argv[]) {
     //used for printing trace
     int line = 0;
     int ite = 0;
+    int ite_send = 0;
     char address[100];
     sprintf(address,"%d.tr",rank);
     
@@ -133,14 +134,25 @@ int main(int argc, char *argv[]) {
     while (1) {
       MPI_Recv(in, L, MPI_DOUBLE, 0, MPI_ANY_TAG, comm, &status);
         //printing trace
+        char var_check[20];
+        sprintf(var_check,"rB_%d_%d",rank,ite);
         fprintf(fp_trace,"T%d_%d: rcv(%d, rB_%d_%d)\n",rank,line++,rank,rank,ite++);
         fprintf(fp_trace,"T%d_%d: wait(T%d_%d)\n",rank,line,rank,line-1);
         line++;
       if (status.MPI_TAG == 0) break;
       vecmat(in, b, out);
+        
+        //used for printing trace
+//        double output;
+//        for (k = 0, output = 0.0; k < L; k++)
+//            output += in[k]*b[k][0];
+        char var_out[20];
+
+        sprintf(var_out,"out_%d_%d",rank,ite_send);
+        fprintf(fp_trace,"T%d_%d: assert(= out_%d_%d (* %s %d))\n",rank,line++,rank,ite_send++,var_check,(int)b[0][0]);
       MPI_Send(out, M, MPI_DOUBLE, 0, status.MPI_TAG, comm);
         //printing trace,
-        fprintf(fp_trace,"T%d_%d: snd(%d, %d)\n",rank,line++,0,(int)out[0]);
+        fprintf(fp_trace,"T%d_%d: snd(%d, %s)\n",rank,line++,0,var_out);
         fprintf(fp_trace,"T%d_%d: wait(T%d_%d)\n",rank,line,rank,line-1);
         line++;
     }
