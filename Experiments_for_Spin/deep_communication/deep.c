@@ -49,14 +49,14 @@ for(i = 0; i<LOOP;i++){
 fprintf(fp, "T%d_%d: rcv(%d, m_%d_%d)\n", myrank, c++, myrank, myrank, ite++);
 		fprintf(fp, "T%d_%d: wait(T%d_%d)\n", myrank, c, myrank, c-1);
 		c++;
-    fprintf(fp, "T%d_%d: assert(= %s 0)\n", myrank, c++, var_check);
+    fprintf(fp, "T%d_%d: assert(= %s %d)\n", myrank, c++, var_check,*message_r);
 		}
 	}
 	else {
       for(i = 0; i<LOOP/(numprocs-1);i++){
 		*message_s = 2000+2*i;
 		MPI_Send(message_s, 1, MPI_INT, 0, 123, MPI_COMM_WORLD);
-fprintf(fp, "T%d_%d: send(%d, %d)\n", myrank,c++,0, *message_s);
+fprintf(fp, "T%d_%d: snd(%d, %d)\n", myrank,c++,0, *message_s);
 fprintf(fp, "T%d_%d: wait(T%d_%d)\n", myrank, c, myrank, c-1);
 		c++;
 		}
