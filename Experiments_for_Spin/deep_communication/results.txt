@@ -1,3 +1,34 @@
+70 messages:
+
+zero buffer:
+
+Program is in process...
+Program starts at 1397593476095
+avg: 57.0
+Message Size: 70
+Match Pair set: 3990
+Standard Deviation of match pairs for receives: 170.64583206161234
+Approximiated possible choices: 1.6323976309991183E47
+========================================
+Generating Match Pair for 0.903seconds
+Program ends at 1397593477144
+Program executes 1.049seconds
+
+infinite buffer:
+
+Program is in process...
+Program starts at 1397593531199
+avg: 57.0
+Message Size: 70
+Match Pair set: 3990
+Standard Deviation of match pairs for receives: 170.64583206161234
+Approximiated possible choices: 1.6323976309991183E47
+========================================
+Generating Match Pair for 0.961seconds
+Program ends at 1397593532322
+Program executes 1.123seconds
+
+
 80 messages:
 
 zero buffer:
