@@ -1,0 +1,57 @@
+80 messages:
+
+zero buffer:
+
+Program is in process...
+Program starts at 1397588904290
+avg: 61.0
+Message Size: 80
+Match Pair set: 4880
+========================================
+Generating Match Pair for 1.391seconds
+Program ends at 1397588905849
+Program executes 1.559seconds
+
+sat
+(:add-rows                359385154
+ :added-eqs               45799440
+ :arith-conflicts         3025
+ :assert-diseq            53974304
+ :assert-lower            17551187
+ :assert-upper            22769045
+ :binary-propagations     247101149
+ :bound-prop              6891967
+ :conflicts               746736
+ :datatype-accessor-ax    160
+ :datatype-constructor-ax 160
+ :datatype-occurs-check   1023520
+ :decisions               2652783
+ :del-clause              818356
+ :eq-adapter              36891
+ :final-checks            6398
+ :fixed-eqs               40613
+ :interface-eqs           6397
+ :memory                  571.51
+ :minimized-lits          20708129
+ :mk-clause               1548698
+ :offset-eqs              441155
+ :pivots                  538383
+ :propagations            504982608
+ :restarts                1050
+ :time                    3839.01
+ :total-time              3839.24)
+
+
+infinite buffer:
+
+Program is in process...
+Program starts at 1397588993888
+avg: 61.0
+Message Size: 80
+Match Pair set: 4880
+Over-Approximiated possible choices: 2.50960147796573E51
+========================================
+Generating Match Pair for 1.237seconds
+Program ends at 1397588995290
+Program executes 1.402seconds
+
