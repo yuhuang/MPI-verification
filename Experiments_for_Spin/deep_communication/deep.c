@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#define THREADS 6
-#define LOOP 70
+#define THREADS 5
+#define LOOP 60
 
 int main (int argc, char *argv[])
 {
