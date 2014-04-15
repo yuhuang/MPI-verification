@@ -5,7 +5,7 @@ MPICC = mpicc
 CC = cc
 
 deep: deep_spec
-	$(RUN) -n 5 ./deep 
+	$(RUN) -n 6 ./deep 
 
 deep_spec: deep.c Makefile
 	$(MPICC) -o deep $(FLAGS) deep.c
