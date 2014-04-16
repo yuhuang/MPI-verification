@@ -55,9 +55,6 @@ The first comparison is between two buffering settings for each test program. Th
 
 The results also show the comparison between various message sizes for each buffering setting. The test starts with $30$ messages. The encoding can be resolved fast using low memory, even though the possible choices of match pair resolution is already very large. However, the size of choices is expanded unusually along with the linear increase of message size. With such expansion, the SMT solver has to spend much more time to resolve the encoding. When $\mathit{N}$ increases to 70, the massive size of match resolutions hardly exists in a common MPI program. However, the encoding is still able to scale to it. When $\mathit{N}$ increases to 80, however, the encoding for infinite-buffer semantics is impossible to return within two hours. By running this test, we are able to provide a boundary on expected cost for analysis given the message non-determinism in a program. As such, any program with less than 70! possible match resolutions can be reasonably checked by our infinite-buffer encoding. The boundary is set to 80! for our zero-buffer encoding.
 
-\subsection{Benchmark Test}
-Given the boundary on match resolutions, we compare several benchmark programs to test our new encoding. The goal is to further understand how our encoding scales to those programs that are publicly available from a variety of sources. The results pertaining to the performance are documented in \tableref{table:benchmarks}. 
-
 \begin{table*}[t]
 \begin{center}
 \scriptsize
@@ -79,6 +76,9 @@ Given the boundary on match resolutions, we compare several benchmark programs t
           		\end{tabular}
 \end{center}
 \end{table*}
+
+\subsection{Benchmark Test}
+Given the boundary on match resolutions, we compare several benchmark programs to test our new encoding. The goal is to further understand how our encoding scales to those programs that are publicly available from a variety of sources. The results pertaining to the performance are documented in \tableref{table:benchmarks}. 
 
 \begin{compactitem}
 
