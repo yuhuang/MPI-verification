@@ -1,52 +1,52 @@
 \section{SMT Encoding}
-The SMT encoding is generated from 1) an execution trace of an MPI program that includes a sequence of events, i.e., point-to-point operations, collective operations, control flow assumptions and property assertions; and 2) a set of possible match pairs for message communication. Intuitively, a match pair is a coupling of a send and a receive. Taking \figref{fig:mpi} as an example, each receive on process $0$ may be matched with a send from process $1$ or process $2$. The direct use of match pair is easy to reason about message communication. The encoding also uses \textit{happens-before} relation stemming from the program order for each process model and each concurrency relation. A modern SMT solver, such as Yice \cite{dutertre:CAV06} or Z3 \cite{demoura:tacas08}, is asked to resolve this encoding. A resolved satisfying schedule is guaranteed to be feasible with a violation of user provided assertions in the system runtime. If no satisfying schedule exists, the correctness of the program is also proved (no violation of the assertion) in all possible executions. 
+The SMT encoding is generated from 1) an execution trace of an MPI program that includes a sequence of events, i.e., point-to-point operations, collective operations, control flow assumptions and property assertions; and 2) a set of possible match pairs for message communication. Intuitively, a match pair is a coupling of a send and a receive. Taking \figref{fig:mpi} as an example, each receive on process $0$ may be matched with a send from process $1$ or process $2$. The direct use of match pair is easy to reason about message communication. The encoding also uses \textit{happens-before} relations stemming from the program order for each process model and each concurrency relation. A modern SMT solver, such as Yice \cite{dutertre:CAV06} or Z3 \cite{demoura:tacas08}, is asked to resolve this encoding. A resolved satisfying schedule is guaranteed to be feasible with a violation of user provided assertions in the system runtime. If no satisfying schedule exists, the correctness of the program is also proved (no violation of the assertion) in all possible executions. 
 
-According to the discussion earlier, the MPI behavior can be affected by two runtime settings: infinite buffer semantics and zero buffer semantics. The infinite buffer semantics behave differently from the zero buffer semantics in how message communicates. Therefore, the encoding should use different rules to support both settings. 
+According to the discussion earlier, MPI behavior can be affected by two runtime settings: infinite buffer semantics and zero buffer semantics. The infinite buffer semantics behave differently from the zero buffer semantics in how messages communicate. Therefore, the encoding should use different rules to support both settings. 
 
 This section first discusses the algorithm to encode infinite buffer semantics, including the rules for point-to-point operations, collective operations and how they are constrained in program order. It then discusses how to adjust this encoding to zero buffer semantics by adding a few new rules.
 
 \subsection{Partial Order}
-The encoding needs to express the partial order imposed by the MPI semantics as SMT constraints. Such a partial order needs to bind an ``order" variable (\defref{def:order}) to each event in the program. The pertinent ``order" variables of two events are used to constrain their partial order as a \emph{happens-before} relation (\defref{def:happens-before}).
+The encoding needs to express the partial order imposed by the MPI semantics as SMT constraints. Such a partial order needs to bind a ``timestamp" variable (\defref{def:order}) to each event in the program. The pertinent ``timestamp" variables of two events are used to constrain their partial order as a \emph{happens-before} relation (\defref{def:happens-before}).
 
-\begin{definition}[Order]\label{def:order}
-The order of an event $\mathtt{e}$, denoted as $\mathit{order}_\mathtt{e}$, is constrained as an integer.
+\begin{definition}[Timestamp]\label{def:order}
+The timestamp of an event $\mathtt{e}$, denoted as $\mathit{time}_\mathtt{e}$, is constrained as an integer.
 \end{definition}
 
 \begin{definition}[Happens-Before]\label{def:happens-before}
 The \emph{Happens-Before} $(\mathtt{HB})$ relation, denoted as
-$\mathit{order}_\mathtt{e1} \mathrm{\prec_\mathtt{HB}} \mathit{order}_\mathtt{e2}$, is a partial order over two events, $\mathtt{e1}$ and $\mathtt{e2}$ respectively, that constrains the logic formula $\mathit{order}_\mathtt{e1} <  \mathit{order}_\mathtt{e2}$. 
+$\mathit{time}_\mathtt{e1} \mathrm{\prec_\mathtt{HB}} \mathit{time}_\mathtt{e2}$, is a strict partial order over two events, $\mathtt{e1}$ and $\mathtt{e2}$ respectively, that constrains the logic formula $\mathit{time}_\mathtt{e1} <  \mathit{time}_\mathtt{e2}$. 
 \label{def:hb}
 \end{definition}
 
-In \defref{def:happens-before}, if $\mathtt{e1}$ must happen before $\mathtt{e2}$ in any execution, the encoding needs to add $\mathit{order}_\mathtt{e1} \mathrm{\prec_\mathtt{HB}} \mathit{order}_\mathtt{e2}$ in constraint. The goal of an SMT solver is to evaluate all the ``order" variables in such a way that satisfies all the $\mathtt{HB}$ relations. Based on the $\mathtt{HB}$ relation, the encoding further defines a few rules to constrain the program order. 
+In \defref{def:happens-before}, if $\mathtt{e1}$ must happen before $\mathtt{e2}$ in any execution, the encoding needs to add $\mathit{time}_\mathtt{e1} \mathrm{\prec_\mathtt{HB}} \mathit{time}_\mathtt{e2}$ as a constraint. The goal of an SMT solver is to evaluate all the ``timestamp" variables in such a way that satisfies all the $\mathtt{HB}$ relations. Based on the $\mathtt{HB}$ relation, the encoding further defines a few rules to constrain the program order. 
 
 \subsection{Point-To-Point Communication}
 %:Definitions
-Before discussing those rules, it is necessary to define MPI point-to-point operations as SMT constraints. The MPI point-to-point communication consists of two basic  primitives: send and receive. The encoding defines send (\defref{def:snd}) and receive (\defref{def:rcv}) as a set of variables in order to constrain the concurrent behavior. Some variables, such as the endpoint information, are already evaluated from the existing trace. The other variables, such as the order information, need to be resolved by an SMT solver. 
+Before discussing those rules, it is necessary to define MPI point-to-point operations as SMT constraints. The MPI point-to-point communication consists of two basic  primitives: send and receive. The encoding defines send (\defref{def:snd}) and receive (\defref{def:rcv}) as a set of variables to constrain the concurrent behavior. Some variables, such as the endpoint information, are already evaluated from the existing trace. The other variables, such as the order information, need to be resolved by an SMT solver. 
  
 \begin{definition}[Send] \label{def:snd}
 A send operation $\mathtt{S}$, is a four-tuple of variables:
 \begin{compactenum}
-\item $M_\mathtt{S}$, the order of the matching receive event;
-\item $\mathit{order}_\mathtt{S}$, the order of the send;
+\item $M_\mathtt{S}$, the timestamp of the matching receive event;
+\item $\mathit{time}_\mathtt{S}$, the timestamp of the send;
 \item $e_\mathtt{S}$, the destination endpoint; 
 \item $src_\mathtt{S}$, the source endpoint; and
 \item $\mathit{value}_\mathtt{S}$, the transmitted value.
 \end{compactenum}
 \end{definition}
 
-As shown in \defref{def:snd}, the encoding of a send has a few evaluated variables. Those variables include the source endpoint, the destination endpoint and the transmitted value. As for the free variables, the encoding records the event orders for itself and the matching receive as $\mathit{order}_\mathtt{S}$ and $M_\mathtt{S}$ respectively. In particular, $M_\mathtt{S}$ is used to bind a specific receive if a message from $\mathtt{S}$ flows across this receive. Such a send-receive match is only resolved dynamically by an SMT solver. As long as a value is assigned to $M_\mathtt{S}$, $\mathtt{S}$ is not allowed to match with another receive (otherwise it is a false constraint).
+As shown in \defref{def:snd}, the encoding of a send has a few evaluated variables. Those variables include the source endpoint, the destination endpoint and the transmitted value. As for the free variables, the encoding records the event timestamps for itself and the matching receive as $\mathit{time}_\mathtt{S}$ and $M_\mathtt{S}$ respectively. In particular, $M_\mathtt{S}$ is used to bind a specific receive if a message from $\mathtt{S}$ flows across this receive. Such a send-receive match is only resolved dynamically by an SMT solver. As long as the value assigned to $M_\mathtt{S}$, $\mathtt{S}$ is not allowed to match with another receive (otherwise it is a false constraint).
 
 \begin{definition}[Wait] \label{def:wait}
 The occurrence of a wait operation, \texttt{W}, is captured by a
-single variable, $\mathit{order}_\mathtt{W}$, that constrains when
+single variable, $\mathit{time}_\mathtt{W}$, that constrains when
 the wait occurs.
 \end{definition}
 
-In MPI semantics, a non-blocking send is paired with a wait operation that confirms the message has been copied out of the send buffer. The wait for a send does not affect message communication mainly because it is not able to detect a matching receive when it returns. As such, the encoding simply ignore the wait for a send. In contrast,  a wait for a receive is able to confirm message communication. The encoding defines such a wait operation in \defref{def:wait}. The wait for a receive witnesses the message is copied into the receive buffer. So a matching send must be detected when the wait returns. This behavior confirms two things: 1) a receive is issued before its wait; and 2) a  send is issued before the wait of a matching receive. The encoding constrains this behavior with a few rules discussed later. Further, the MPI semantics allow a single wait to witness the completion of one or more receives due to the message non-overtaking property. Such a wait is the nearest-enclosing wait. 
+In MPI semantics, a non-blocking send is paired with a wait operation that confirms the message has been copied out of the send buffer. The wait for a send does not affect message communication mainly because it is not able to detect a matching receive when it returns. As such, the encoding simply ignores the wait for a send. In contrast,  a wait for a receive is able to confirm message communication. The encoding defines such a wait operation in \defref{def:wait}. The wait for a receive witnesses that the message is copied into the receive buffer. So a matching send must be detected when the wait returns. This behavior confirms two things: 1) a receive is issued before its wait; and 2) a  send is issued before the wait of a matching receive. The encoding constrains this behavior with a few rules discussed later. Further, MPI semantics allow a single wait to witness the completion of one or more receives due to the message non-overtaking property. Such a wait is the nearest-enclosing wait. 
 
 \begin{definition}[Nearest-Enclosing Wait] \label{def:nw}
-A wait that witnesses the completion of a receive by indicating that
+A nearest-enclosing wait is a wait that witnesses the completion of a receive by indicating that
 the message is delivered and that all the previous receives in the
 same task issued earlier are complete as well.
 \end{definition}
@@ -58,32 +58,32 @@ The encoding requires that every receive has a nearest-enclosing wait so a match
 A receive operation $\mathtt{R}$ is modeled by a five-tuple of variables:
 \begin{compactenum}
 \item $M_\mathtt{R}$, the order of the matching send event;
-\item $\mathit{order}_\mathtt{R}$, the order of the receive;
+\item $\mathit{time}_\mathtt{R}$, the timestamp of the receive;
 \item $e_\mathtt{R}$, the destination endpoint;
 \item $src_\mathtt{R}$, the source endpoint;
 \item $\mathit{value}_\mathtt{R}$, the received value; and,
-\item $\mathit{nw}_\mathtt{R}$, the order of the nearest enclosing wait.
+\item $\mathit{nw}_\mathtt{R}$, the timestamp of the nearest enclosing wait.
 \end{compactenum}
 \end{definition}
 
-The encoding of a receive has a variable for the destination endpoint that is evaluated from the existing trace. It defines two free variables $\mathit{order}_\mathtt{R}$ and $M_\mathtt{R}$, for the event orders of itself and the matching send, respectively. The transmitted (received) value is not known until a send is matched. Interestingly, the source endpoint for a receive may or may not be known depending which receive it defines. The MPI semantics support both deterministic receive with a constant source endpoint and wildcard receive with a uncertain source endpoint. The nearest-enclosing wait, as discussed earlier, is used to make a match pair decision. 
+The encoding of a receive has a variable for the destination endpoint that is evaluated from the existing trace. It defines two free variables $\mathit{time}_\mathtt{R}$ and $M_\mathtt{R}$, for the event timestamps of itself and the matching send, respectively. The transmitted (received) value is not known until a send is matched. Interestingly, the source endpoint for a receive may or may not be known depending which receive it defines. MPI semantics support both deterministic receive with a constant source endpoint and wildcard receive with a uncertain source endpoint. The nearest-enclosing wait, as discussed earlier, is used to make a match pair decision. 
 
-The encoding uses match pairs directly to express the message communication. Intuitively, \defref{def:match} constrains the event order, the endpoints and the transmitted value are matched for $\mathtt{R}$ and $\mathtt{S}$. Also, $\mathtt{S}$ should be issued before the nearest-enclosing wait of $\mathtt{R}$. 
+The encoding uses match pairs directly to express the message communication. Intuitively, \defref{def:match} asserts that $\mathtt{R}$ and $\mathtt{S}$ are matched with identical event order, endpoints and transmitted values. Also, $\mathtt{S}$ should be ordered before the nearest-enclosing wait of $\mathtt{R}$. 
 
 \begin{definition}[Match Pair] \label{def:match}
 A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle$, for a receive
 $\mathtt{R}$ and a send $\mathtt{S}$ corresponds to the constraints:
 \begin{compactenum}
-\item $M_{\mathtt{R}} = \mathit{order}_{\mathtt{S}}$
-\item $M_{\mathtt{S}} = \mathit{order}_{\mathtt{R}}$
+\item $M_{\mathtt{R}} = \mathit{time}_{\mathtt{S}}$
+\item $M_{\mathtt{S}} = \mathit{time}_{\mathtt{R}}$
 \item $e_{\mathtt{R}} = e_{\mathtt{S}}$
 \item $src_\mathtt{R} = src_\mathtt{S}$
 \item $\mathit{value}_{\mathtt{R}} = \mathit{value}_{\mathtt{S}}$ and
-\item $\mathit{order}_{\mathtt{S}}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{nw}_{\mathtt{R}}$
+\item $\mathit{time}_{\mathtt{S}}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{nw}_{\mathtt{R}}$
 \end{compactenum}
 \end{definition}
 
-The use of a set of match pairs may reflect all possible ways for the message communication. There may exist several match pairs for a single receive indicating more messages may flow across this receive. However, there is no way to receive all the messages in a single execution, even though all the match pairs should be considered. Therefore, the encoding does not combine these match pairs in a single conjunction. Instead, it constrains them for a single receive in a disjunction (\defref{def:receive_match}). As the $M$ values for both a receive and a send are deterministic once they are matched, only one match pair can be used in a final resolution.
+A set of match pairs correspond to a message communication topology. There may exist several match pairs for a single receive indicating more messages may flow across this receive. However, there is no way to receive all the messages in a single execution, even though all the match pairs should be considered. Therefore, the encoding does not combine these match pairs in a single conjunction. Instead, it constrains them for a single receive in a disjunction (\defref{def:receive_match}). As the $M$ values for both a receive and a send are deterministic once they are matched, only one match pair can be used in a final resolution.
 
 \begin{definition}[Receive Matches] \label{def:receive_match}
 For each receive $\mathtt{R}$, if $\langle\mathtt{R},
@@ -92,13 +92,12 @@ are match pairs, then $\bigvee_{i}^{n} \langle\mathtt{R},
 \mathtt{S}_i\rangle$ is used as an SMT constraint.
 \end{definition}
 
-
 \subsection{Collective Communication}
-Collective communication is also significant in MPI semantics. There are various collective operations used for this communication.  Take barriers as an example, they are issued in a group. Each process waits on a barrier without proceeding until all group members are completed. The other collective operations synchronize the program similarly except that they additionally address the tasks of internal message communication and/or computation. Those tasks are not interrupted by MPI point-to-point communication, and vice versa. According to this fact, the algorithm only needs to consider how to constrain the concurrent behavior, but simply constrains each task as an assertion. As such, we take barriers in the following discussion as it is merely used for program synchronization. Because of the concurrent behavior, an operation issued before the barriers is not able to interleave any operations issued after the barriers. The encoding defines the barrier in \defref{def:barrier}. 
+Collective communication is also significant in MPI semantics. There are various collective operations used for this purpose.  Taking barrier as an example, it is used as a group meaning each process should issue a barrier.  It synchronizes the program in such a way that each process waits at some location until all group members are completed. As a result, an operation issued before the barriers is not able to interleave any operations issued after the barriers. Other collective operations are used in a common way except that they additionally address a few tasks such as internal message communication and computation. Those tasks are not interrupted by MPI point-to-point communication, and vice versa. According to this fact, the algorithm only needs to consider how to constrain the behavior of synchronization, but simply constrains the additional tasks as assertions. We take barrier in the following discussion as it is merely used for program synchronization. The encoding defines the barrier in \defref{def:barrier}. 
 
 \begin{definition}[Barrier]\label{def:barrier}
 The occurrence of a barrier operation, \texttt{B}, is captured by a
-single variable, $\mathit{order}_\mathtt{B}$, that constrains when a group of barriers $\{B_0, B_1, ..., B_n\}$ are matched.  
+single variable, $\mathit{time}_\mathtt{B}$, that constrains when a group of barriers $\{B_0, B_1, ..., B_n\}$ are matched.  
 Each barrier $B_i, i\in{0 ... n}$, is issued by process $i$. 
 \end{definition}
 
@@ -115,19 +114,19 @@ Each barrier $B_i, i\in{0 ... n}$, is issued by process $i$.
 \caption{An Example of Message Communication with Barriers} \label{fig:mc_barrier1}
 \end{figure}
 
-As for the affection on message communication, the barriers may not prevent a send from matching a receive in some case, even though their issuing order is affected. As an example, executing the program in \figref{fig:mc_barrier1} may flow the message ``$1$" across $\mathtt{R}$ even though $\mathtt{R}$ is issued before the barriers and $\mathtt{S}$ is issued after the barriers. However, if the program issues $\mathtt{W(\&h2)}$ before barriers, $\mathtt{R}$ has to be completed before barriers meaning a message has to be delivered. In this situation, the message communication is affected. The algorithm further defines the \textit{nearest-enclosing barrier} (\defref{def:nb}) to constrain this affection.
+Even though barriers affect the issuing order over two events, it is hard to determine whether they prevent a send from matching a receive. For instance, executing the program in \figref{fig:mc_barrier1} may flow the message ``$1$" across $\mathtt{R}$ even though $\mathtt{R}$ is ordered before the barriers and $\mathtt{S}$ is ordered after the barriers. However, if the program issues $\mathtt{W(\&h2)}$ before barriers, $\mathtt{R}$ has to be completed before barriers meaning a message has to be delivered. In this situation, message communication is affected. The algorithm further defines the \textit{nearest-enclosing barrier} (\defref{def:nb}) to constrain this affection.
 
 \begin{definition}[Nearest-Enclosing Barrier]\label{def:nb}
 For a process $i$, a receive \texttt{R} has a nearest-enclosing barrier \texttt{B} if and only if
 \begin{compactenum}
-\item the nearest-enclosing wait \texttt{W} of \texttt{R} is issued before $B_i\in B$, and
-\item there does not exist any receive \texttt{R'} that has its nearest-enclosing wait \texttt{W'} issued after \texttt{W} and issued before $B_i$.
+\item the nearest-enclosing wait \texttt{W} of \texttt{R} is ordered before $B_i\in B$, and
+\item there does not exist any receive \texttt{R'} such that its nearest-enclosing wait \texttt{W'} is ordered after \texttt{W} and is ordered before $B_i$.
 \end{compactenum}
 \end{definition}
 
 
 \subsection{Assumptions and Assertions}
-Except the point-to-point and the collective operations, the assumptions and the assertions should be constrained as well. An assumption asks any feasible execution to obey the imposed control flow path. So it can be viewed as a inviolated truth in any execution. The encoding constrains this truth as an SMT assertion.
+Except MPI point-to-point operations and MPI collective operations, assumptions and assertions should be constrained as well. An assumption asks any feasible execution to obey the imposed control flow path. So it can be viewed as a inviolated truth in any execution. The encoding constrains this truth as an SMT assertion.
 \begin{definition}[Assumption] \label{def:assm}
 Every assumption $\mathtt{A}$ is added as an SMT assertion.
 \end{definition}
@@ -145,36 +144,36 @@ The encoding thus far defines a few terms that are used to constrain the program
 \paragraph*{Step 1} For each process, if there are sequential send
 operations, say $\mathtt{S}$ and $\mathtt{S^\prime}$, from that task
 to a common endpoint, $e_\mathtt{S} = e_\mathtt{S^\prime}$, then those
-sends must follow program order: $\mathit{order}_\mathtt{S}$
-$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{S^\prime}$.
+sends must follow program order: $\mathit{time}_\mathtt{S}$
+$\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{S^\prime}$.
 
 \paragraph*{Step 2} For each process, if there are sequential receive
 operations, say $\mathtt{R}$ and $\mathtt{R^\prime}$, in that task
 on a common endpoint, $e_\mathtt{R} = e_\mathtt{R^\prime}$, then those
-receives must follow program order: $\mathit{order}_\mathtt{R}$
-$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{R^\prime}$.
+receives must follow program order: $\mathit{time}_\mathtt{R}$
+$\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{R^\prime}$.
 
 \paragraph*{Step 3} For every receive \texttt{R} and its nearest
-enclosing wait \texttt{W}, $\mathit{order}_\mathtt{R}$
-$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{W}$.
+enclosing wait \texttt{W}, $\mathit{time}_\mathtt{R}$
+$\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{W}$.
 
-\paragraph*{Step 4} For each process, if there is a sequential order over the nearest-enclosing wait for a receive operation and a send operation, say $\mathtt{W}$ and $\mathtt{S}$, then they must follow program order: $\mathit{order}_\mathtt{W}$
-$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{S}$.
+\paragraph*{Step 4} For each process, if there is a sequential order over the nearest-enclosing wait for a receive operation and a send operation, say $\mathtt{W}$ and $\mathtt{S}$, then they must follow program order: $\mathit{time}_\mathtt{W}$
+$\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{S}$.
 
 \paragraph*{Step 5} For any receive \texttt{R} that has a nearest-enclosing barrier \texttt{B} and a nearest-enclosing wait \texttt{W}, they must follow the program order:
-$\mathit{order}_\mathtt{W}$ $\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{B}$.
+$\mathit{time}_\mathtt{W}$ $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{B}$.
 
-\paragraph*{Step 6} For any barrier $\mathtt{B}$ that has an operation $\mathtt{O}$ issued after it, they must follow the program order: $\mathit{order}_\mathtt{B}$
-$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{O}$.
+\paragraph*{Step 6} For any barrier $\mathtt{B}$ and an operation $\mathtt{O}$ ordered after $\mathtt{B}$, they must follow the program order: $\mathit{time}_\mathtt{B}$
+$\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{O}$.
 
 \paragraph*{Step 7} For any pair of sends $\mathtt{S}$ and
 $\mathtt{S'}$ on common endpoints, $e_{\mathtt{S}}=e_{\mathtt{S'}}$,
 such that
-$\mathit{order}_\mathtt{S}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{order}_\mathtt{S'}$,
+$\mathit{time}_\mathtt{S}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{time}_\mathtt{S'}$,
 then those sends must be received in the same order:
 $M_{\mathtt{S}}\ \mathrm{\prec_{\mathtt{HB}}}\ M_{\mathtt{S'}}$.
 
-As discussed earlier, the message communication may not be affected by barriers. Therefore, step $5$ only constrains the program order over the nearest-enclosing wait and the nearest-enclosing barrier for a receive. The order over this receive and the nearest-enclosing barrier is not constrained. For step $6$, a barrier has to happen before any operations after it. Step $7$ enforces the non-overtaking order over two sends to a common process. So two matching receives, recoded in the ``$\mathtt{M}$" values, have to be ordered in a proper way.
+As discussed earlier, message communication may not be affected by barriers. Therefore, step $5$ only constrains the program order over the nearest-enclosing wait and the nearest-enclosing barrier for a receive. The order over this receive and the nearest-enclosing barrier is not constrained. For step $6$, a barrier has to happen before any operation ordered after it. Step $7$ enforces the non-overtaking order over two sends to a common process. So two matching receives, recoded in the ``$\mathtt{M}$" values, have to be ordered in a proper way.
 
 %: DO WE MISS W(R) <_HB S IN A SEQUENTIAL ORDER for infinite buffering?
 
@@ -187,11 +186,11 @@ As discussed earlier, the message communication may not be affected by barriers.
 %: show encoding for figure 4
 
 \subsection{Zero Buffer Encoding}
-The zero buffer semantics behave differently from the infinite buffer semantics.  The zero buffer semantics enforces each message to be delivered substantially once it is sent out. To correctly encode zero buffer semantics, we need to refine the existing rules. The significant change is the new \emph{happens-before} relation, we call \textit{happens-before*}, that further constrains the partial order over a send and its matching receive based on equality relation. 
+The zero buffer semantics behave differently from the infinite buffer semantics.  The zero buffer semantics enforce messages to be delivered substantially once they are sent out. To correctly encode zero buffer semantics, we need to refine the existing rules. The significant change is the new \emph{happens-before} relation, we call \textit{happens-before*}, that further constrains the partial order over a send and the matching receive based on equality relation. 
 
 \begin{definition}[Happens-Before*]
 The \emph{Happens-Before*} $(\mathtt{HB^*})$ relation, denoted as
-$\mathit{order}_\mathtt{e1} \mathrm{\prec_\mathtt{HB*}} \mathit{order}_\mathtt{e2}$, is a partial order over two consecutive events, $\mathtt{e1}$ and $\mathtt{e2}$ respectively, that constrains the logic formula $\mathit{order}_\mathtt{e1} =  \mathit{order}_\mathtt{e2} - 1$.
+$\mathit{time}_\mathtt{e1} \mathrm{\prec_\mathtt{HB*}} \mathit{time}_\mathtt{e2}$, is a partial order over two consecutive events, $\mathtt{e1}$ and $\mathtt{e2}$ respectively, that constrains the logic formula $\mathit{time}_\mathtt{e1} =  \mathit{time}_\mathtt{e2} - 1$.
 \label{def:hb*}
 \end{definition}
 
@@ -201,31 +200,31 @@ The $\mathtt{HB^*}$ relation constrains the consecutive order over two events. W
 A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle$, for a receive
 $\mathtt{R}$ and a send $\mathtt{S}$ corresponds to the constraints:
 \begin{compactenum}
-\item $M_{\mathtt{R}} = \mathit{order}_{\mathtt{S}}$
-\item $M_{\mathtt{S}} = \mathit{order}_{\mathtt{R}}$
+\item $M_{\mathtt{R}} = \mathit{time}_{\mathtt{S}}$
+\item $M_{\mathtt{S}} = \mathit{time}_{\mathtt{R}}$
 \item $e_{\mathtt{R}} = e_{\mathtt{S}}$
 \item $src_\mathtt{R} = src_\mathtt{S}$
 \item $\mathit{value}_{\mathtt{R}} = \mathit{value}_{\mathtt{S}}$ and
-\item $\mathit{order}_{\mathtt{S}}\ \mathrm{\prec_\mathtt{HB*}}\ \mathit{order}_{\mathtt{R}}$
+\item $\mathit{time}_{\mathtt{S}}\ \mathrm{\prec_\mathtt{HB*}}\ \mathit{time}_{\mathtt{R}}$
 \end{compactenum}
 \end{definition}
 
-Intuitively, the consecutive order over each send and the matching receive is constrained. As a result, any resolved execution alternately orders a send followed by a receive. To further constrain the program order for zero buffer semantics, new rules are added: two sends are ordered on each process (step 1*); a send happens before a receive issued later on each process (step 8); and similarly, a send happens before a barrier issued later on each process (step 9).
+Intuitively, the consecutive order over a send and the matching receive is constrained. As a result, any resolved execution alternately orders a send and a receive in a sequence. To further constrain the program order for zero buffer semantics, new rules are added: two sends are ordered on each process (step 1*); on each process a send happens before a receive that is issued later (step 8); and similarly, on each process a send happens before a barrier that is issued later (step 9).
 
 \paragraph*{Step 1*} For each process, if there are sequential send
 operations, say $\mathtt{S}$ and $\mathtt{S^\prime}$, then those
-sends must follow program order: $\mathit{order}_\mathtt{S}$
-$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{S^\prime}$.
+sends must follow program order: $\mathit{time}_\mathtt{S}$
+$\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{S^\prime}$.
 
 \paragraph*{Step 8} For each process, if there is a sequential order over a send operation and a receive operation, say $\mathtt{S}$ and $\mathtt{R}$, then they must follow program order: 
-$\mathit{order}_\mathtt{S}$
-$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{R}$.
+$\mathit{time}_\mathtt{S}$
+$\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{R}$.
 
 \paragraph*{Step 9} For each process, if there is a sequential order over a send operation and a barrier operation, say $\mathtt{S}$ and $\mathtt{B}$, then they must follow program order: 
-$\mathit{order}_\mathtt{S}$
-$\prec_\mathtt{HB}$ $\mathit{order}_\mathtt{B}$.
+$\mathit{time}_\mathtt{S}$
+$\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{B}$.
 
-Step $1^*$ extends step $1$ as zero buffer semantics do not allow a new send to be issued before the pending send is completed on a common process. Step $8$ and step $9$ constrain for the same purpose.
+Step $1^*$ extends step $1$ as zero buffer semantics do not allow a new send to be issued before the pending send is completed on a common process. Step $8$ and step $9$ constrain the sequential order over a send and a receive and the sequential order over a send and a barrier, respectively.
 
 \subsection{Correctness}
 
@@ -283,17 +282,17 @@ The completeness proof of our new technique extends the operational semantics in
 %\label{fig:history}
 %\end{figure}
 
-In addition to the soundness and completeness, the improved zero buffer encoding needs to prove the coverage of message communication. As shown earlier, the zero buffer encoding extends the rules for match pair and program order. An essential rule is the the use of $\mathtt{HB^*}$ relation that constrains the consecutive order over a send and its matching receive. Based on this rule, the encoding assumes that a send and a receive can only be ordered alternately in any resolved execution. This assumption is inspired by TCBMC that assumes each lock operation and its paired unlock  operation is only ordered alternately in any execution \cite{DBLP:conf/cav/RabinovitzG05}. Similarly, the encoding in this paper detects the assertion violation by only considering this alternate order in an execution. One may argue that such a encoding dose not cover all possible ways of message communication without considering arbitrary order over sends and receives. However, we claim this assumption is enough to capture a full message communication topology. To prove it, we state a theorem later.  Before that, we define a few terms to support the proof.
+In addition to the soundness and completeness, the improved zero buffer encoding needs to prove the coverage of message communication. As shown earlier, the zero buffer encoding extends the rules for match pair and program order. An essential rule is the the use of $\mathtt{HB^*}$ relation that constrains the consecutive order over a send and the matching receive. Based on this rule, the encoding assumes that a send and a receive is only ordered alternately in any resolved execution. This assumption is inspired by TCBMC that assumes each lock operation and its paired unlock operation is ordered alternately in any execution \cite{DBLP:conf/cav/RabinovitzG05}. Similarly, the encoding in this paper detects assertion violations by only considering this alternate order in an execution. One may argue that such a encoding dose not cover all possible ways of message communication without considering arbitrary order over sends and receives. However, we claim this assumption is enough to capture a full message communication topology. To prove it, we state a theorem later.  Before that, we define a few terms to support the proof.
 
 \begin{definition}[Legal History]\label{def:legal}
 Under zero buffer semantics, a history of an MPI program is a sequence of send and receive operations with return values. It is legal if
 \begin{compactenum}
-\item the partial order over events obeys the steps \textit{1*} and \textit{2} $to$ \textit{9}; and 
+\item the partial order over events obeys step \textit{1*} and step \textit{2} through step \textit{9}; and 
 \item each send and the matching receive are ordered consecutively if this send is issued earlier; or such an order is not enforced if the receive is issued earlier.
 \end{compactenum}
 \end{definition}
 
-We use a legal history to represent a total order over events. A legal history only takes care of sends and receives because they are essential to the message communication. In other words, these events can be used to evaluate how each message may flow in a runtime system. Since the return value is deterministic for each operation, a legal history corresponds to the precise message communication. For a feasible message flow, the legal history has to satisfy two conditions in the definition. The first condition is the partial order over events that is already defined in the encoding. The second condition states two possible ways a send and the matching receive is ordered. Since zero buffer semantics do not proceed the execution on a process if a pending message is not delivered, the legal history only needs to ensure that the partial order exists when the send is issued earlier than the matching receive. 
+We use a legal history to represent a total order over events (\defref{def:legal}). A legal history only takes care of sends and receives because they are essential to message communication. In other words, these events can be used to evaluate how each message may flow in a runtime system. Since the return value is deterministic for each operation, a legal history corresponds to a precise resolution of message communication. For a feasible message delivery, the legal history has to satisfy two conditions as shown in \defref{def:legal}. The first condition is to enforce the partial order over events that is already defined in the encoding. The second condition states two possible ways a send and the matching receive is ordered. Since zero buffer semantics do not proceed the execution on a process if a pending message is not delivered, the legal history only needs to ensure that the partial order exists when the send is issued earlier than the matching receive. 
 
 %As an example, \figref{fig:history} shows a legal history for \figref{fig:mpi}. In this history, each event is paired with a process rank. Each send and its matching receive are order alternately so that each message flows across a receive once it is sent out. This history also reveals the message communications by showing the sequence of all receive responses. 
 
@@ -311,7 +310,7 @@ For zero buffer semantics, there exists a legal history in each equivalent class
 
 \begin{proof}
 First, assume there is a legal history $\mathtt{H}$ for a set of sends $\mathit{S}$ and a set of receives $\mathit{R}$. 
-Projecting this legal history to $\mathit{R}$ produces a message sequence. This sequence reflects how messages are received in this legal history. Since the message communication is deterministic so each receive in $\mathit{R}$ is matched with a send in $\mathit{S}$. Inserting the matching send proceeding each receive in the projection produces another sequence that alternately orders sends and receives. This sequence obeys two conditions stated in \defref{def:legal}, therefore, is a legal history and is equivalent to $\mathtt{H}$.
+Projecting $\mathtt{H}$ to $\mathit{R}$ produces a message sequence. This sequence reflects how messages are received in $\mathtt{H}$. Since the message communication is deterministic so each receive in $\mathit{R}$ is matched with a send in $\mathit{S}$. Inserting the matching send proceeding each receive in the projection produces another sequence that alternately orders sends and receives. This sequence obeys two conditions stated in \defref{def:legal}, therefore, is a legal history. Further, it is equivalent to $\mathtt{H}$ as they receive a common sequence of messages on each process.
 Therefore, for any existing legal history, the procedure above is able to find a equivalent legal history that alternatively orders sends and receives.  
 \end{proof}
 

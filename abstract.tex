@@ -8,7 +8,7 @@ This non-determinism often leads to intermittent and unexpected behavior and is 
 %
 The use of MPI collective operations is able to synchronize the program computation. 
 %
-However, a side effect is the affection on message communication.
+However, a side effect is the impact on message communication.
 %
 Consequently, the semantics become more difficult to analyze formally. 
 %
@@ -16,10 +16,10 @@ As both runtime semantics -- infinite-buffering (the message is copied into a ru
 %
 This paper presents an algorithm that encodes an MPI execution as a Satisfiability Modulo Theories (SMT) problem, which if satisfiable, yields a feasible schedule on the same trace, such that it resolves non-determinism in the MPI runtime in a way that it now fails user provided assertions.
 %
-This algorithm correctly defines the point-to-point communication and the collective communication with respective rules for both infinite-buffer semantics and zero-buffer semantics. 
+This algorithm correctly defines the point-to-point communication and the collective communication with respective rules for both infinite buffer semantics and zero buffer semantics. 
 %
-The zero-buffer encoding is further capable of precisely detecting the compatibility of an MPI execution under zero-buffer semantics.
+The zero buffer encoding is further capable of precisely detecting the compatibility of an MPI execution under zero-buffer semantics.
 %
-Results demonstrate that the SMT encoding runs fast and correctly for a set of benchmarks. 
+Results demonstrate that the SMT encoding is correct and efficient for a set of benchmarks. 
 %
-As a result, the encoding scales well for programs with high levels of non-determinism in how sends and receives may potentially match.
+As a result, the encoding scales well for programs with high level message non-determinism in how sends and receives may potentially match.
