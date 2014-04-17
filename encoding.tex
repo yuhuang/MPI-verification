@@ -68,7 +68,7 @@ A receive operation $\mathtt{R}$ is modeled by a five-tuple of variables:
 
 The encoding of a receive has a variable for the destination endpoint that is evaluated from the existing trace. It defines two free variables $\mathit{time}_\mathtt{R}$ and $M_\mathtt{R}$, for the event timestamps of itself and the matching send, respectively. The transmitted (received) value is not known until a send is matched. Interestingly, the source endpoint for a receive may or may not be known depending which receive it defines. MPI semantics support both deterministic receive with a constant source endpoint and wildcard receive with a uncertain source endpoint. The nearest-enclosing wait, as discussed earlier, is used to make a match pair decision. 
 
-The encoding uses match pairs directly to express the message communication. Intuitively, \defref{def:match} asserts that $\mathtt{R}$ and $\mathtt{S}$ are matched with identical event order, endpoints and transmitted values. Also, $\mathtt{S}$ should be ordered before the nearest-enclosing wait of $\mathtt{R}$. 
+The encoding uses match pairs directly to express the message communication. Intuitively, \defref{def:match} asserts that $\mathtt{R}$ and $\mathtt{S}$ are matched with identical event timestamps, endpoints and transmitted values. Also, $\mathtt{S}$ should be ordered before the nearest-enclosing wait of $\mathtt{R}$. 
 
 \begin{definition}[Match Pair] \label{def:match}
 A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle$, for a receive
@@ -93,7 +93,7 @@ are match pairs, then $\bigvee_{i}^{n} \langle\mathtt{R},
 \end{definition}
 
 \subsection{Collective Communication}
-Collective communication is also significant in MPI semantics. There are various collective operations used for this purpose.  Taking barrier as an example, it is used as a group meaning each process should issue a barrier.  It synchronizes the program in such a way that each process waits at some location until all group members are completed. As a result, an operation issued before the barriers is not able to interleave any operations issued after the barriers. Other collective operations are used in a common way except that they additionally address a few tasks such as internal message communication and computation. Those tasks are not interrupted by MPI point-to-point communication, and vice versa. According to this fact, the algorithm only needs to consider how to constrain the behavior of synchronization, but simply constrains the additional tasks as assertions. We take barrier in the following discussion as it is merely used for program synchronization. The encoding defines the barrier in \defref{def:barrier}. 
+Collective communication is also significant in MPI semantics. There are various collective operations used for this purpose.  Taking barrier as an example, it is used as a group meaning each process should issue a barrier.  It synchronizes the program in such a way that each process waits at some location until all group members are completed. As a result, an operation issued before a barrier cannot interleave any operation after the barrier. Other collective operations are used in a common way except that they additionally address a few tasks such as internal message communication and computation. Those tasks are not interrupted by MPI point-to-point communication, and vice versa. According to this fact, the algorithm only needs to consider how to constrain the behavior of synchronization, and simply constrains the additional tasks as assertions. We take barrier in the following discussion as it is merely used for program synchronization. The encoding defines the barrier in \defref{def:barrier}. 
 
 \begin{definition}[Barrier]\label{def:barrier}
 The occurrence of a barrier operation, \texttt{B}, is captured by a
@@ -114,7 +114,7 @@ Each barrier $B_i, i\in{0 ... n}$, is issued by process $i$.
 \caption{An Example of Message Communication with Barriers} \label{fig:mc_barrier1}
 \end{figure}
 
-Even though barriers affect the issuing order over two events, it is hard to determine whether they prevent a send from matching a receive. For instance, executing the program in \figref{fig:mc_barrier1} may flow the message ``$1$" across $\mathtt{R}$ even though $\mathtt{R}$ is ordered before the barriers and $\mathtt{S}$ is ordered after the barriers. However, if the program issues $\mathtt{W(\&h2)}$ before barriers, $\mathtt{R}$ has to be completed before barriers meaning a message has to be delivered. In this situation, message communication is affected. The algorithm further defines the \textit{nearest-enclosing barrier} (\defref{def:nb}) to constrain this affection.
+Even though barriers affect the issuing order over two events, it is hard to determine whether they prevent a send from matching a receive. As an example, the message ``$1$" in \figref{fig:mc_barrier1} may flow across $\mathtt{R}$ even though $\mathtt{R}$ is ordered before the barriers and $\mathtt{S}$ is ordered after the barriers. However, if the program had issued $\mathtt{W(\&h2)}$ before the barriers, $\mathtt{R}$ would have to be completed before the barriers, meaning a message had to be delivered. In this situation, message communication is affected. The algorithm further defines the \textit{nearest-enclosing barrier} (\defref{def:nb}) to constrain this affection.
 
 \begin{definition}[Nearest-Enclosing Barrier]\label{def:nb}
 For a process $i$, a receive \texttt{R} has a nearest-enclosing barrier \texttt{B} if and only if
@@ -126,7 +126,7 @@ For a process $i$, a receive \texttt{R} has a nearest-enclosing barrier \texttt{
 
 
 \subsection{Assumptions and Assertions}
-Except MPI point-to-point operations and MPI collective operations, assumptions and assertions should be constrained as well. An assumption asks any feasible execution to obey the imposed control flow path. So it can be viewed as a inviolated truth in any execution. The encoding constrains this truth as an SMT assertion.
+Except MPI point-to-point operations and MPI collective operations, assumptions and assertions should be constrained as well. An assumption asks any feasible execution to obey the imposed control flow path, so it can be viewed as a inviolated truth in any execution. The encoding constrains this truth as an SMT assertion.
 \begin{definition}[Assumption] \label{def:assm}
 Every assumption $\mathtt{A}$ is added as an SMT assertion.
 \end{definition}
@@ -139,7 +139,7 @@ an SMT assertion.
 \end{definition}
 
 \subsection{Program Order}
-The encoding thus far defines a few terms that are used to constrain the program order for infinite buffer semantics. The program order can be added in seven steps: we must ensure that two sends to a common endpoint must be ordered on each process (step 1); similar to the receives (step 2); receives happen before their nearest-enclosing wait (step 3); the nearest-enclosing wait for a receive happens before a following send if this order is enforced by a process (step 4); for a receive, the nearest-enclosing wait happens before the nearest-enclosing barrier (step 5); barriers happen before operations after it (step 6); and sends are received in the order they are sent (step 7). 
+The encoding thus far defines a few terms that are used to constrain the program order for infinite buffer semantics. The program order can be added in seven steps: we must ensure that two sends to a common endpoint must be ordered on each process (step 1); similar to the receives (step 2); receives happen before their nearest-enclosing wait (step 3); the nearest-enclosing wait for a receive happens before a following send if this order is enforced by a process (step 4); for a receive, the nearest-enclosing wait happens before the nearest-enclosing barrier (step 5); a barrier happens before any operation after it (step 6); and sends are received in the order they are sent (step 7). 
 
 \paragraph*{Step 1} For each process, if there are sequential send
 operations, say $\mathtt{S}$ and $\mathtt{S^\prime}$, from that task
@@ -190,7 +190,7 @@ The zero buffer semantics behave differently from the infinite buffer semantics.
 
 \begin{definition}[Happens-Before*]
 The \emph{Happens-Before*} $(\mathtt{HB^*})$ relation, denoted as
-$\mathit{time}_\mathtt{e1} \mathrm{\prec_\mathtt{HB*}} \mathit{time}_\mathtt{e2}$, is a partial order over two consecutive events, $\mathtt{e1}$ and $\mathtt{e2}$ respectively, that constrains the logic formula $\mathit{time}_\mathtt{e1} =  \mathit{time}_\mathtt{e2} - 1$.
+$\mathit{time}_\mathtt{e1} \mathrm{\prec_\mathtt{HB*}} \mathit{time}_\mathtt{e2}$, is a successor relation over two consecutive events, $\mathtt{e1}$ and $\mathtt{e2}$ respectively, that constrains the logic formula $\mathit{time}_\mathtt{e1} =  \mathit{time}_\mathtt{e2} - 1$.
 \label{def:hb*}
 \end{definition}
 
@@ -209,7 +209,7 @@ $\mathtt{R}$ and a send $\mathtt{S}$ corresponds to the constraints:
 \end{compactenum}
 \end{definition}
 
-Intuitively, the consecutive order over a send and the matching receive is constrained. As a result, any resolved execution alternately orders a send and a receive in a sequence. To further constrain the program order for zero buffer semantics, new rules are added: two sends are ordered on each process (step 1*); on each process a send happens before a receive that is issued later (step 8); and similarly, on each process a send happens before a barrier that is issued later (step 9).
+Intuitively, the consecutive order over a send and the matching receive is constrained. As a result, any resolved execution alternatingly orders a send and a receive in a sequence. To further constrain the program order for zero buffer semantics, new rules are added: two sends are ordered on each process (step 1*); on each process a send happens before a receive that is issued later (step 8); and similarly, on each process a send happens before a barrier that is issued later (step 9).
 
 \paragraph*{Step 1*} For each process, if there are sequential send
 operations, say $\mathtt{S}$ and $\mathtt{S^\prime}$, then those
@@ -228,7 +228,7 @@ Step $1^*$ extends step $1$ as zero buffer semantics do not allow a new send to 
 
 \subsection{Correctness}
 
-The prior work \cite{DBLP:conf/kbse/HuangMM13} has proved our encoding technique is correct over point-to-point communication for message passing. In particular, the soundness asserts that any satisfying schedule resolved by the encoding reflects an actual violated execution. It is also complete so any actual violation can be resolved in a satisfying schedule by the encoding. To prove our new technique with collective communication is also correct, we rely on the existing soundness and completeness proofs. For soundness, it is consistent with the prior proof and relies on the following lemma: 
+The prior work \cite{DBLP:conf/kbse/HuangMM13} has proved our encoding technique is correct over point-to-point communication for message passing. In particular, the encoding is sound, meaning any satisfying schedule resolved by the encoding reflects an actual violated execution. It is also complete, meaning any actual violation can be resolved in a satisfying schedule by the encoding. To prove our new technique with collective communication is also correct, we rely on the existing soundness and completeness proofs. For soundness, it is consistent with the prior proof and relies on the following lemma: 
 
 \begin{lemma} \label{lem:bogus}
 Any match pair $\langle \mathtt{R}, \mathtt{S}\rangle$ used in a
@@ -282,36 +282,36 @@ The completeness proof of our new technique extends the operational semantics in
 %\label{fig:history}
 %\end{figure}
 
-In addition to the soundness and completeness, the improved zero buffer encoding needs to prove the coverage of message communication. As shown earlier, the zero buffer encoding extends the rules for match pair and program order. An essential rule is the the use of $\mathtt{HB^*}$ relation that constrains the consecutive order over a send and the matching receive. Based on this rule, the encoding assumes that a send and a receive is only ordered alternately in any resolved execution. This assumption is inspired by TCBMC that assumes each lock operation and its paired unlock operation is ordered alternately in any execution \cite{DBLP:conf/cav/RabinovitzG05}. Similarly, the encoding in this paper detects assertion violations by only considering this alternate order in an execution. One may argue that such a encoding dose not cover all possible ways of message communication without considering arbitrary order over sends and receives. However, we claim this assumption is enough to capture a full message communication topology. To prove it, we state a theorem later.  Before that, we define a few terms to support the proof.
+In addition to the soundness and completeness, the improved zero buffer encoding needs to prove the coverage of message communication. As shown earlier, the zero buffer encoding extends the rules for match pair and program order. An essential rule is the the use of $\mathtt{HB^*}$ relation that constrains the consecutive order over a send and the matching receive. Based on this rule, the encoding assumes that a send and a receive is only ordered alternatingly in any resolved execution. This assumption is inspired by TCBMC that assumes each lock operation and its paired unlock operation is ordered alternately in any execution \cite{DBLP:conf/cav/RabinovitzG05}. Similarly, the encoding in this paper detects assertion violations by only considering this alternate order in an execution. One may argue that such a encoding does not cover all possible ways of message communication without considering arbitrary order over sends and receives. However, we claim this assumption is enough to capture a full message communication topology. To prove it, we state a theorem later.  Before that, we define a few terms to support the proof.
 
 \begin{definition}[Legal History]\label{def:legal}
 Under zero buffer semantics, a history of an MPI program is a sequence of send and receive operations with return values. It is legal if
 \begin{compactenum}
 \item the partial order over events obeys step \textit{1*} and step \textit{2} through step \textit{9}; and 
-\item each send and the matching receive are ordered consecutively if this send is issued earlier; or such an order is not enforced if the receive is issued earlier.
+\item the matching receive is consecutively ordered before a send; or the matching receive is issued earlier than the send.
 \end{compactenum}
 \end{definition}
 
-We use a legal history to represent a total order over events (\defref{def:legal}). A legal history only takes care of sends and receives because they are essential to message communication. In other words, these events can be used to evaluate how each message may flow in a runtime system. Since the return value is deterministic for each operation, a legal history corresponds to a precise resolution of message communication. For a feasible message delivery, the legal history has to satisfy two conditions as shown in \defref{def:legal}. The first condition is to enforce the partial order over events that is already defined in the encoding. The second condition states two possible ways a send and the matching receive is ordered. Since zero buffer semantics do not proceed the execution on a process if a pending message is not delivered, the legal history only needs to ensure that the partial order exists when the send is issued earlier than the matching receive. 
+We use a legal history to represent a total order over events for an MPI program (\defref{def:legal}). A legal history only takes care of sends and receives because they are essential to message communication. In other words, the events in a legal history can be used to evaluate how each message may flow in a runtime system. Since the return value is deterministic for each operation, a legal history corresponds to a precise resolution of message communication. For a feasible message delivery, the legal history has to satisfy two conditions as shown in \defref{def:legal}. The first condition is to enforce the partial order over events that is already defined in the encoding. The second condition states two possible ways a send and the matching receive is ordered. Since zero buffer semantics do not advance the execution on a process if a pending message is not delivered, the legal history only needs to ensure that the matching receive is consecutively ordered after the send or the matching receive is issued earlier than the send. 
 
 %As an example, \figref{fig:history} shows a legal history for \figref{fig:mpi}. In this history, each event is paired with a process rank. Each send and its matching receive are order alternately so that each message flows across a receive once it is sent out. This history also reveals the message communications by showing the sequence of all receive responses. 
 
-Two legal histories can be compared for equivalency based on \defref{def:er}. Intuitively, two legal histories should receive a common sequence of messages on each process. 
+Two legal histories can be compared for equivalency based on \defref{def:er}.  
 
 \begin{definition}[Equivalency Relation]\label{def:er}
-Two legal histories, say $H$ and $L$, are equivalent, denoted as $H$ $\sim$ $L$, if and only if their projections to all the receives on each single process $p$, $H | p$ and $L | p$ respectively, agree on the received messages with identical order and values.
+Two legal histories for an identical MPI program, say $H$ and $L$ respectively, are equivalent, denoted as $H$ $\sim$ $L$, if and only if their projections to all the receives on each single process $p$, $H | p$ and $L | p$ respectively, agree on the received messages with identical sequence and values.
 \end{definition}
 
-The equivalency relation is reflexive, symmetric and transitive. Therefore, it is enough to identify the equivalent classes among all legal histories. The equivalent legal histories have a common sequence of received messages on each process. The following theorem further states that a representative legal history exists for each equivalent class. 
+The equivalency relation is reflexive, symmetric and transitive. Therefore, it can be used to identify the equivalent classes among all legal histories for a given MPI program. A equivalent class of legal histories asserts two aspects: first, any two legal histories in this class are equivalent based on received message sequences; second, a legal history outside this class is not equivalent to any legal history in this class. The following theorem further states that a representative exists for each zero-buffer equivalent class of legal histories. 
 
 \begin{theorem}
-For zero buffer semantics, there exists a legal history in each equivalent class that orders sends and receives alternately.
+For any MPI program, each equivalent class of legal histories has a representative that orders sends and receives alternatingly.
 \end{theorem}
 
 \begin{proof}
 First, assume there is a legal history $\mathtt{H}$ for a set of sends $\mathit{S}$ and a set of receives $\mathit{R}$. 
-Projecting $\mathtt{H}$ to $\mathit{R}$ produces a message sequence. This sequence reflects how messages are received in $\mathtt{H}$. Since the message communication is deterministic so each receive in $\mathit{R}$ is matched with a send in $\mathit{S}$. Inserting the matching send proceeding each receive in the projection produces another sequence that alternately orders sends and receives. This sequence obeys two conditions stated in \defref{def:legal}, therefore, is a legal history. Further, it is equivalent to $\mathtt{H}$ as they receive a common sequence of messages on each process.
-Therefore, for any existing legal history, the procedure above is able to find a equivalent legal history that alternatively orders sends and receives.  
+Projecting $\mathtt{H}$ to $\mathit{R}$ produces a message sequence. This sequence reflects how messages are received in $\mathtt{H}$ for all processes. Since the message communication is deterministic so each receive in $\mathit{R}$ is matched with a send in $\mathit{S}$. Inserting the matching send preceding each receive in the projection produces another sequence that alternatingly orders sends and receives. This sequence obeys two conditions stated in \defref{def:legal}, therefore, is a legal history. Further, it is equivalent to $\mathtt{H}$ as they receive a common sequence of messages on each process.
+Therefore, for any existing legal history, the procedure above is able to find a equivalent legal history that alternatingly orders sends and receives.  
 \end{proof}
 
 
