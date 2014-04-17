@@ -12,7 +12,7 @@ However, a side effect is the impact on message communication.
 %
 Consequently, the semantics become more difficult to analyze formally. 
 %
-As both runtime semantics -- infinite-buffering (the message is copied into a runtime buffer on the API call) and zero-buffering (the message has no buffering) are imperatively requested by many MPI applications, both should be supported by a formal analysis as well. 
+As both runtime semantics -- infinite buffer (the message is copied into a runtime buffer on the API call) and zero buffer (the message has no buffering) are imperatively requested by many MPI applications, both should be supported by a formal analysis as well. 
 %
 This paper presents an algorithm that encodes an MPI execution as a Satisfiability Modulo Theories (SMT) problem, which if satisfiable, yields a feasible schedule on the same trace, such that it resolves non-determinism in the MPI runtime in a way that it now fails user provided assertions.
 %
@@ -20,6 +20,6 @@ This algorithm correctly defines the point-to-point communication and the collec
 %
 The zero buffer encoding is further capable of precisely detecting the compatibility of an MPI execution under zero-buffer semantics.
 %
-Results demonstrate that the SMT encoding is correct and efficient for a set of benchmarks. 
+Experiments demonstrate that the SMT encoding is correct and efficient for a set of benchmarks. 
 %
-As a result, the encoding scales well for programs with high level message non-determinism in how sends and receives may potentially match.
+The encoding scales well for programs with a high level of message non-determinism in how sends and receives may potentially match.
