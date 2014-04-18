@@ -344,30 +344,43 @@ A projection of a legal history, $\mathcal{H}$, to a process, $P$, denoted as $\
 A projection of a legal history, $\mathcal{H}$, to the receive responses, $R$, denoted as $\mathcal{H} | _R$, is a sequence of receive responses in $\mathcal{H}$ such that the partial order over any pair of receive responses in $\mathcal{H} | _R$ is identical as in $\mathcal{H}$.
 \end{definition}
 
-Based on \defref{def:projection_process} and \defref{def:projection_receive}, a legal history can be further projected to both receive responses $R$ and process $P$ that produces a sequences of $R$ on process $P$. We use $\mathcal{H} | _{R,P}$ to represent this projection. The equivalency relation relies on $\mathcal{H} | _{R,P}$.
+Based on \defref{def:projection_process} and \defref{def:projection_receive}, a legal history can be further projected to the receive responses $R$ on process $P$ that produces a sequences of $R$ on process $P$. We use $\mathcal{H} | _{R,P}$ to represent this projection. The equivalency relation relies on $\mathcal{H} | _{R,P}$.
 
 \begin{definition}[Equivalency Relation]\label{def:er}
 Two legal histories for an identical MPI program, say $\mathcal{H}$ and $\mathcal{L}$ respectively, are equivalent, denoted as $\mathcal{H}$ $\sim$ $\mathcal{L}$, if and only if their projections to the receive responses, $R$, and each single process, $P$, $\mathcal{H} | _{R,P}$ and $\mathcal{L} | _{R,P}$ respectively, agree on the return values of $R$.
 \end{definition}
 
-The following lemma is essential to proving \defref{def:er} is a valid equivalency relation.
+We further use the notation $!\sim$ for two legal histories $\mathcal{H}$ and $\mathcal{L}$ when they are not equivalent. The following lemma is essential to proving \defref{def:er} is a valid equivalency relation.
 
 \begin{lemma}[reflexivity, symmetry and transitivity]\label{lemma:rst}
 The equivalency relation in \defref{def:er} is reflexive, symmetric and transitive.
 \end{lemma}
 
 \begin{proof}
-The equivalency relation in \defref{def:er} is reflexive because ...
+For any legal histories $\mathcal{H}$, $\mathcal{L}$ and $\mathcal{T}$ for an identical MPI program,
+\begin{compactenum}
+\item $\mathcal{H}$ $\sim$ $\mathcal{H}$. The reflexivity is true because the projection $\mathcal{H}_{R,P}$ to the receive responses $R$ on any process $P$ is identical to the projection of itself.
+\item $\mathcal{H}$ $\sim$ $\mathcal{L}$ then $\mathcal{L}$ $\sim$ $\mathcal{H}$. The symmetry is also true because $\mathcal{H}$ $\sim$ $\mathcal{L}$ and $\mathcal{L}$ $\sim$ $\mathcal{H}$ both indicate that the projections $\mathcal{H}_{R,P}$ and $\mathcal{L}_{R,P}$ to the receive responses $R$ on any process $P$ agree on the return values of $R$. 
+\item $\mathcal{H}$ $\sim$ $\mathcal{L}$ and $\mathcal{L}$ $\sim$ $\mathcal{T}$ then $\mathcal{H}$ $\sim$ $\mathcal{T}$. As for the transitivity, for all the receive responses $R$ on any process $P$ in the MPI program, $\mathcal{H}$ $\sim$ $\mathcal{L}$ indicates that the projections $\mathcal{H}_{R,P}$ and $\mathcal{L}_{R,P}$ to the receive responses $R$ on any process $P$ agree on the return values of $R$. Further, $\mathcal{L}$ $\sim$ $\mathcal{T}$ indicates that $\mathcal{L}_{R,P}$ is also identical to $\mathcal{T}_{R,P}$. Therefore, $\mathcal{H}_{R,P}$ is identical to $\mathcal{T}_{R,P}$. Since $P$ is an arbitrary process in the MPI program and $R$ do not change on $P$, thus $\mathcal{H}$ $\sim$ $\mathcal{T}$ is implied.
+\end{compactenum}
 \end{proof}
 
-Based on \lemmaref{lemma:rst}, \defref{def:er} can be used to identify the equivalent classes among all legal histories for a given MPI program. A equivalent class of legal histories asserts two aspects: first, any two legal histories in this class are equivalent based on received message sequences; second, a legal history outside this class is not equivalent to any legal history in this class. The following theorem further states that a representative exists for each zero-buffer equivalent class of legal histories. 
+Based on \lemmaref{lemma:rst}, \defref{def:er} can be used to identify the equivalent classes among all legal histories for a given MPI program. 
+
+\begin{definition}[Equivalent Class]\label{def:equal_class}
+A set of legal histories, $\mathit{set_H}$, is a equivalent class, denoted as $\mathcal{E}$$(\mathit{set_H})$, if and only if,
+\begin{compactenum}
+\item for any two legal history, $L,T$ $\in$ $\mathit{set_H}$, $\mathcal{L}$ $\sim$ $\mathcal{T}$;
+\item for any legal history, $L$ $\notin$ $\mathit{set_H}$, and any legal history, $T$ $\in$ $\mathit{set_H}$, $\mathcal{L}$ $!\sim$ $\mathcal{T}$.
+\end{compactenum}
+\end{definition}
+
+The following theorem further states that a representative exists for each equivalent class of legal histories under zero buffer semantics. 
 
 \begin{theorem}
-For any MPI program, each equivalent class of legal histories has a representative that strictly alternates sends and receives.
+For any MPI program, each equivalent class of legal histories, $\mathcal{E}(\mathit{set_H})$, has a representative,$T$, that strictly alternates the sends, $S$ and the receives, $R$.
 \end{theorem}
 
 \begin{proof}
-First, assume there is a legal history $\mathtt{H}$ for a set of sends $\mathit{S}$ and a set of receives $\mathit{R}$. 
-Projecting $\mathtt{H}$ to $\mathit{R}$ produces a message sequence. This sequence reflects how messages are received in $\mathtt{H}$ for all processes. Since the message communication is deterministic so each receive in $\mathit{R}$ is matched with a send in $\mathit{S}$. Inserting the matching send preceding each receive in the projection produces another sequence that alternatingly orders sends and receives. This sequence obeys two conditions stated in \defref{def:legal}, therefore, is a legal history. Further, it is equivalent to $\mathtt{H}$ as they receive a common sequence of messages on each process.
-Therefore, for any existing legal history, the procedure above is able to find a equivalent legal history that alternatingly orders sends and receives.  
+First, assume there is a legal history $\mathtt{L}$ $\in$ $\mathcal{E}(\mathit{set_H})$. The projection $\mathcal{L} | _{R}$ is a sequence of receive responses that reflects how messages are received in $\mathtt{L}$ for all processes. Since the message communication is precisely resolved in $\mathtt{L}$, each receive in $\mathit{R}$ is matched with a send in $\mathit{S}$. Based on $\mathcal{L}$ and $\mathcal{L} | _{R}$, a new sequence, $\mathcal{T}$, can be produced by two steps: 1) inserting the corresponding receive invocation immediately preceding each receive response; and 2) inserting the invocation and the response of the matching send immediately preceding each receive invocation. Based on those steps, $\mathcal{T}$ strictly alternates $S$ and $R$. Further, it obeys the conditions defined in \defref{def:legal} for two reasons. First, the consecutive order over a send and the matching receive in $\mathcal{L}$ still exists in $\mathcal{T}$; second, if the matching receive is issued earlier on process $P$, there is no way to execute any operation after the receive on process $P$ until it is matched with a send, therefore, postponing issuing the receive after the matching send does not violate the MPI semantics. Under zero buffer semantics, it is not possible to order a send and the matching receive other than these two situations. Notice that $\mathcal{T}$ is equivalent to $\mathtt{L}$ as they receive a common sequence of messages on each process. Therefore, for any existing legal history, the procedure above is able to find a equivalent legal history that strictly alternates sends and receives. 
 \end{proof}
