@@ -303,17 +303,21 @@ In addition to the soundness and completeness, the improved zero buffer encoding
 
 However, this assumption leads to an important problem: how do we know this encoding cover all possible ways of message communication without considering arbitrary order over sends and receives in an execution? We prove a theorem later that asserts the strict alternating sequences of sends and receives cover the message communication that may occur in any execution under zero buffer semantics. Before that, we need to define a few terms.
 
-\begin{definition}[Method Invocation]
+\begin{definition}[Method Invocation]\label{def:invocation}
 A invocation of a method, $M$, with a list of specific values of arguments, $(args\ \cdots)$, on process $P$, denoted as $P:M_\mathit{In}(args\ \cdots)$, is a event that occurs when $M$ is invoked. 
 \end{definition}
 
-\begin{definition}[Method Response]
+\begin{definition}[Method Response]\label{def:response}
 A response of a method, $M$, with a specific return value, $resp$, on process $P$, denoted as $P:M_\mathit{Re}(resp)$, is a event that occurs when $M$ returns. 
 \end{definition}
+
+Based on \defref{def:invocation} and \defref{def:response}, an operation is split into two events: invocation and response. The invocation asserts the issuing of an operation with concrete arguments. The response asserts the complete of an operation with a concrete return value. The next definition relies on both method invocation and method response. 
 
 \begin{definition}[History]\label{def:history}
 For an MPI program, let $\mathcal{H}$ be a history with a total order over method invocations and method responses for a set of send operations, $S$, a set of receive operations, $R$, and a set of barriers, $B$.
 \end{definition}
+
+Based on \defref{def:history}, we further define the legal history as follows.
 
 \begin{definition}[Legal History]\label{def:legal}
 A history, $\mathcal{H}$, for an MPI program is legal if
@@ -324,7 +328,11 @@ A history, $\mathcal{H}$, for an MPI program is legal if
 \end{compactenum}
 \end{definition}
 
-We use a legal history to represent a total order over events for an MPI program (\defref{def:legal}). A legal history only takes care of sends and receives because they are essential to message communication. In other words, the events in a legal history can be used to evaluate how each message may flow in a runtime system. Since the return value is deterministic for each operation, a legal history corresponds to a precise resolution of message communication. For a feasible message delivery, the legal history has to satisfy two conditions as shown in \defref{def:legal}. The first condition is to enforce the partial order over events that is already defined in the encoding. The second condition states two possible ways a send and the matching receive is ordered. Since zero buffer semantics do not advance the execution on a process if a pending message is not delivered, the legal history only needs to ensure that the matching receive is consecutively ordered after the send or the matching receive is issued earlier than the send. 
+A legal history defined in \defref{def:legal} represents a total order over events for an MPI program. A legal history only takes care of sends, receives and barriers because they are essential to message communication. In other words, the events in a legal history can be used to evaluate how messages may flow in a runtime system. Since the arguments are concrete in any method invocation and the return value is also concrete in any method response, a legal history corresponds to a precise resolution of message communication. To find a feasible message communication for a receive $R$, one only needs to search through the preceding events and find a send $S$ that matches the endpoints of $R$ and obeys the non-overtaking order for all the sends to the common destination endpoint. The legal history has to satisfy three conditions as shown in \defref{def:legal}. Informally, those conditions assert that the partial order of any pair of events, the point-to-point communication and the collective communication are all allowed by MPI semantics. In particular, a legal history may be only allowed by zero buffer semantics. In this case, it is called zero buffer legal history.
+
+To prove our assumption, we need to compare two legal histories for equivalency. The equivalency relation relies on the following definitions for projections. 
+
+%The first condition is to enforce the partial order over events that is already defined in the encoding. The second condition states two possible ways a send and the matching receive is ordered. Since zero buffer semantics do not advance the execution on a process if a pending message is not delivered, the legal history only needs to ensure that the matching receive is consecutively ordered after the send or the matching receive is issued earlier than the send. 
 
 %As an example, \figref{fig:history} shows a legal history for \figref{fig:mpi}. In this history, each event is paired with a process rank. Each send and its matching receive are order alternately so that each message flows across a receive once it is sent out. This history also reveals the message communications by showing the sequence of all receive responses. 
 
@@ -336,13 +344,15 @@ A projection of a legal history, $\mathcal{H}$, to a process, $P$, denoted as $\
 A projection of a legal history, $\mathcal{H}$, to the receive responses, $R$, denoted as $\mathcal{H} | _R$, is a sequence of receive responses in $\mathcal{H}$ such that the partial order over any pair of receive responses in $\mathcal{H} | _R$ is identical as in $\mathcal{H}$.
 \end{definition}
 
-Two legal histories can be compared for equivalency based on \defref{def:er}.  
+Based on \defref{def:projection_process} and \defref{def:projection_receive}, a legal history can be further projected to both receive responses $R$ and process $P$ that produces a sequences of $R$ on process $P$. We use $\mathcal{H} | _{R,P}$ to represent this projection. The equivalency relation relies on $\mathcal{H} | _{R,P}$.
 
 \begin{definition}[Equivalency Relation]\label{def:er}
-Two legal histories for an identical MPI program, say $\mathcal{H}$ and $\mathcal{L}$ respectively, are equivalent, denoted as $\mathcal{H}$ $\sim$ $\mathcal{L}$, if and only if their projections to the receive responses, $R$, and each single process, $P$, $\mathcal{H} | _{R,P}$ and $\mathcal{L} | _R,P$ respectively, agree on the return values of $R$.
+Two legal histories for an identical MPI program, say $\mathcal{H}$ and $\mathcal{L}$ respectively, are equivalent, denoted as $\mathcal{H}$ $\sim$ $\mathcal{L}$, if and only if their projections to the receive responses, $R$, and each single process, $P$, $\mathcal{H} | _{R,P}$ and $\mathcal{L} | _{R,P}$ respectively, agree on the return values of $R$.
 \end{definition}
 
-\begin{lemma}[reflection, symmetry and transitivity]
+The following lemma is essential to proving \defref{def:er} is a valid equivalency relation.
+
+\begin{lemma}[reflexivity, symmetry and transitivity]\label{lemma:rst}
 The equivalency relation in \defref{def:er} is reflexive, symmetric and transitive.
 \end{lemma}
 
@@ -350,7 +360,7 @@ The equivalency relation in \defref{def:er} is reflexive, symmetric and transiti
 The equivalency relation in \defref{def:er} is reflexive because ...
 \end{proof}
 
-The equivalency relation is reflexive, symmetric and transitive. Therefore, it can be used to identify the equivalent classes among all legal histories for a given MPI program. A equivalent class of legal histories asserts two aspects: first, any two legal histories in this class are equivalent based on received message sequences; second, a legal history outside this class is not equivalent to any legal history in this class. The following theorem further states that a representative exists for each zero-buffer equivalent class of legal histories. 
+Based on \lemmaref{lemma:rst}, \defref{def:er} can be used to identify the equivalent classes among all legal histories for a given MPI program. A equivalent class of legal histories asserts two aspects: first, any two legal histories in this class are equivalent based on received message sequences; second, a legal history outside this class is not equivalent to any legal history in this class. The following theorem further states that a representative exists for each zero-buffer equivalent class of legal histories. 
 
 \begin{theorem}
 For any MPI program, each equivalent class of legal histories has a representative that strictly alternates sends and receives.
@@ -361,9 +371,3 @@ First, assume there is a legal history $\mathtt{H}$ for a set of sends $\mathit{
 Projecting $\mathtt{H}$ to $\mathit{R}$ produces a message sequence. This sequence reflects how messages are received in $\mathtt{H}$ for all processes. Since the message communication is deterministic so each receive in $\mathit{R}$ is matched with a send in $\mathit{S}$. Inserting the matching send preceding each receive in the projection produces another sequence that alternatingly orders sends and receives. This sequence obeys two conditions stated in \defref{def:legal}, therefore, is a legal history. Further, it is equivalent to $\mathtt{H}$ as they receive a common sequence of messages on each process.
 Therefore, for any existing legal history, the procedure above is able to find a equivalent legal history that alternatingly orders sends and receives.  
 \end{proof}
-
-
-
- 
-
-
