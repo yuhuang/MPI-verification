@@ -1,24 +1,22 @@
-Asynchronous message passing systems are fast becoming a common means for communication between devices.
+%Asynchronous message passing systems are fast becoming a common means for communication between devices.
 %
-One of the more common standards is the message passing interface (MPI).
+A prevalent asynchronous message passing standard is the message passing interface (MPI).
 %
 A problem in any MPI program, intended or otherwise, is message race where a receive may match more than one send in a runtime system.
 %
-This non-determinism often leads to intermittent and unexpected behavior and is notorious for its difficulty to test or debug without exploring the full program state space. 
+This message non-determinism is notorious for its difficulty to test or debug without exploring the full program state space. 
 %
-The use of MPI collective operations is able to synchronize the program computation. 
+Further, MPI collective operations may also impact how messages communicate.
 %
-However, a side effect is the impact on message communication.
+Consequently, MPI semantics become more difficult to analyze formally. 
 %
-Consequently, the semantics become more difficult to analyze formally. 
+As both runtime semantics -- infinite buffer (message is copied into a runtime buffer on the API call) and zero buffer (message has no buffering) are imperatively requested by many MPI applications, both should be supported in a formal analysis. 
 %
-As both runtime semantics -- infinite buffer (the message is copied into a runtime buffer on the API call) and zero buffer (the message has no buffering) are imperatively requested by many MPI applications, both should be supported by a formal analysis as well. 
+This paper presents an algorithm that encodes an MPI execution as a Satisfiability Modulo Theories (SMT) problem, which if satisfiable, yields a feasible schedule on the same trace, such that it resolves message non-determinism in a way that it now fails user provided assertions.
 %
-This paper presents an algorithm that encodes an MPI execution as a Satisfiability Modulo Theories (SMT) problem, which if satisfiable, yields a feasible schedule on the same trace, such that it resolves non-determinism in the MPI runtime in a way that it now fails user provided assertions.
+This algorithm correctly defines MPI point-to-point communication and MPI collective communication with respective rules for both infinite buffer semantics and zero buffer semantics. 
 %
-This algorithm correctly defines the point-to-point communication and the collective communication with respective rules for both infinite buffer semantics and zero buffer semantics. 
-%
-The zero buffer encoding is further capable of precisely detecting the compatibility of an MPI execution under zero-buffer semantics.
+The zero buffer encoding is further capable of precisely detecting the zero buffer compatibility for an MPI program.
 %
 Experiments demonstrate that the SMT encoding is correct and efficient for a set of benchmarks. 
 %
