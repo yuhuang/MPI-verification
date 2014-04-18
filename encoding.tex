@@ -136,7 +136,11 @@ $\mathit{time}_\mathtt{S}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{time}_\mathtt{S^\
 then those sends must be received in the same order:
 $M_{\mathtt{S}}\ \mathrm{\prec_{\mathtt{HB}}}\ M_{\mathtt{S^\prime}}$.
 
-As the prior work does not encode deterministic operation that is allowed in MPI semantics, we need to support it in the new encoding. The step is trivial. To be precise, the send operation defined in \defref{def:snd} and the receive operation defined in \defref{def:rcv} should add variables $src_\mathtt{S}$ and $src_\mathtt{R}$ respectively, for source endpoints. In addition, the match pair defined in \defref{def:match} should add a new constraint: $src_\mathtt{S}$ $=$ $src_\mathtt{R}$, indicating that the source endpoints are matched for $\mathtt{S}$ and $\mathtt{R}$.
+As the prior work does not encode deterministic operation that is allowed in MPI semantics, we need to support it in the new encoding. The step is trivial. To be precise, the send operation defined in \defref{def:snd} and the receive operation defined in \defref{def:rcv} should add variables $src_\mathtt{S}$ and $src_\mathtt{R}$ respectively, for source endpoints. In addition, the match pair defined in \defref{def:match} should add a new constraint: 
+\begin{equation*}
+src_\mathtt{S} = src_\mathtt{R}, 
+\end{equation*}
+indicating that the source endpoints are matched for $\mathtt{S}$ and $\mathtt{R}$.
 
 \subsection{Collective Communication}
 As discussed earlier, the use of any type of collective operations is able to synchronize the program. However, some of them additionally address a few tasks such as internal message communication and computation. Those tasks are not interrupted by MPI point-to-point communication, and vice versa. Therefore, those tasks can be trivially added as assertions to the encoding. In contrast, the synchronization behavior is essential to the encoding because it may affect message communication. As such, we only consider how to encode barrier in the following discussion as it is merely used for synchronization. The encoding defines the barrier in \defref{def:barrier}. 
