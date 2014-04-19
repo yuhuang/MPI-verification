@@ -9,6 +9,8 @@ MCC is a model checker that systematically enumerates all message non-determinis
 
 Elwakil et al. also use SMT techniques to reason about the program behavior in MCAPI domain \cite{DBLP:conf/issta/ElwakilY10, DBLP:conf/atva/ElwakilYW10}. State-based and order-based encoding techniques are both used. As discussed earlier, this technique fails to reason about the infinite buffer semantics and requires a precise match set which is non-trivial to compute beforehand.
 
+Our prior work encodes an MCAPI execution into an SMT problem for detecting user-provided assertions \cite{DBLP:conf/kbse/HuangMM13}. The encoding is sound and complete and is easy to reason about infinite buffer semantics without requiring a precise match set. The work also provides an algorithm that runs with $O(n^2)$ time complexity to generate an over-approximated match set based on the given execution trace. However, the zero buffer encoding in this work is too complicated and fails to encode the valid behavior of zero buffer semantics. 
+
 There is a rich body of literature for SMT/SAT based Bounded Model Checking. 
 Threaded-C Bounded Model Checking (TCBMC) extends C Bounded Model Checking (CBMC) \cite{DBLP:conf/tacas/ClarkeKL04, DBLP:conf/dac/ClarkeKY03} to support concurrent C program verification \cite{DBLP:conf/cav/RabinovitzG05}. It bounds the number of context switches allowed among threads because it assumes that most bug patterns have only a few context switches. Especially, it assumes there is no nested lock-unlock pattern. As discussed earlier, this inspires our approach to encode MPI zero buffer semantics.
 
