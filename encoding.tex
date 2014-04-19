@@ -63,14 +63,13 @@ The potential sends for a receive $\mathtt{R}$, denoted as $\mathrm{Match}(\math
 \end{definition}
 
 Based on the definitions above, the prior work encodes the point-to-point communication in four steps: 
-\begin{compactenum}
-\item Every assumption $\mathtt{A}$ on control flow is added as an SMT assertion;
-\item For every property assertion $\mathtt{P}$, $\neg \mathtt{P}$ is added as an SMT assertion;
-\item For each receive $\mathtt{R}$, $\bigvee_{\mathtt{S}_i \in \mathrm{Match}(\mathtt{R})} \langle\mathtt{R},\mathtt{S}_i\rangle$ is add as an SMT constraint; and
-\item The program order over two events are add as SMT constraints. 
-\end{compactenum}
 
-The program order in step $4$ is further defined in a set of rules: 
+\paragraph*{Step 1} Every assumption $\mathtt{A}$ on control flow is added as an SMT assertion.
+\paragraph*{Step 2} For every property assertion $\mathtt{P}$, $\neg \mathtt{P}$ is added as an SMT assertion.
+\paragraph*{Step 3} For each receive $\mathtt{R}$, $\bigvee_{\mathtt{S}_i \in \mathrm{Match}(\mathtt{R})} \langle\mathtt{R},\mathtt{S}_i\rangle$ is add as an SMT constraint. 
+\paragraph*{Step 4} The program order over two events are add as SMT constraints. 
+
+The program order in step $4$ is further defined in the following rules: 
 
 \paragraph*{Rule 1} For each process, if there are sequential send
 operations, say $\mathtt{S}$ and $\mathtt{S^\prime}$, from that process 
