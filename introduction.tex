@@ -26,7 +26,7 @@ The MPI semantics are complicated leading to two problems: message race and dead
 %related works
 Several solutions have been proposed to solve the problems of message race and deadlock. The POE algorithm is capable of dynamically analyzing the behavior of an MPI program \cite{DBLP:conf/ppopp/VakkalankaSGK08}. By postponing the cooperative operations for message passing in transit, it is possible to reduce the program state space. Although the POE algorithm correctly detects message race errors, it suffers from poor scalability as the number of messages increases. 
 
-Vo. et al. developed a dynamic analysis tool for large-scale MPI programs using lamport clocks with lazy updates \cite{DBLP:conf/sc/VoAGSSB10, DBLP:conf/IEEEpact/VoGKSSB11}. This method detects potential send-receive matches by collecting piggyback data, however is unable to obtain the full set of matches. As a result, this method does not provide completeness meaning some errors might not be detected, even though it scales well practically.
+Vo. et al. develop a dynamic analysis tool for large-scale MPI programs using lamport clocks with lazy updates \cite{DBLP:conf/sc/VoAGSSB10, DBLP:conf/IEEEpact/VoGKSSB11}. This method detects potential send-receive matches by collecting piggyback data, however is unable to obtain the full set of matches. As a result, this method does not provide completeness meaning some errors might not be detected, even though it scales well practically.
 
 In the context of the Multicore Communications API (MCAPI) \cite{mcapi}, another message passing API standard, Sharma et al. propose the first push button model checker -- MCC \cite{DBLP:conf/fmcad/SharmaGMH09}. It indirectly controls the MCAPI runtime to verify MCAPI programs under zero buffer semantics. An obvious drawback of this work is its inability to analyze infinite buffer semantics which is known as a common runtime environment in message passing. A key insight, though, is the direct use of match pairs -- couplings for potential sends and receives.
 
@@ -37,7 +37,7 @@ This paper extends the prior work that encodes an MCAPI execution into an SMT pr
 %Contribution:
 \begin{itemize}
 \item a new encoding algorithm that supports MPI point-to-point communication and MPI collective communication,
-\item a dramatically improved zero-buffer encoding that is capable of detecting zero buffer compatibility, and
+\item a dramatically improved zero buffer encoding that is capable of detecting zero buffer compatibility, and
 \item a set of benchmarks that demonstrate the correctness and efficiency of the new encoding.
 \end{itemize}
 
