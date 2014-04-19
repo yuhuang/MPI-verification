@@ -1,7 +1,7 @@
 \section{Related Works}
 The POE algorithm is a DPOR (Dynamic Partial Order Reduction) algorithm \cite{DBLP:conf/popl/FlanaganG05} applied to MPI programs \cite{DBLP:conf/ppopp/VakkalankaSGK08}. It operates by postponing the cooperative operations for message passing in transit until each process reaches a blocking call. It then determines the potential matches of send and receive operations in runtime. In addition to program properties, it is able to check deadlocks that occur in MPI point-to-point communication.
 
-MPI-Spin is integrated in the classic model checker, SPIN \cite{DBLP:journals/tse/Holzmann97}, for verifying MPI programs \cite{DBLP:conf/vmcai/Siegel07, siegel:2007:tutorial}. It generates a model of an MPI program and allows one to symbolically execute it. As such, violations such as deadlock are detected. Again, it does not scale to large programs with high message non-determinism.
+MPI-Spin is integrated in the classic model checker, SPIN \cite{DBLP:journals/tse/Holzmann97}, for verifying MPI programs \cite{DBLP:conf/vmcai/Siegel07, DBLP:conf/pvm/Siegel07}. It generates a model of an MPI program and allows one to symbolically execute it. As such, violations such as deadlock are detected. Again, it does not scale to large programs with high message non-determinism.
 
 To resolve the scalability problem, Vo. et al. use lamport clocks to update the auxiliary information via piggyback messages \cite{DBLP:conf/sc/VoAGSSB10, DBLP:conf/IEEEpact/VoGKSSB11}. While completeness is abandoned in their analysis, they claim this work is useful and efficient in practice. 
 
