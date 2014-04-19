@@ -24,7 +24,7 @@ A send operation $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $
 \end{definition}
 
 \begin{definition}[Receive] \label{def:rcv}
-A receive operation $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathit{w}_\mathtt{R}})$, is modeled by a five-tuple of variables:
+A receive operation $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$, is modeled by a five-tuple of variables:
 \begin{compactenum}
 \item $M_\mathtt{R}$, the timestamp of the matching send;
 \item $\mathit{time}_\mathtt{R}$, the timestamp of the receive;
@@ -48,13 +48,13 @@ same task issued earlier are completed as well.
 
 \begin{definition}[Match Pair] \label{def:match}
 A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle$, for a receive 
-$\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathit{w}_\mathtt{R}})$ and a send $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, corresponds to the following constraints:
+$\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$ and a send $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, corresponds to the following constraints:
 \begin{compactenum}
 \item $M_{\mathtt{R}} = \mathit{time}_{\mathtt{S}}$
 \item $M_{\mathtt{S}} = \mathit{time}_{\mathtt{R}}$
 \item $e_{\mathtt{R}} = e_{\mathtt{S}}$
 \item $\mathit{value}_{\mathtt{R}} = \mathit{value}_{\mathtt{S}}$ and
-\item $\mathit{time}_{\mathtt{S}}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{time}_{\mathit{w}_\mathtt{R}}$
+\item $\mathit{time}_{\mathtt{S}}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{time}_{\mathtt{W}_\mathtt{R}}$
 \end{compactenum}
 \end{definition}
 
@@ -72,20 +72,19 @@ Based on the definitions above, the prior work encodes the point-to-point commun
 The program order in step $4$ is further defined in the following rules: 
 
 \paragraph*{Rule 1} For each process, if there are sequential send
-operations, say $\mathtt{S}$ and $\mathtt{S^\prime}$, from that process 
+operations, say $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$ and $\mathtt{S^\prime}$ $=$ $(M_\mathtt{S^\prime},$ $\mathit{time}_\mathtt{S^\prime},$ $e_\mathtt{S^\prime},$ $\mathit{value}_\mathtt{S^\prime})$, from that process 
 to a common endpoint, $e_\mathtt{S} = e_\mathtt{S^\prime}$, then those
 sends must follow program order: $\mathit{time}_\mathtt{S}$
 $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{S^\prime}$.
 
 \paragraph*{Rule 2} For each process, if there are sequential receive
-operations, say $\mathtt{R}$ and $\mathtt{R^\prime}$, such that $e_\mathtt{R} = e_\mathtt{R^\prime}$, then those
+operations, say $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$ and $\mathtt{R^\prime}$ $=$ $(M_\mathtt{R^\prime},$ $\mathit{time}_\mathtt{R^\prime},$ $e_\mathtt{R^\prime},$ $\mathit{value}_\mathtt{R^\prime},$ $\mathit{time}_{\mathtt{W}_\mathtt{R^\prime}})$, such that $e_\mathtt{R} = e_\mathtt{R^\prime}$, then those
 receives must follow program order: $\mathit{time}_\mathtt{R}$
 $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{R^\prime}$.
 
-\paragraph*{Rule 3} For every receive \texttt{R} and its nearest-enclosing wait \texttt{W}, $\mathit{time}_\mathtt{R}$ $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{W}$.
+\paragraph*{Rule 3} For every receive $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$ and its nearest-enclosing wait $\mathtt{W}_\mathtt{R}$, $\mathit{time}_\mathtt{R}$ $\prec_\mathtt{HB}$ $\mathit{time}_{\mathtt{W}_\mathtt{R}}$.
 
-\paragraph*{Rule 4} For each process, if there is a sequential order over the nearest-enclosing wait for a receive operation and a send operation, say $\mathtt{W}$ and $\mathtt{S}$, then they must follow program order: $\mathit{time}_\mathtt{W}$
-$\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{S}$.
+\paragraph*{Rule 4} For each process, if there is a sequential order over the nearest-enclosing wait for a receive operation and a send operation, say $\mathtt{W}_\mathtt{R}$ and $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, then they must follow program order: $\mathit{time}_{\mathtt{W}_\mathtt{R}}$ $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{S}$.
 
 \paragraph*{Rule 5} For any pair of sends, $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$ and
 $\mathtt{S^\prime}$ $=$ $(M_\mathtt{S^\prime},$ $\mathit{time}_\mathtt{S^\prime},$ $e_\mathtt{S^\prime},$ $\mathit{value}_\mathtt{S^\prime})$, on common endpoints, $e_{\mathtt{S}}=e_{\mathtt{S^\prime}}$,
@@ -134,8 +133,8 @@ For any process $i$, a receive $\mathtt{R}$ has a nearest-enclosing barrier $\ma
 
 Based on the definitions above, The algorithm defines two rules for program order:
 
-\paragraph*{Rule 6} For any receive \texttt{R} that has a nearest-enclosing barrier \texttt{B} and a nearest-enclosing wait \texttt{W}, they must follow the program order:
-$\mathit{time}_\mathtt{W}$ $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{B}$.
+\paragraph*{Rule 6} For any receive $\mathtt{R}$ that has a nearest-enclosing barrier $\mathtt{B}$ and a nearest-enclosing wait $\mathtt{W}_\mathtt{R}$, they must follow the program order:
+$\mathit{time}_{\mathtt{W}_\mathtt{R}}$ $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{B}$.
 
 \paragraph*{Rule 7} For any barrier $\mathtt{B}$ and any operation $\mathtt{O}$ ordered after a member of $\mathtt{B}$, they must follow the program order: $\mathit{time}_\mathtt{B}$
 $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{O}$.
@@ -147,7 +146,7 @@ The zero buffer semantics enforce messages to be delivered once they are sent. T
 
 \begin{definition}[Match Pair *] \label{def:match*}
 A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle$, for a receive
-$\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathit{w}_\mathtt{R}})$ and a send $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, corresponds to the constraints:
+$\mathtt{R}$ $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$ and a send $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, corresponds to the constraints:
 \begin{compactenum}
 \item $M_{\mathtt{R}} = \mathit{time}_{\mathtt{S}}$
 \item $M_{\mathtt{S}} = \mathit{time}_{\mathtt{R}}$
@@ -167,15 +166,15 @@ A set of sends, $S$, and a set of receives, $R$, are strictly alternated if and 
 To further constrain the program order for zero buffer semantics, new rules are added: two sends are ordered on each process (rule 1*); on each process a send happens before a receive that is issued later (rule 8); and similarly, on each process a send happens before a barrier that is issued later (rule 9).
 
 \paragraph*{Rule 1*} For each process, if there are sequential send
-operations to any endpoints, say $\mathtt{S}$ and $\mathtt{S^\prime}$, then those
+operations to any endpoints, say $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$ and $\mathtt{S^\prime}$ $=$ $(M_\mathtt{S^\prime},$ $\mathit{time}_\mathtt{S^\prime},$ $e_\mathtt{S^\prime},$ $\mathit{value}_\mathtt{S^\prime})$, then those
 sends must follow program order: $\mathit{time}_\mathtt{S}$
 $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{S^\prime}$.
 
-\paragraph*{Rule 8} For each process, if there is a sequential order over a send operation and a receive operation, say $\mathtt{S}$ and $\mathtt{R}$, then they must follow program order: 
+\paragraph*{Rule 8} For each process, if there is a sequential order over a send operation and a receive operation, say $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$ and $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$, then they must follow program order: 
 $\mathit{time}_\mathtt{S}$
 $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{R}$.
 
-\paragraph*{Rule 9} For each process, if there is a sequential order over a send operation and a barrier operation, say $\mathtt{S}$ and $\mathtt{B}$, then they must follow program order: 
+\paragraph*{Rule 9} For each process, if there is a sequential order over a send operation and a barrier operation, say $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$ and $\mathtt{B}$, then they must follow program order: 
 $\mathit{time}_\mathtt{S}$
 $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{B}$.
 
