@@ -143,7 +143,7 @@ $\prec_\mathtt{HB}$ $\mathit{time}_\mathtt{O}$.
 Rule $6$ only constrains the program order over the nearest-enclosing wait and the nearest-enclosing barrier for a receive. The order over this receive and the nearest-enclosing barrier is not constrained. For rule $7$, a barrier has to happen before any operation ordered after it. 
 
 \subsection{Zero Buffer Encoding}
-The zero buffer semantics enforce messages to be delivered once they are sent. The prior work \cite{DBLP:conf/kbse/HuangMM13} provides a complicated method that is hard to encode. This paper presents a new zero buffer encoding technique that is easy to reason about. To be precise, we need to refine the existing rules for the infinite buffer encoding. The significant change is to order a send immediately preceding the matching receive in a match pair. Therefore, the match pair is defined in \defref{def:match*}. 
+The zero buffer semantics enforce messages to be delivered once they are sent. The prior work \cite{DBLP:conf/kbse/HuangMM13} provides a complicated method that is hard to encode. This paper presents a new zero buffer encoding technique that is easy to reason about and encode. To be precise, we need to refine the existing rules for the infinite buffer encoding. The significant change is to order a send immediately preceding the matching receive in a match pair. Therefore, the match pair is defined in \defref{def:match*}. 
 
 \begin{definition}[Match Pair *] \label{def:match*}
 A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle$, for a receive
