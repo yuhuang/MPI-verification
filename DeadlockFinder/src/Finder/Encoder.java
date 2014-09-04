@@ -22,11 +22,10 @@ public class Encoder
 	Hashtable<Operation, Expr> operation_expr_map = null;
 	
 	
-	public Encoder(SMTSolver solver, Program program, 
+	public Encoder(Program program, 
 			UnmatchedEP_Pattern pattern, LinkedList<Recv>[] rlist,
 			LinkedList<Send>[][] slist) throws Z3Exception
 	{
-		this.solver = solver;
 		this.pattern = pattern;
 		this.recvlist = rlist;
 		this.sendlist = slist;

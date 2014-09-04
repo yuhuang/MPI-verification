@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.microsoft.z3.Status;
+
 import Syntax.*;
 import Syntax.Process;
 
@@ -15,6 +17,12 @@ public class UnmatchedEP_Finder {
 	HashMap<Integer, HashMap<Integer,Integer>> sendNums;
 	HashMap<Integer, HashMap<Integer,Integer>> recvNums;
 	
+	//used for match pair generation on Encoder
+	public LinkedList<Recv>[] recvlist;
+	public LinkedList<Send>[][] sendlist;
+	
+	//????should consider combine recvlist and recvNums, same for sendlist and sendNums to save space
+	
 	
 	UnmatchedEP_Finder(Program p)
 	{
@@ -22,6 +30,16 @@ public class UnmatchedEP_Finder {
 		tracker = new int[p.size()];
 		sendNums = new HashMap<Integer, HashMap<Integer, Integer>>();
 		recvNums = new HashMap<Integer, HashMap<Integer, Integer>>();
+		recvlist = new LinkedList[program.size()];
+		for(int i = 0; i < program.size(); i++){
+			recvlist[i] = new LinkedList<Recv>();
+		}
+		sendlist = new LinkedList[program.size()][program.size()];
+		for(int i = 0; i < program.size(); i++){
+			for(int j = 0; j < program.size(); j++){
+				sendlist[i][j] = new LinkedList<Send>();
+			}
+		}	
 	}
 	
 	void Run() throws Exception
@@ -93,6 +111,12 @@ public class UnmatchedEP_Finder {
 						//--------------------
 						//<R(1)>          ...
 
+						
+						Encoder encoder = new Encoder(program, pattern, recvlist, sendlist);
+						
+						encoder.Encoding();
+						encoder.solver.Check(Status.SATISFIABLE);
+						
 						System.out.printf("May Deadlock!\n");
 						//System.exit(0);
 						return;
@@ -238,6 +262,8 @@ public class UnmatchedEP_Finder {
 					int src = rv.src;
 					int dest = rv.dest;
 					
+					recvlist[dest].add(rv);
+					
 					if(!recvNums.containsKey(dest))
 						recvNums.put(dest, new HashMap<Integer, Integer>());
 					
@@ -262,6 +288,8 @@ public class UnmatchedEP_Finder {
 					Send sendop = (Send)op;
 					int dest = sendop.dest;
 					int src = sendop.src;
+					
+					sendlist[dest][src].add(sendop);
 					
 					if(!sendNums.containsKey(dest))
 					{
@@ -289,6 +317,8 @@ public class UnmatchedEP_Finder {
 					Recv rv = (Recv)op;
 					int src = rv.src;
 					int dest = rv.dest;
+					
+					recvlist[dest].add(rv);
 					
 					if(!recvNums.containsKey(dest))
 					{
