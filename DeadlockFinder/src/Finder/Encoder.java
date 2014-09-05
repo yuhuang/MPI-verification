@@ -17,9 +17,10 @@ public class Encoder
 	//for unmatched endpoint, make sure all sends in source endpoint should be matched
 	public Hashtable<Send,LinkedList<Recv>> pattern_match;
 	public Hashtable<Recv, LinkedList<Send>> match_table;
-	Expr lastr = null;
-	Hashtable<Integer, Expr> lasts = null;
-	Hashtable<Operation, Expr> operation_expr_map = null;
+	Operation lastr = null;
+	Hashtable<Integer, Operation> lasts = null;
+	//pair.first is op expr, pair.second is op time
+	Hashtable<Operation, Pair<Expr, IntExpr>> operation_expr_map = null;
 	
 	
 	public Encoder(Program program, 
@@ -29,8 +30,10 @@ public class Encoder
 		this.pattern = pattern;
 		this.recvlist = rlist;
 		this.sendlist = slist;
-		lasts = new Hashtable<Integer,Expr>();
-		operation_expr_map = new Hashtable<Operation,Expr>();
+		pattern_match = new Hashtable<Send,LinkedList<Recv>>();
+		match_table = new Hashtable<Recv,LinkedList<Send>>();
+		lasts = new Hashtable<Integer,Operation>();
+		operation_expr_map = new Hashtable<Operation,Pair<Expr,IntExpr>>();
 		this.program = program;
 		solver = new SMTSolver();
 		solver.definition();
@@ -40,6 +43,8 @@ public class Encoder
 	{
 		for(Process process: program.processes)
 		{
+			lastr = null;
+			lasts.clear();
 			for(int i = 0; i < process.indicator; i++)//up to process.indicator 
 			{
 				Encoding(process.get(i));
@@ -54,9 +59,10 @@ public class Encoder
 	{
 		if(op instanceof Recv)
 		{
-			IntExpr time = solver.MkTime(op.event);
-			Expr recv = solver.mkRecv("R" + ((Recv)op).dest + "_" + ((Recv)op).src);
-			operation_expr_map.put(op, recv);
+			IntExpr time = solver.MkTime("T" + op.event);
+			Expr recv = solver.mkRecv("R" + ((Recv)op).dest + "_" + ((Recv)op).rank);
+			Pair<Expr,IntExpr> recvinfo = new Pair<Expr,IntExpr>(recv,time);
+			operation_expr_map.put(op, recvinfo);
 			IntExpr var = solver.MkTime("var" + op.event);
 			IntExpr nw = null;
 			if(!((Recv)op).isBlock)
@@ -66,40 +72,39 @@ public class Encoder
 			solver.addFormula(solver.initRecv(recv, ((Recv)op).src, ((Recv)op).dest, time, var, nw));
 			if(lastr != null)
 			{
-				solver.addFormula(solver.HB((IntExpr)solver.getRecvField(lastr, 2), 
-						(IntExpr)solver.getRecvField(recv, 2)));
+				solver.addFormula(solver.HB((IntExpr)operation_expr_map.get(lastr).getSecond(), 
+						time));
 			}
-			else
-			{
-				lastr = recv;
-				//lastr will be initilized to null at beginning of traversing each process
-			}
+			
+			lastr = op;
+			//lastr will be initilized to null at beginning of traversing each process
 		}
 		else if(op instanceof Send)
 		{
-			IntExpr time = solver.MkTime(op.event);
-			Expr send = solver.mkSend("S" + ((Send)op).dest + "_" + ((Send)op).src);
-			operation_expr_map.put(op, send);
-			solver.initSend(send, ((Send)op).src, ((Send)op).dest, time, ((Send)op).value);
+			IntExpr time = solver.MkTime("T" + op.event);
+			Expr send = solver.mkSend("S" + ((Send)op).src + "_" + ((Send)op).rank);
+			Pair<Expr,IntExpr> sendinfo = new Pair<Expr,IntExpr>(send,time);
+			operation_expr_map.put(op, sendinfo);
+			solver.addFormula(solver.initSend(send, ((Send)op).src, ((Send)op).dest, time, ((Send)op).value));
 			
 			if(lastr != null)
 			{
+//				System.out.println("send: " + send + "recv: " + operation_expr_map.get(lastr).getFirst());
+//				System.out.println("lastr_time: "+ (IntExpr)operation_expr_map.get(lastr).getSecond()+ " send_time: "+time);
 				//if non-blocking receive is applied, should be nw < send
-				solver.addFormula(solver.HB((IntExpr)solver.getRecvField(lastr, 2), 
-						(IntExpr)solver.getRecvField(send, 2)));
+				solver.addFormula(solver.HB((IntExpr)operation_expr_map.get(lastr).getSecond(), 
+						time));
 			}
 			
 			if(lasts.containsKey(((Send)op).dest))
 			{
-				solver.addFormula(solver.HB((IntExpr)solver.getRecvField(lasts.get(((Send)op).dest), 2), 
-						(IntExpr)solver.getRecvField(send, 2)));
+				solver.addFormula(solver.HB((IntExpr)operation_expr_map.get(lasts.get(((Send)op).dest)).getSecond(), 
+						time));
 				
 			}
-			else
-			{
-				//add nearest inclosing send for dest
-				lasts.put(((Send)op).dest,send);
-			}
+
+			//add nearest inclosing send for dest
+			lasts.put(((Send)op).dest,op);
 		}
 	}
 	
@@ -108,15 +113,17 @@ public class Encoder
 		//two parts: first, for every receive r, there must be a match, (r,.)
 		for(Recv r : match_table.keySet())
 		{
-			Expr rExpr = operation_expr_map.get(r);
+			Expr rExpr = operation_expr_map.get(r).getFirst();
+//			IntExpr rTime = operation_expr_map.get(r).getSecond();
 			BoolExpr a = null;
 			BoolExpr b = null;
 			for(Send s : match_table.get(r))
 			{
-				Expr sExpr = operation_expr_map.get(s);
+				Expr sExpr = operation_expr_map.get(s).getFirst();
+//				IntExpr sTime = operation_expr_map.get(s).getSecond();
 				if(rExpr != null && sExpr != null)//should not be null
 				{
-					a = solver.MATCH(rExpr, sExpr);
+					a = solver.Match(rExpr, sExpr);
 					b = (b!=null)?solver.mkOr(a, b):a;//make or for all matches for receive r
 				}
 			}
@@ -127,15 +134,17 @@ public class Encoder
 		
 		for(Send s : pattern_match.keySet())
 		{
-			Expr sExpr = operation_expr_map.get(s);
+			Expr sExpr = operation_expr_map.get(s).getFirst();
+//			IntExpr sTime = operation_expr_map.get(s).getSecond();
 			BoolExpr a = null;
 			BoolExpr b = null;
 			for(Recv r : pattern_match.get(s))
 			{
-				Expr rExpr = operation_expr_map.get(r);
+				Expr rExpr = operation_expr_map.get(r).getFirst();
+//				IntExpr rTime = operation_expr_map.get(r).getSecond();
 				if(rExpr != null && sExpr != null)//should not be null
 				{
-					a = solver.MATCH(rExpr, sExpr);
+					a = solver.Match(rExpr, sExpr);
 					b = (b!=null)?solver.mkOr(a, b):a;//make or for all matches for send s
 				}
 			}

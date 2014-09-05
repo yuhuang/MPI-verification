@@ -34,6 +34,8 @@ public class Test {
 		
 		finder1.Run();
 		
+		System.out.println("=========================================================");
+		
 		//-----------------------------------------------
 		//test case 2
 		//R(*)    S(0)    S(0)
@@ -58,6 +60,9 @@ public class Test {
 		finder1 = new UnmatchedEP_Finder(program);
 		
 		finder1.Run();
+		
+		System.out.println("=========================================================");
+
 		
 		//--------------------------------------------------
 		//test case 3

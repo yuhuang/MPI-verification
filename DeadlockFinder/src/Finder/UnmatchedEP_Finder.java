@@ -115,6 +115,7 @@ public class UnmatchedEP_Finder {
 						Encoder encoder = new Encoder(program, pattern, recvlist, sendlist);
 						
 						encoder.Encoding();
+						encoder.solver.displayFormulas();
 						encoder.solver.Check(Status.SATISFIABLE);
 						
 						System.out.printf("May Deadlock!\n");
