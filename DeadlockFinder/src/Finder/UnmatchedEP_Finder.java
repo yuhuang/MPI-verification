@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.microsoft.z3.Model;
 import com.microsoft.z3.Status;
 
 import Syntax.*;
@@ -116,19 +117,22 @@ public class UnmatchedEP_Finder {
 						
 						encoder.Encoding();
 						encoder.solver.displayFormulas();
-						encoder.solver.Check(Status.SATISFIABLE);
-						
-						System.out.printf("May Deadlock!\n");
+						Model model = encoder.solver.Check(Status.SATISFIABLE);
+						if(model != null)
+							System.out.println("[SAT] Witness Example:\n" + model);
+						else System.out.println("[UNSAT]:No deadlock is found for pattern: [" 
+							+ pattern.determinstic.toString() + "]");
+						//System.out.printf("May Deadlock!\n");
 						//System.exit(0);
-						return;
+						break;
 					}
 					
 					if(reachableRanks.contains(patternProcess.getRank()))
 					{
 						//report no deadlock for this pattern
 						//could be deadlock in the prefix, see A above
-						System.out.printf("No deadlock is found for this pattern: (" 
-								+ pattern.determinstic.toString() + ")\n");
+						System.out.printf("No deadlock is found for pattern: [" 
+								+ pattern.determinstic.toString() + "]\n");
 						break;
 					}
 					
