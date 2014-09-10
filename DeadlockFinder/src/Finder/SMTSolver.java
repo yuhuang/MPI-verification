@@ -1,7 +1,5 @@
 package Finder;
 
-import Syntax.Send;
-
 import com.microsoft.z3.*;
 
 public class SMTSolver {

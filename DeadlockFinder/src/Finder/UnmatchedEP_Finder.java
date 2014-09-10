@@ -438,7 +438,7 @@ public class UnmatchedEP_Finder {
 		{
 			if(rank != patternProcess.getRank())
 			{
-				Operation op = program.get(rank).get(program.get(rank).indicator);
+//				Operation op = program.get(rank).get(program.get(rank).indicator);
 				//generate entry in recvNums for a indicator receive
 //				if(op instanceof Recv)
 //				{
