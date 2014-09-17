@@ -37,8 +37,18 @@ public class Digraph
 	
 	public void generateMatch()
 	{
-		 LinkedList<Recv>[] recvlist = new LinkedList[program.size()];
-		 LinkedList<Send>[][] sendlist = new LinkedList[program.size()][program.size()];
+		//do not need to declare all the recelists and sendlists
+				//TODO: consider revise
+		LinkedList[] recvlist = new LinkedList[program.size()];
+		for(int i = 0; i < program.size(); i++){
+			recvlist[i] = new LinkedList<Recv>();
+		}
+		LinkedList[][] sendlist = new LinkedList[program.size()][program.size()];
+		for(int i = 0; i < program.size(); i++){
+			for(int j = 0; j < program.size(); j++){
+				sendlist[i][j] = new LinkedList<Send>();
+			}
+		}	
 		 
 		 //set up recvlist and sendlist
 		 for(Process process: program.processes)
@@ -49,11 +59,15 @@ public class Digraph
 				 if(op instanceof Send)
 				 {
 					 Send send = (Send)op;
+//					 if(sendlist[send.dest][send.src] == null)
+//						 sendlist[send.dest][send.src] = new LinkedList<Send>();
 					 sendlist[send.dest][send.src].add(send);
 				 }
 				 if(op instanceof Recv)
 				 {
 					 Recv recv = (Recv)op;
+//					 if(recvlist[recv.dest] == null)
+//						 recvlist[recv.dest] = new LinkedList<Recv>();
 					 recvlist[recv.dest].add(recv);
 				 }
 			 }
@@ -65,7 +79,8 @@ public class Digraph
 			 //calculate # of sends from any source to i
 			 int sendstoi = 0;
 			 for(int j = 0; j < sendlist[i].length; j++){
-				 sendstoi += sendlist[i][j].size();
+//				 if(sendlist[i][j] != null)
+					 sendstoi += sendlist[i][j].size();
 			 }
 			 
 			 while(ite_r.hasNext()){
@@ -98,6 +113,8 @@ public class Digraph
 	
 	public Set<E> adj(V v)
 	{
+		if(!Etable.containsKey(v))
+			return null;
 		return Etable.get(v);
  	}
 	
@@ -142,10 +159,12 @@ public class Digraph
 				{
 					if(matchedv.send.equals(matcheds))
 					{
-						if(!Etable.contains(matchedv))
+						if(!Etable.containsKey(matchedv))
 							Etable.put(matchedv, new HashSet<E>());
 						
-						Etable.get(matchedv).add(E.generateE(matchedv, v));
+						E newE = E.generateE(matchedv, v);
+						Etable.get(matchedv).add(newE);
+						System.out.println(matchedv + " add Edge " + newE);
 					}
 				}
 			}	

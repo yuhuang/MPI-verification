@@ -25,12 +25,15 @@ public class UnmatchedEP_Finder {
 	//????should consider combine recvlist and recvNums, same for sendlist and sendNums to save space
 	
 	
-	UnmatchedEP_Finder(Program p)
+	public UnmatchedEP_Finder(Program p)
 	{
 		program = p;
 		tracker = new int[p.size()];
 		sendNums = new HashMap<Integer, HashMap<Integer, Integer>>();
 		recvNums = new HashMap<Integer, HashMap<Integer, Integer>>();
+		
+		//do not need to declare all the recelists and sendlists
+		//TODO: consider revise
 		recvlist = new LinkedList[program.size()];
 		for(int i = 0; i < program.size(); i++){
 			recvlist[i] = new LinkedList<Recv>();
@@ -85,6 +88,7 @@ public class UnmatchedEP_Finder {
 			//scheduling(program,patternProcess);
 			
 			//judge prefix's feasibility 
+			breakpoint:
 			while(schedulable(pattern))
 			{	
 				scheduling(program,patternProcess);
@@ -119,12 +123,16 @@ public class UnmatchedEP_Finder {
 						encoder.solver.displayFormulas();
 						Model model = encoder.solver.Check(Status.SATISFIABLE);
 						if(model != null)
+						{
 							System.out.println("[SAT] Witness Example:\n" + model);
+							System.out.println("Verification ends for this program!");
+							return;
+						}
 						else System.out.println("[UNSAT]:No deadlock is found for pattern: [" 
 							+ pattern.determinstic.toString() + "]");
 						//System.out.printf("May Deadlock!\n");
 						//System.exit(0);
-						break;
+						break breakpoint;
 					}
 					
 					if(reachableRanks.contains(patternProcess.getRank()))
@@ -133,7 +141,7 @@ public class UnmatchedEP_Finder {
 						//could be deadlock in the prefix, see A above
 						System.out.printf("No deadlock is found for pattern: [" 
 								+ pattern.determinstic.toString() + "]\n");
-						break;
+						break breakpoint;
 					}
 					
 					moveBlockPoints(reachableRanks,patternProcess);
@@ -205,7 +213,7 @@ public class UnmatchedEP_Finder {
 		
 		//more sends than receives with idential src and dest
 		if(src!=-1)
-			return (totalNUM(sendNums,src,dest) >= totalNUM(recvNums,src,dest));
+			return (totalNUM(sendNums,src,dest) > totalNUM(recvNums,src,dest));
 		else 
 		{
 			//for wildcard receive, the number of send(*->dest) has to be greater or equal to the number 

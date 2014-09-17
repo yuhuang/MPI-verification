@@ -24,4 +24,9 @@ public class E {
 	{
 		return new E(s,d);
 	}
+	
+	public String toString()
+	{
+		return "[" + src + "-->" + dest + "]"; 
+	}
 }
