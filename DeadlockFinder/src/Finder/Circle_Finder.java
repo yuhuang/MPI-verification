@@ -151,6 +151,7 @@ public class Circle_Finder {
 		return reachableRanks;
 	}
 	
+	//consider when dealockpoint is a deterministic receive or a wildcard receive
 	boolean mayDeadlock(Recv deadlockPoint)
 	{
 		//src must not be equal to -1
@@ -173,7 +174,8 @@ public class Circle_Finder {
 			if(recvNums.get(dest).containsKey(-1))
 				recvNum += recvNums.get(dest).get(-1);
 			
-			if(recvNums.get(dest).containsKey(src))
+			//only deterministic receive needs to do this
+			if(src != -1 && recvNums.get(dest).containsKey(src))
 				recvNum += recvNums.get(dest).get(src);
 		}
 		

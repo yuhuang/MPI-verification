@@ -1,5 +1,6 @@
 package Finder;
 
+import java.util.BitSet;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -125,20 +126,44 @@ public class Digraph
 	
 	public void generateV()
 	{
+		
+		boolean[] wildcardissued = new boolean[program.size()];
+		BitSet sendissued = new BitSet(program.size());
 		for(Process process: program.processes)
 		{
+			wildcardissued[process.getRank()] = false;
+			continuepoint:
 			for(int i = 0; i < process.size(); i++)
 			{
 				//now consider all the receives (wildcard, determinstic)
+				//TODO: 1) for any receive r and a sequence of sends with identical src and dest,
+				//only one vertex for r and the first send in this sequence needs to be generated
+				//2) for any deterministic receive r, if a wildcard receive is issued before r, 
+				//r is not considered in any vertex (it is only considered in mismatched endpoint pattern)
 				if(process.get(i) instanceof Recv)
 				{
 					Recv r = (Recv)process.get(i);
+					if(r.src == -1)
+						wildcardissued[process.getRank()] = true;
+				
+					if(r.src != -1 && wildcardissued[process.getRank()])
+					{
+						//this case is only considered in mismatched endpoint pattern
+						continue continuepoint;
+					}
+					
+					sendissued.clear();
 					for(int j = i; j < process.size(); j++)
 					{
 						if(process.get(j) instanceof Send)
 						{
 							Send s = (Send)process.get(j);
-							Vlist.add(V.generateV(r, s));
+							if(!sendissued.get(s.dest))
+								Vlist.add(V.generateV(r, s));
+							//mark a send from src to dest is issued
+							//so no need to generate another vertex for sends with src and dest
+							sendissued.set(s.dest);
+
 						}
 					}
 				}

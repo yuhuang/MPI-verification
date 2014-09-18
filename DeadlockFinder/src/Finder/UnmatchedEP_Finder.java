@@ -138,7 +138,14 @@ public class UnmatchedEP_Finder {
 					if(reachableRanks.contains(patternProcess.getRank()))
 					{
 						//report no deadlock for this pattern
-						//could be deadlock in the prefix, see A above
+						//could be deadlock in the prefix, 
+						// 0      1       2
+						//S(2)   R(*)    R(*)
+						//       S(2)    S(1)
+						//               R(0)
+						//				 S(0)
+						//--------------------
+						//<R(2)>          ...
 						System.out.printf("No deadlock is found for pattern: [" 
 								+ pattern.determinstic.toString() + "]\n");
 						break breakpoint;
@@ -397,7 +404,8 @@ public class UnmatchedEP_Finder {
 			if(recvNums.get(dest).containsKey(-1))
 				recvNum += recvNums.get(dest).get(-1);
 			
-			if(recvNums.get(dest).containsKey(src))
+			//only deterministic receive needs to do this
+			if(src != -1 && recvNums.get(dest).containsKey(src))
 				recvNum += recvNums.get(dest).get(src);
 		}
 		
