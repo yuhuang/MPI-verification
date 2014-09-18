@@ -359,12 +359,15 @@ public class Circle_Finder {
 		int src = r.src;
 		int dest = r.dest;
 		
-		//more sends than receives with idential src and dest
-		if(src!=-1)
-			return (totalNUM(sendNums,src,dest) > totalNUM(recvNums,src,dest));
+		//more sends than receives with identical src and dest
+		if(src!=-1)//Deterministic receive
+			//two conditions should be satisfied:
+			return (totalNUM(sendNums,src,dest) > totalNUM(recvNums,src,dest))//S(c->0) > R(c)
+					&& (totalNUM(sendNums, -1, dest) >  //S(c->0) > R(*) + R(c)
+					totalNUM(recvNums, -1, dest) + totalNUM(recvNums, src,dest));
 		else 
 		{
-			//for wildcard receive, the number of send(*->dest) has to be greater or equal to the number 
+			//for wildcard receive, the number of send(*->dest) has to be greater than the number 
 			//of {recv(*->dest), recv(c1->dest), ...}
 			if(recvNums.containsKey(dest))
 			{
