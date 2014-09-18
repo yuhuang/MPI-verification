@@ -127,11 +127,10 @@ public class Digraph
 	public void generateV()
 	{
 		
-		boolean[] wildcardissued = new boolean[program.size()];
+		BitSet wildcardissued = new BitSet(program.size());
 		BitSet sendissued = new BitSet(program.size());
 		for(Process process: program.processes)
 		{
-			wildcardissued[process.getRank()] = false;
 			continuepoint:
 			for(int i = 0; i < process.size(); i++)
 			{
@@ -144,9 +143,9 @@ public class Digraph
 				{
 					Recv r = (Recv)process.get(i);
 					if(r.src == -1)
-						wildcardissued[process.getRank()] = true;
+						wildcardissued.set(process.getRank());
 				
-					if(r.src != -1 && wildcardissued[process.getRank()])
+					if(r.src != -1 && wildcardissued.get(process.getRank()))
 					{
 						//this case is only considered in mismatched endpoint pattern
 						continue continuepoint;
