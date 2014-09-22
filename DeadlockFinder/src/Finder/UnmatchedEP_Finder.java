@@ -65,6 +65,19 @@ public class UnmatchedEP_Finder {
 			
 //			LinkedList<LinkedList<Operation>> prefix = new LinkedList<LinkedList<Operation>>();
 			
+			//initialize recvNums and sendNums
+			recvNums.clear();
+			sendNums.clear();
+			
+			//initialize recvlist and sendlist
+			for(int i = 0; i < program.size(); i++)
+				recvlist[i].clear();
+			for(int i = 0; i < program.size(); i++){
+				for(int j = 0; j < program.size(); j++){
+					sendlist[i][j].clear();
+				}
+			}	
+			
 			//initialize the prefix
 			for(int i =0; i < program.size();i++)
 			{

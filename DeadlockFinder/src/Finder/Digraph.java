@@ -188,7 +188,7 @@ public class Digraph
 						
 						E newE = E.generateE(matchedv, v);
 						Etable.get(matchedv).add(newE);
-						System.out.println(matchedv + " add Edge " + newE);
+//						System.out.println(matchedv + " add Edge " + newE);
 					}
 				}
 			}	

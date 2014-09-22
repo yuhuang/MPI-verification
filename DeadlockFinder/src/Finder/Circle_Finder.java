@@ -49,12 +49,19 @@ public class Circle_Finder {
 				return;
 			
 			Set<V> pattern = it.next();
-//			Process patternProcess = pattern.process;
+			System.out.println("[Circle " + circles.indexOf(pattern) + "]: " + pattern);
+			
+			//			Process patternProcess = pattern.process;
 			Hashtable<Integer,V> patternProcesses = new Hashtable<Integer, V>();
 			for(V v : pattern)
 			{
 				patternProcesses.put(v.pRank, v);
 			}
+			
+			//initialize recvNums and sendNums
+			recvNums.clear();
+			sendNums.clear();
+			
 			//initialize the prefix
 			for(int i =0; i < program.size();i++)
 			{
@@ -106,6 +113,7 @@ public class Circle_Finder {
 			}
 			
 			//reset the indicator for the next check;
+			//reset all data structures used before
 			resetProgram();
 			
 		}

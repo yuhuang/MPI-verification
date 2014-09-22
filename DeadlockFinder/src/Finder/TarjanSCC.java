@@ -38,6 +38,7 @@ public class TarjanSCC {
         // check that id[] gives strong components
 //        assert check(G);
     }
+
     
     public LinkedList<Set<V>> toCircles()
     {
