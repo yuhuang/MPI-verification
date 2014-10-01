@@ -1,26 +1,28 @@
 package Finder;
 
+import Syntax.Operation;
+
 public class E {
-	public V src;
-	public V dest;
+	public Operation src;
+	public Operation dest;
 	
-	public E(V s, V d)
+	public E(Operation s, Operation d)
 	{
 		src = s;
 		dest = d;
 	}
 	
-	public V getSource()
+	public Operation getSource()
 	{
 		return src;
 	}
 	
-	public V getDestination()
+	public Operation getDestination()
 	{
 		return dest;
 	}
 	
-	public static E generateE(V s, V d)
+	public static E generateE(Operation s, Operation d)
 	{
 		return new E(s,d);
 	}

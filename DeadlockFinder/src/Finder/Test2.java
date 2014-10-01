@@ -16,7 +16,7 @@ public class Test2 {
 		//R(*)    R(*)   R(*)
 		//S(1)    S(2)   S(0)
 		//S(1)
-		program = new Program();
+		program = new Program(false);
 		process0 = new Process(0);
 		process1 = new Process(1);
 		process2 = new Process(2);
@@ -38,7 +38,7 @@ public class Test2 {
 				2, null, true, null));
 		process2.add(new Send(process2.getRank() + "_" + 1, process1,0, 2, 0, null, 5, 
 				true, null));
-	
+		program.InitGraph();
 
 //		Digraph graph = new Digraph(program);
 //		TarjanSCC tc = new TarjanSCC(graph);
@@ -54,19 +54,19 @@ public class Test2 {
 		//R(*)    R(*)   R(*)
 		//S(1)    S(2)   S(0)
 		
-		program = new Program();
+		program = new Program(false);
 		process0 = new Process(0);
 		process1 = new Process(1);
 		process2 = new Process(2);
 		program.add(process0);
 		program.add(process1);
 		program.add(process2);
-		process0.add(new Send(process0.getRank() + "_" + 0, process0,1, 0, 1, null, 4, 
+		process0.add(new Send(process0.getRank() + "_" + 0, process0,0, 0, 1, null, 4, 
 				true, null));
 		process0.add(new Recv(process0.getRank()+ "_" + 1, process0,0, -1, 
 				0, null, true, null));
 				
-		process0.add(new Send(process0.getRank() + "_" + 2, process0,0, 0, 1, null, 2, 
+		process0.add(new Send(process0.getRank() + "_" + 2, process0,1, 0, 1, null, 2, 
 				true, null));
 		process1.add(new Recv(process1.getRank()+ "_" + 0, process1,0, -1, 
 				1, null, true, null));
@@ -76,7 +76,7 @@ public class Test2 {
 				2, null, true, null));
 		process2.add(new Send(process2.getRank() + "_" + 1, process1,0, 2, 0, null, 5, 
 						true, null));
-			
+		program.InitGraph();
 		finder = new Circle_Finder(program);
 		finder.Run();
 		System.out.println("=========================================================");
@@ -86,23 +86,23 @@ public class Test2 {
 		//R(*)    R(*)   R(*)
 		//S(1)    S(2)   S(0)
 				
-		program = new Program();
+		program = new Program(false);
 		process0 = new Process(0);
 		process1 = new Process(1);
 		process2 = new Process(2);
 		program.add(process0);
 		program.add(process1);
 		program.add(process2);
-		process0.add(new Send(process0.getRank() + "_" + 0, process0,1, 0, 1, null, 4, 
+		process0.add(new Send(process0.getRank() + "_" + 0, process0,0, 0, 1, null, 4, 
 				true, null));
 		process0.add(new Recv(process0.getRank()+ "_" + 1, process0,0, -1, 
 				0, null, true, null));
 						
-		process0.add(new Send(process0.getRank() + "_" + 2, process0,0, 0, 1, null, 2, 
+		process0.add(new Send(process0.getRank() + "_" + 2, process0,1, 0, 1, null, 2, 
 				true, null));
 		process1.add(new Recv(process1.getRank()+ "_" + 0, process1,0, -1, 
 				1, null, true, null));
-		process1.add(new Recv(process1.getRank()+ "_" + 1, process1,0, -1, 
+		process1.add(new Recv(process1.getRank()+ "_" + 1, process1,1, -1, 
 				1, null, true, null));
 		process1.add(new Send(process1.getRank() + "_" + 2, process1,0, 1, 2, null, 3, 
 				true, null));
@@ -110,7 +110,8 @@ public class Test2 {
 				2, null, true, null));
 		process2.add(new Send(process2.getRank() + "_" + 1, process1,0, 2, 0, null, 5, 
 						true, null));
-					
+		program.InitGraph();
+		
 		finder = new Circle_Finder(program);
 		finder.Run();
 		System.out.println("=========================================================");

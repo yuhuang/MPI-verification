@@ -31,9 +31,10 @@ public class Circle_Finder {
 	void Run() throws Exception
 	{
 		Digraph graph = new Digraph(program);
-		TarjanSCC tc = new TarjanSCC(graph);
-		LinkedList<Set<V>> circles = tc.toCircles();
-		Iterator<Set<V>> it = circles.iterator();
+		Johnson tc = new Johnson(graph);
+		
+		LinkedList<Hashtable<Integer, Recv>> circles = tc.patterns;
+		Iterator<Hashtable<Integer, Recv>> it = circles.iterator();
 		
 		if(!it.hasNext())
 		{
@@ -48,15 +49,8 @@ public class Circle_Finder {
 			if(deadlockFound)
 				return;
 			
-			Set<V> pattern = it.next();
-			System.out.println("[Circle " + circles.indexOf(pattern) + "]: " + pattern);
-			
-			//			Process patternProcess = pattern.process;
-			Hashtable<Integer,V> patternProcesses = new Hashtable<Integer, V>();
-			for(V v : pattern)
-			{
-				patternProcesses.put(v.pRank, v);
-			}
+			Hashtable<Integer, Recv> patternProcesses = it.next();
+			System.out.println("[Circle " + circles.indexOf(patternProcesses) + "]: " + patternProcesses);
 			
 			//initialize recvNums and sendNums
 			recvNums.clear();
@@ -71,7 +65,7 @@ public class Circle_Finder {
 				else 
 				{
 					//iterate up to the receive of each process in the circular pattern
-					program.get(i).ToPoint(patternProcesses.get(i).getRecv());
+					program.get(i).ToPoint(patternProcesses.get(i));
 				}
 				
 				//initialize trackers to the first line of each process
@@ -80,7 +74,7 @@ public class Circle_Finder {
 						
 			//judge prefix's feasibility 
 			breakpoint: 
-			while(schedulable(pattern, patternProcesses))
+			while(schedulable(patternProcesses))
 			{	
 				scheduling(program);
 				if(reachBlockPoints())
@@ -103,7 +97,7 @@ public class Circle_Finder {
 						if(patternProcesses.containsKey(rank))
 						{
 							System.out.print("No deadlock is found for pattern: " 
-									+ pattern + "\n");
+									+ patternProcesses + "\n");
 							break breakpoint;
 						}
 					}
@@ -119,7 +113,7 @@ public class Circle_Finder {
 		}
 	}
 	
-	HashSet<Integer> feasible(Hashtable<Integer, V> patternProcesses) throws Exception
+	HashSet<Integer> feasible(Hashtable<Integer, Recv> patternProcesses) throws Exception
 	{
 		HashSet<Integer> reachableRanks = new HashSet<Integer>();
 		for(int i = 0; i < program.size(); i++)
@@ -190,7 +184,7 @@ public class Circle_Finder {
 		return sendNum <= recvNum;
 	}
 	
-	void moveBlockPoints(HashSet<Integer> reachableRanks, Hashtable<Integer, V> patternProcesses) throws Exception
+	void moveBlockPoints(HashSet<Integer> reachableRanks, Hashtable<Integer, Recv> patternProcesses) throws Exception
 	{
 		for(int rank : reachableRanks)
 		{
@@ -210,7 +204,7 @@ public class Circle_Finder {
 		}
 	}
 	
-	boolean schedulable(Set<V> pattern, Hashtable<Integer, V> patternProcesses) throws Exception
+	boolean schedulable(Hashtable<Integer, Recv> patternProcesses) throws Exception
 	{
 		boolean reachpatternpoint = true;
 		for(int i = 0; i < program.size(); i++)
@@ -244,14 +238,14 @@ public class Circle_Finder {
 		
 		if(reachpatternpoint)
 		{
-			System.out.println("Deadlock is found for pattern " + pattern);
+			System.out.println("Deadlock is found for pattern " + patternProcesses);
 			//use a global variable to mark deadlock is found
 			deadlockFound = true;
 			return false;
 		}
 		
 		System.out.print("No deadlock is found for pattern: " 
-				 + pattern + "\n");
+				 + patternProcesses + "\n");
 		
 		//when false, is it a deadlock for the prefix?
 		return false;

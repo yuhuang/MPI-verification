@@ -14,8 +14,10 @@ public class Encoder
 	UnmatchedEP_Pattern pattern;
 	public LinkedList<Recv>[] recvlist;
 	public LinkedList<Send>[][] sendlist;
+	int[] lastrInShape;
+	int[][] lastsInShape;
 	//for unmatched endpoint, make sure all sends in source endpoint should be matched
-	public Hashtable<Send,LinkedList<Recv>> pattern_match;
+	public Hashtable<Send, LinkedList<Recv>> pattern_match;
 	public Hashtable<Recv, LinkedList<Send>> match_table;
 	Operation lastr = null;
 	Hashtable<Integer, Operation> lasts = null;
@@ -24,14 +26,20 @@ public class Encoder
 	
 	
 	public Encoder(Program program, 
-			UnmatchedEP_Pattern pattern, LinkedList<Recv>[] rlist,
-			LinkedList<Send>[][] slist) throws Z3Exception
+			UnmatchedEP_Pattern pattern, int[] lastrInShape, int[][] lastsInShape) throws Z3Exception
 	{
 		this.pattern = pattern;
-		this.recvlist = rlist;
-		this.sendlist = slist;
-		pattern_match = new Hashtable<Send,LinkedList<Recv>>();
-		match_table = new Hashtable<Recv,LinkedList<Send>>();
+		this.recvlist = program.recvlist;
+		this.sendlist = program.sendlist;
+		this.match_table = program.match_table;
+		this.pattern_match = program.pattern_match;
+		if(!program.isPattern())
+		{
+			System.out.println("Program should be set to mismatched endpoint pattern available!");
+			System.exit(0);
+		}
+		this.lastrInShape = lastrInShape;
+		this.lastsInShape = lastsInShape;
 		lasts = new Hashtable<Integer,Operation>();
 		operation_expr_map = new Hashtable<Operation,Pair<Expr,IntExpr>>();
 		this.program = program;
@@ -51,7 +59,7 @@ public class Encoder
 			}
 		}
 		
-		generateMatch();
+//		generateMatch();
 		encodeMatch();
 	}
 	
@@ -111,14 +119,23 @@ public class Encoder
 	public void encodeMatch() throws Z3Exception
 	{
 		//two parts: first, for every receive r, there must be a match, (r,.)
+		continuepoint:
 		for(Recv r : match_table.keySet())
 		{
+			//only encode match when r is in shape
+			if(r.rank > lastrInShape[r.dest])
+				continue continuepoint;
 			Expr rExpr = operation_expr_map.get(r).getFirst();
 //			IntExpr rTime = operation_expr_map.get(r).getSecond();
 			BoolExpr a = null;
 			BoolExpr b = null;
+			
+			continuepoint1:
 			for(Send s : match_table.get(r))
 			{
+				//only encode match when s is in shape
+				if(s.rank > lastsInShape[s.dest][s.src])
+					continue continuepoint1;
 				Expr sExpr = operation_expr_map.get(s).getFirst();
 //				IntExpr sTime = operation_expr_map.get(s).getSecond();
 				if(rExpr != null && sExpr != null)//should not be null
@@ -134,12 +151,19 @@ public class Encoder
 		
 		for(Send s : pattern_match.keySet())
 		{
+			//only encode send if dest and src is pattern requires and it is in shape
+			if(s.dest != pattern.process.getRank() || s.src != pattern.determinstic.src 
+				|| s.rank > lastsInShape[s.dest][s.src])
+				continue; 
 			Expr sExpr = operation_expr_map.get(s).getFirst();
 //			IntExpr sTime = operation_expr_map.get(s).getSecond();
 			BoolExpr a = null;
 			BoolExpr b = null;
 			for(Recv r : pattern_match.get(s))
 			{
+				//only encode when r is in shape
+				if(r.rank > lastrInShape[r.dest])
+					continue;
 				Expr rExpr = operation_expr_map.get(r).getFirst();
 //				IntExpr rTime = operation_expr_map.get(r).getSecond();
 				if(rExpr != null && sExpr != null)//should not be null
@@ -151,55 +175,5 @@ public class Encoder
 			solver.addFormula(b);
 		}
 	}
-	
-	public void generateMatch(){
-		 for(int i = 0; i < recvlist.length; i ++){
-			 Iterator<Recv> ite_r = recvlist[i].iterator();
-			 
-			 //calculate # of sends from any source to i
-			 int sendstoi = 0;
-			 for(int j = 0; j < sendlist[i].length; j++){
-				 sendstoi += sendlist[i][j].size();
-			 }
-			 
-			 while(ite_r.hasNext()){
-				 Recv r = ite_r.next();
-				 
-				//	 System.out.println("recv in thread i = " + i + ": " + r.exp +" with rank " + r.rank);
-				 LinkedList<Send> sendlistforR = new LinkedList<Send>();
-				 for(int j = 0; j < sendlist[i].length; j++){
-					 Iterator<Send> ite_s = sendlist[i][j].iterator();
-					 while(ite_s.hasNext()){
-						 Send s = ite_s.next();
-						 //compare and set
-						 if(r.rank >= s.rank //rule 1
-								 &&r.rank <= s.rank + (sendstoi - sendlist[i][j].size())//rule2
-								 &&(r.src == -1 || r.src == s.src)){ //either it is a wildcard receive or the endpoints commit
-							 sendlistforR.add(s);
-							 if(pattern != null)
-							 {
-								 //check if the send is pattern send
-								 if(s.dest == pattern.process.getRank() 
-										 && s.src == pattern.determinstic.src)
-								 {
-									 if(!pattern_match.containsKey(s))
-									 {
-										 pattern_match.put(s, new LinkedList<Recv>());
-									 }
-									 pattern_match.get(s).add(r);
-								 }
-							 }
-							 //System.out.println("match (" + r.exp + " " + s.exp+"), total num of sends: " + sendstoi +", and total num of sends for ep " + i + ": " +  sendlist[i][j].size());
-						 }
-					 }
-				 }
-				 //add the list with r to the match table
-				 if(!sendlistforR.isEmpty())
-					 match_table.put(r, sendlistforR);
-			 }
-		 }
-	}
-
-	
 
 }

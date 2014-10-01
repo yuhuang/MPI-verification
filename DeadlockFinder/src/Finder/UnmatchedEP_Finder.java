@@ -19,8 +19,11 @@ public class UnmatchedEP_Finder {
 	HashMap<Integer, HashMap<Integer,Integer>> recvNums;
 	
 	//used for match pair generation on Encoder
-	public LinkedList<Recv>[] recvlist;
-	public LinkedList<Send>[][] sendlist;
+//	public LinkedList<Recv>[] recvlist;
+//	public LinkedList<Send>[][] sendlist;
+	
+	public int[] lastrInShape;
+	public int[][] lastsInShape;
 	
 	//????should consider combine recvlist and recvNums, same for sendlist and sendNums to save space
 	
@@ -32,18 +35,28 @@ public class UnmatchedEP_Finder {
 		sendNums = new HashMap<Integer, HashMap<Integer, Integer>>();
 		recvNums = new HashMap<Integer, HashMap<Integer, Integer>>();
 		
-		//do not need to declare all the recelists and sendlists
+		//do not need to declare all the recvlists and sendlists
 		//TODO: consider revise
-		recvlist = new LinkedList[program.size()];
-		for(int i = 0; i < program.size(); i++){
-			recvlist[i] = new LinkedList<Recv>();
+//		recvlist = new LinkedList[program.size()];
+//		for(int i = 0; i < program.size(); i++){
+//			recvlist[i] = new LinkedList<Recv>();
+//		}
+//		sendlist = new LinkedList[program.size()][program.size()];
+//		for(int i = 0; i < program.size(); i++){
+//			for(int j = 0; j < program.size(); j++){
+//				sendlist[i][j] = new LinkedList<Send>();
+//			}
+//		}	
+		
+		lastrInShape = new int[program.size()];
+		lastsInShape = new int[program.size()][program.size()];
+		//initialize the lastr and lasts in shape to -1 meaning no receive and send in shape
+		for(int i = 0; i < program.size(); i++)
+		{
+			lastrInShape[i] = -1;
+			for(int j = 0; j < program.size(); j++)
+				lastsInShape[i][j] = -1;
 		}
-		sendlist = new LinkedList[program.size()][program.size()];
-		for(int i = 0; i < program.size(); i++){
-			for(int j = 0; j < program.size(); j++){
-				sendlist[i][j] = new LinkedList<Send>();
-			}
-		}	
 	}
 	
 	void Run() throws Exception
@@ -55,6 +68,11 @@ public class UnmatchedEP_Finder {
 		{
 			//report no deadlock for unmatched ep pattern
 			System.out.printf("No deadlock is found for unmatched Endpoint patterns!\n");
+		}
+		else
+		{
+			program.InitGraph();
+			System.out.println("Pattern Detected!");
 		}
 		
 		
@@ -70,13 +88,19 @@ public class UnmatchedEP_Finder {
 			sendNums.clear();
 			
 			//initialize recvlist and sendlist
+//			for(int i = 0; i < program.size(); i++)
+//				recvlist[i].clear();
+//			for(int i = 0; i < program.size(); i++){
+//				for(int j = 0; j < program.size(); j++){
+//					sendlist[i][j].clear();
+//				}
+//			}
 			for(int i = 0; i < program.size(); i++)
-				recvlist[i].clear();
-			for(int i = 0; i < program.size(); i++){
-				for(int j = 0; j < program.size(); j++){
-					sendlist[i][j].clear();
-				}
-			}	
+			{
+				lastrInShape[i] = -1;
+				for(int j = 0; j < program.size(); j++)
+					lastsInShape[i][j] = -1;
+			}
 			
 			//initialize the prefix
 			for(int i =0; i < program.size();i++)
@@ -130,7 +154,7 @@ public class UnmatchedEP_Finder {
 						//<R(1)>          ...
 
 						
-						Encoder encoder = new Encoder(program, pattern, recvlist, sendlist);
+						Encoder encoder = new Encoder(program, pattern, lastrInShape, lastsInShape);
 						
 						encoder.Encoding();
 						encoder.solver.displayFormulas();
@@ -299,7 +323,8 @@ public class UnmatchedEP_Finder {
 					int src = rv.src;
 					int dest = rv.dest;
 					
-					recvlist[dest].add(rv);
+					lastrInShape[dest] = rv.rank;
+//					recvlist[dest].add(rv);
 					
 					if(!recvNums.containsKey(dest))
 						recvNums.put(dest, new HashMap<Integer, Integer>());
@@ -326,7 +351,8 @@ public class UnmatchedEP_Finder {
 					int dest = sendop.dest;
 					int src = sendop.src;
 					
-					sendlist[dest][src].add(sendop);
+					lastsInShape[dest][src] = sendop.rank;
+//					sendlist[dest][src].add(sendop);
 					
 					if(!sendNums.containsKey(dest))
 					{
@@ -355,7 +381,8 @@ public class UnmatchedEP_Finder {
 					int src = rv.src;
 					int dest = rv.dest;
 					
-					recvlist[dest].add(rv);
+					lastrInShape[dest] = rv.rank;
+//					recvlist[dest].add(rv);
 					
 					if(!recvNums.containsKey(dest))
 					{

@@ -15,7 +15,7 @@ public class Test {
 		//test case 1
 		//R(*)    S(0)
 		//R(1)    S(0)
-		program = new Program();
+		program = new Program(true);
 		process0 = new Process(0);
 		process1 = new Process(1);
 		program.add(process0);
@@ -29,7 +29,6 @@ public class Test {
 				true, null));
 		process1.add(new Send(process1.getRank() + "_" + 1, process1,1, 1, 0, null, 3, 
 				true, null));
-		
 	    finder1 = new UnmatchedEP_Finder(program);
 		
 		finder1.Run();
@@ -40,7 +39,7 @@ public class Test {
 		//test case 2
 		//R(*)    S(0)    S(0)
 		//R(1)
-		program = new Program();
+		program = new Program(true);
 		process0 = new Process(0);
 		process1 = new Process(1);
 		process2 = new Process(2);
@@ -56,7 +55,6 @@ public class Test {
 				true, null));
 		process2.add(new Send(process2.getRank() + "_" + 0, process1,0, 2, 0, null, 3, 
 				true, null));
-		
 		finder1 = new UnmatchedEP_Finder(program);
 		
 		finder1.Run();
@@ -71,7 +69,7 @@ public class Test {
 		//--------------------
 		//<R(1)>          
 		//return may deadlock (actually no deadlock, need SMT encoding to verify)
-		program = new Program();
+		program = new Program(true);
 		process0 = new Process(0);
 		process1 = new Process(1);
 		process2 = new Process(2);
@@ -90,7 +88,6 @@ public class Test {
 				true, null));
 		process2.add(new Send(process2.getRank() + "_" + 0, process1,0, 2, 0, null, 4, 
 				true, null));
-		
 		finder1 = new UnmatchedEP_Finder(program);
 		
 		finder1.Run();

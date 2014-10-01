@@ -1,11 +1,20 @@
 package Syntax;
 
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.Set;
+import java.util.Vector;
+
+import Finder.E;
 
 public class Process {
 	int rank;
 	LinkedList<Operation> ops;
+	public Vector<Operation> vertices;
+	public LinkedList<Recv> rlist;
+	public Hashtable<Integer, LinkedList<Send>> slist;
+	public Hashtable<Operation, Set<Operation>> HB;
 	public int indicator;
 	
 	public Process(int rank)
@@ -31,6 +40,60 @@ public class Process {
 			return null;
 		
 		return ops.get(i);
+	}
+	
+	public void generateVE()
+	{
+		vertices = new Vector<Operation>();
+		HB = new Hashtable<Operation, Set<Operation>>();
+		Hashtable<Integer, Send> firsts = new Hashtable<Integer, Send>();
+		rlist = new LinkedList<Recv>();
+		slist = new Hashtable<Integer, LinkedList<Send>>();
+		Recv lastr = null;
+		boolean wildcardissued = false;
+		continuepoint:
+		for(Operation op: ops)
+		{
+			if(op instanceof Recv)
+			{
+				Recv r = (Recv)op;
+				//add r to rlist
+				rlist.add(r);
+				if(lastr != null)
+				{
+					//we abandon the hb relation for a wildcard receive and a following deterministic receive
+					//because we do not consider this receive as a vertex in graph
+					if(r.src != -1 && wildcardissued)
+						continue continuepoint;
+					HB.get(lastr).add(r);
+				}
+				vertices.add(r);
+				lastr = r;
+				if(!HB.containsKey(lastr))
+					HB.put(lastr, new HashSet<Operation>());
+				if(r.src == -1)
+					wildcardissued = true;
+				firsts.clear();
+			}
+			
+			if(op instanceof Send)
+			{
+				Send s = (Send)op;
+				//add s to slist
+				if(!slist.containsKey(s.dest))
+				{
+					slist.put(s.dest, new LinkedList<Send>());
+				}
+				slist.get(s.dest).add(s);
+				if(lastr == null || firsts.containsKey(s.dest))
+					continue continuepoint;
+				
+				//add HB for lastr and s iff s is the first send with dest
+				vertices.add(s);
+				HB.get(lastr).add(s);
+				firsts.put(s.dest, s);
+			}
+		}
 	}
 	
 	public void NextBlockPoint()
