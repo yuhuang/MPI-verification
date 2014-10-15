@@ -1,0 +1,54 @@
+\section{Introduction}
+Nowadays, message passing technology has become widely used in many fields such as medical devices and automobile systems. The Message Passing Interface (MPI) plays an significant role as a common standard. It is easy for a developer to implement a message passing scenario using MPI semantics, including:
+
+\begin{compactitem}
+\item MPI point-to-point operations (e.g., send and receive),
+\item MPI collective operations (e.g., barrier and broadcast), and
+\item infinite buffer semantics (the message is copied into a runtime buffer on the API call) and zero buffer semantics (the message has no buffering) \cite{DBLP:conf/fm/VakkalankaVGK09}.
+\end{compactitem}
+
+A problem in any MPI program is assertion violation. It is often caused by message non-determinism that is difficult for a developer to test or debug without exploring the full program state space. During a message race, an unexpected message may be received leading to incorrect computation and violation of user provided assertions. Deadlock is another problem for an MPI program. It is caused by either the incompatibility of MPI semantics or improper implementations. The zero buffer compatibility is essential to any MPI application since it is difficult for a developer to predict this incompatibility. As a result, an execution on a zero buffer incompatible program may cause deadlock. To address assertion violation and zero buffer incompatibility, this paper presents a method for encoding a single-path MPI program into a set of SMT formulas. This set of formulas is resolved by a standard SMT solver(e.g., Z3) in such a way that either assertion violations are detected or zero buffer compatibility are detected. 
+
+%The MPI semantics are complicated leading to two problems: message race and deadlock. The intermittent and unexpected message race is often caused by message non-determinism that is difficult for a developer to test or debug without exploring the full program state space. During a message race, an unexpected message may be received leading to incorrect computation and violation of user provided assertions. Deadlock is another problem for an MPI program. It is caused by either the incompatibility of MPI semantics or improper implementations. In particular, MPI applications may be not compatible with zero buffer semantics. It is difficult for a developer to know this incompatibility. As a result, an execution on a zero buffer incompatible program may cause deadlock. To address the problems of message race and zero buffer compatibility, this paper presents a method for resolving the message non-determinism in such a way that violations of user-provided assertions are detected. This method is also useful in detecting zero buffer compatibility of an MPI program. If the compatibility is proved, then the program is executable under zero buffer semantics. 
+
+%MPI point-to-point operations (e.g., send and receive). The MPI semantics allow a receive to be matched with a send from a specific source or from any source. 
+%
+%. Such non-determinism often leads to intermittent and unexpected message race and is difficult for a developer to test and debug without exploring the full program state space. During a message race, an unexpected message may be received leading to incorrect computation and violation of user provided assertions. 
+%
+%%: collective operation
+%MPI collective operations such as barriers and broadcasts may also affect MPI point-to-point communication. Any type of collective operations is used as a group. It synchronizes the program in such a way that each process waits on a specific location until all the operations in this group are completed. While those operations are convenient for synchronizing programs, they may interrupt how a message delivers. For instance, a message sent after a barrier may be not able to arrive at a specific receive if this receive has to be matched before the barrier. 
+% 
+%%: infinite buffer vs. zero buffer
+%Message races are also affected by two runtime environments: infinite buffer semantics (the message is copied into a runtime buffer on the API call) and zero buffer semantics (the message has no buffering) \cite{DBLP:conf/fm/VakkalankaVGK09}. These two semantics may treat message communication very differently. Under infinite buffer semantics, for each message, a non-deterministic choice may be made to temporarily buffer or immediately receive the message once it is sent out. As such, more resolutions on matching a send operation and a receive operation for this message may exist in the runtime. In contrast, zero buffer semantics do not allow a message to be buffered in any process. A process waits until the pending message is received before proceeding. Consequently, there are fewer ways to resolve send-receive matches when using zero buffer semantics.
+
+%zero buffer compatibility
+%Because of the inflexible behavior that a message cannot be buffered in transit, many MPI applications are not compatible with zero buffer semantics. It is difficult for a developer to know this incompatibility. As a result, an execution on a zero buffer incompatible program may cause deadlock. 
+%Therefore, the freedom of message passing can be balanced out in some way with respect to the runtime behaviors. 
+
+%related works
+Several solutions were proposed to solve the problem of assertion violation. The POE algorithm is capable of dynamically analyzing the behavior of an MPI program \cite{DBLP:conf/ppopp/VakkalankaSGK08}. By postponing the cooperative operations for message passing in transit, it is possible to reduce the program state space. Although the POE algorithm correctly detects assertion violations, it suffers from poor scalability as the number of messages increases. 
+
+Vo et al. developed a dynamic analysis tool for large-scale MPI programs using Lamport clocks with lazy updates \cite{DBLP:conf/sc/VoAGSSB10, DBLP:conf/IEEEpact/VoGKSSB11}. This method detects potential send-receive matches by collecting piggyback data, however is unable to obtain the full set of matches. As a result, this method does not provide completeness meaning some errors might not be detected, even though it scales well practically.
+
+In the context of the Multicore Communications API (MCAPI) \cite{mcapi}, another message passing API standard, Sharma et al. propose the first push button model checker -- MCC \cite{DBLP:conf/fmcad/SharmaGMH09}. It indirectly controls the MCAPI runtime to verify MCAPI programs under zero buffer semantics. An obvious drawback of this work is its inability to analyze infinite buffer semantics which is known as a common runtime environment in message passing. A key insight, though, is the direct use of match pairs -- couplings for potential sends and receives.
+
+Elwakil et al. encode a message passing program execution into a Satisfiability Modulo Theories (SMT) problem  \cite{barrett2008satisfiability} \cite{DBLP:conf/issta/ElwakilY10, DBLP:conf/atva/ElwakilYW10}. This approach fails for two reasons. First, the encoding does not support infinite buffer semantics. Second, it assumes that potential send-receive matches are given as an input to the encoding. However, the problem of generating such a set is NP-Complete.
+
+As far as we know, there is no research proposed only for zero buffer compatibility. Though the works on MPI deadlock \cite{} are capable of detecting zero buffer incompatibility, they suffer from the scalability problem in analysis. In particular, MSPOE is an extension of POE that is able to find deadlock in an MPI program /cite{}. Similar to POE algorithm, the MSPOE does not scale to programs with large level of message communication. Forejt et al. built an SMT encoding to detect deadlock in a single-path MPI program \cite{}. This solution is able to correctly detect deadlock under infinite buffer configuration. However, since the size of their encoding is cubic, it fails to check some programs before timeout. Further, their rules for zero buffer encoding is too simple, therefore is hard to enforce the zero buffer semantics into SMT formulas. 
+
+%our solution: SMT, statically encode MPI semantics
+This paper extends our prior work that encodes an MCAPI execution into an SMT problem \cite{DBLP:conf/kbse/HuangMM13}. To support MPI semantics, this paper presents a new algorithm that encodes an single-path MPI program. This program is generated under infinite buffer semantics. The point-to-point communication with wildcard receive is similar to the prior work. This paper presents how to encode deterministic receive operations and collective operations, which are essential to MPI semantics, into a set of SMT formulas. The formula size is quadratic. By resolving these propositional formulas, an SMT solver is able to report an assertion violation if there is a satisfying assignment; or to prove the execution is correct if it is unsatisfiable. Further, although the prior work \cite{DBLP:conf/kbse/HuangMM13} is hard to encode zero buffer semantics, the new encoding in this paper is correct for both infinite buffer semantics and zero buffer semantics. Therefore, it is able to detect zero buffer compatibility with low cost. To summarize, the main contributions of this paper include,
+%Contribution:
+\begin{itemize}
+\item a new encoding algorithm that supports MPI point-to-point communication and MPI collective communication,
+\item a dramatically improved zero buffer encoding that is capable of detecting zero buffer compatibility, and
+\item a set of benchmarks that demonstrate the correctness and efficiency of the new encoding.
+\end{itemize}
+
+%section Organization
+The rest of the paper is organized as follows: Section $2$ discusses the MPI semantics given two examples; Section $3$ gives the encoding algorithm; Section $4$ discusses the zero buffer compatibility; Section $5$ gives the experiment results; Section $6$ discusses the related works; and Section $7$ discusses the conclusions and future work.
+
+\examplefigone
+
+
+           

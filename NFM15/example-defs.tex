@@ -1,0 +1,260 @@
+% ---------------------------------------------------------------------
+% Save boxes for the various figures in the example section
+% ---------------------------------------------------------------------
+\newsavebox{\boxTZero}
+\begin{lrbox}{\boxTZero}
+\begin{minipage}[t]{0.55\linewidth}
+\large
+\begin{alltt}
+	---
+\(l\sb0\) \(\mathtt{S\sb{0,0}}\)(to P2, "0", &h1);
+  \(\mathtt{W\sb{0,1}}\)(&h1);
+
+\(l\sb1\) \(\mathtt{S\sb{0,2}}\)(to P1, "0", &h2);
+  \(\mathtt{W\sb{0,3}}\)(&h2);	
+	
+\(l\sb2\) \(\mathtt{R\sb{0,4}}\)(from ANY, A, &h3);
+  \(\mathtt{W\sb{0,5}}\)(&h3);
+
+\(l\sb3\) \(\mathtt{R\sb{0,6}}\)(from ANY, B, &h4);
+  \(\mathtt{W\sb{0,7}}\)(&h4);
+
+\(l\sb4\) assume(B > 0);
+\(l\sb5\) assert(A == 1);
+	---
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxTOne}
+\begin{lrbox}{\boxTOne}
+\begin{minipage}[t]{0.55\linewidth}
+\large
+\begin{alltt}
+---
+\(l\sb6\) \(\mathtt{S\sb{1,0}}\)(to P0, "1", &h5);
+  \(\mathtt{W\sb{1,1}}\)W(&h5);
+
+\(l\sb7\) \(\mathtt{S\sb{1,2}}\)(to P2, "1", &h6);
+  \(\mathtt{W\sb{1,3}}\)(&h6);	
+	
+\(l\sb8\) \(\mathtt{R\sb{1,4}}\)(from ANY, C, &h7);
+  \(\mathtt{W\sb{1,5}}\)(&h7);
+
+\(l\sb9\) \(\mathtt{R\sb{1,6}}\)(from ANY, D, &h8);
+  \(\mathtt{W\sb{1,7}}\)(&h8);
+---
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxTTwo}
+\begin{lrbox}{\boxTTwo}
+\begin{minipage}[t]{0.55\linewidth}
+\large
+\begin{alltt}
+---
+\(l\sb{10}\) \(\mathtt{S\sb{2,0}}\)(to P1, "2", &h9);
+  \(\mathtt{W\sb{2,1}}\)(&h9);
+
+\(l\sb{11}\) \(\mathtt{S\sb{2,2}}\)(to P0, "2", &h10);
+  \(\mathtt{W\sb{2,3}}\)(&h10);	
+	
+\(l\sb{12}\) \(\mathtt{R\sb{2,4}}\)(from ANY, E, &h11);
+  \(\mathtt{W\sb{2,5}}\)(&h11);
+
+\(l\sb{13}\) \(\mathtt{R\sb{2,6}}\)(from ANY, F, &h12);
+  \(\mathtt{W\sb{2,7}}\)(&h12);
+---
+\end{alltt}
+\end{minipage}
+\end{lrbox}
+
+% ---------------------------------------------------------------------
+% END Save boxes
+% ---------------------------------------------------------------------
+
+\newcommand\examplefigone{
+\begin{figure*}[t]
+\begin{center}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}[t]{c|c|c}
+P0 & P1 & P2 \\
+\hline
+\scalebox{0.7}{\usebox{\boxTZero}}&
+\scalebox{0.7}{\usebox{\boxTOne}} &
+\scalebox{0.7}{\usebox{\boxTTwo}}\\
+\end{tabular}
+\end{center}
+\caption{An MPI concurrent trace program}
+\label{fig:mpi}
+\end{figure*}
+}
+
+\newcommand\encodingptp{
+\begin{figure*}[t]
+\begin{alignat}{8}
+&
+\begin{aligned} 
+&\text{Sequential sends}\, \mathtt{S}\, \text{and}\, \mathtt{S^\prime}\, \text{from a common}\\
+&\text{source to a common destination}\, e_\mathtt{S} = e_\mathtt{S^\prime}
+\end{aligned}
+\qquad && \mathit{time}_\mathtt{S} \prec_\mathtt{HB} \mathit{time}_\mathtt{S^\prime}\\
+&
+\begin{aligned} 
+&\text{Sequential receives}\, \mathtt{R}\, \text{and}\, \mathtt{R^\prime},\, \texttt{on a common}\\
+&\text{process},\, e_\mathtt{R} = e_\mathtt{R^\prime}
+\end{aligned}
+\qquad && \mathit{time}_\mathtt{R} \prec_\mathtt{HB} \mathit{time}_\mathtt{R^\prime}\\
+&\text{Receive \texttt{R} and its nearest-enclosing wait}\, \mathtt{W}_\mathtt{R} 
+\qquad && \mathit{time}_\mathtt{R} \prec_\mathtt{HB} \mathit{time}_{\mathtt{W}_\mathtt{R}}\\
+&
+\begin{aligned}
+&\text{Sequential order over a nearest-enclosing} \\
+&\text{wait}\, \mathtt{W}_\mathtt{R}\, \text{and a send \texttt{S}}
+\end{aligned}
+\qquad && \mathit{time}_{\mathtt{W}_\mathtt{R}} \prec_\mathtt{HB} \mathit{time}_\mathtt{S}\\
+&
+\begin{aligned}
+&\text{Two Sends, \texttt{S} and}\, \mathtt{S^\prime},\, \text{to a common destination},\\
+&e_{\mathtt{S}}=e_{\mathtt{S^\prime}},\, \text{such that}\,  \mathit{time}_\mathtt{S}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{time}_\mathtt{S^\prime}
+\end{aligned}
+\qquad&&M_{\mathtt{S}}\ \mathrm{\prec_{\mathtt{HB}}}\ M_{\mathtt{S^\prime}}\\
+&\text{Match pairs for any receive \texttt{R}} \qquad &&  \bigvee_{\mathtt{S} \in \mathrm{Match}(\mathtt{R})} \langle\mathtt{R},\mathtt{S}\rangle\\ 
+&\text{Assumption \texttt{A} on control flow} \qquad &&  \mathtt{A}\\
+&\text{Property assertion \texttt{P}}  \qquad &&  \neg \mathtt{P}
+\end{alignat}
+\caption{SMT encoding for MPI point-to-point communication}
+\label{fig:ptp}
+\end{figure*}
+}
+
+
+\newcommand\encodingcc{
+\begin{figure*}[t]
+\begin{alignat}{2}
+&
+\begin{aligned}
+&\text{Any receive \texttt{R} that has a nearest-enclosing}\\
+&\text{barrier \texttt{B} and a nearest-enclosing wait}\, \mathtt{W}_\mathtt{R}
+\end{aligned}
+\qquad&& \mathit{time}_{\mathtt{W}_\mathtt{R}} \prec_\mathtt{HB} \mathit{time}_\mathtt{B}\\
+&
+\begin{aligned}
+&\text{Any barrier \texttt{B} and any operation \texttt{O} ordered}\\
+&\text{after a member of \texttt{B}}
+\end{aligned}
+\qquad && \mathit{time}_\mathtt{B} \prec_\mathtt{HB} \mathit{time}_\mathtt{O}
+\end{alignat}
+\caption{SMT encoding for MPI collective communication}
+\label{fig:cc}
+\end{figure*}
+}
+
+\newcommand\encodingzb{
+\begin{figure*}[t]
+\begin{alignat}{3}
+&
+\begin{aligned} 
+&\text{Sequential sends}\, \mathtt{S}\, \text{and}\, \mathtt{S^\prime}\, \text{from a common}\\
+&\text{source to any destinations}
+\end{aligned}
+\qquad && \mathit{time}_\mathtt{S} \prec_\mathtt{HB} \mathit{time}_\mathtt{S^\prime} \tag{1*}\\
+&\text{Match pairs for any receive \texttt{R}} \qquad &&  \bigvee_{\mathtt{S}_i \in \mathrm{Match}(\mathtt{R})} \langle\mathtt{R},\mathtt{S}_i\rangle^* \tag{6*}\\ 
+&
+\begin{aligned}
+&\text{Send \texttt{S} and receive \texttt{R} are in}\\
+&\text{a sequential order on a common process}
+\end{aligned}
+\qquad && \mathit{time}_\mathtt{S} \prec_\mathtt{HB} \mathit{time}_\mathtt{R}\\
+&
+\begin{aligned}
+&\text{Send \texttt{S} and barrier \texttt{B} are in}\\
+&\text{a sequential order on a common process}
+\end{aligned}
+\qquad && \mathit{time}_\mathtt{S} \prec_\mathtt{HB} \mathit{time}_\mathtt{B}
+\end{alignat}
+\caption{SMT encoding for zero buffer semantics}
+\label{fig:zb}
+\end{figure*}
+}
+
+\newsavebox{\boxPOInfinite}
+\begin{lrbox}{\boxPOInfinite}
+\begin{minipage}[t]{0.55\linewidth}
+\large
+\begin{align*}
+\bigvee_{0 \leq i \leq 2} & (\mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,5}}\\
+                                     & \mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
+                                     & \mathit{time}_\mathtt{R_{i,6}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,7}})\\
+\end{align*}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxMPInfinite}
+\begin{lrbox}{\boxMPInfinite}
+\begin{minipage}[t]{0.55\linewidth}
+\large
+\begin{align*}
+\bigwedge_{0 \leq i \leq 2} & [(\langle\mathtt{R_{i,4}},\mathtt{S_{(i+1) mod 3}}\rangle \vee  \langle\mathtt{R_{i,6}},\mathtt{S_{(i+2) mod 3}}\rangle)\\
+                                          & \wedge(\langle\mathtt{R_{i,4}},\mathtt{S_{(i+1) mod 3}}\rangle  \vee \langle\mathtt{R_{i,6}},\mathtt{S_{(i+2) mod 3}}\rangle)]\\
+\end{align*}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxPOZero}
+\begin{lrbox}{\boxPOZero}
+\begin{minipage}[t]{0.55\linewidth}
+\large
+\begin{align*}
+\bigvee_{0 \leq i \leq 2} & (\mathit{time}_\mathtt{S_{i,0}}\prec_\mathtt{HB} \mathit{time}_\mathtt{S_{i,2}}\\
+				   & \mathit{time}_\mathtt{S_{i,0}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,4}}\\
+				   & \mathit{time}_\mathtt{S_{i,0}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
+				   & \mathit{time}_\mathtt{S_{i,2}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,4}}\\
+				   & \mathit{time}_\mathtt{S_{i,2}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
+				   & \mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,5}}\\
+                                     & \mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
+                                     & \mathit{time}_\mathtt{R_{i,6}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,7}})\\
+\end{align*}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxMPZero}
+\begin{lrbox}{\boxMPZero}
+\begin{minipage}[t]{0.55\linewidth}
+\large
+\begin{align*}
+\bigwedge_{0 \leq i \leq 2} & [(\langle\mathtt{R_{i,4}},\mathtt{S_{(i+1) mod 3}}\rangle^* \vee  \langle\mathtt{R_{i,6}},\mathtt{S_{(i+2) mod 3}}\rangle^*)\\
+                                          & \wedge(\langle\mathtt{R_{i,4}},\mathtt{S_{(i+1) mod 3}}\rangle^*  \vee \langle\mathtt{R_{i,6}},\mathtt{S_{(i+2) mod 3}}\rangle^*)]\\
+\end{align*}
+\end{minipage}
+\end{lrbox}
+
+\newsavebox{\boxProperty}
+\begin{lrbox}{\boxProperty}
+\begin{minipage}[t]{0.55\linewidth}
+\large
+\begin{align*}
+\mathtt{B > 0}\\
+\mathtt{A \neq 1}\\
+\end{align*}
+\end{minipage}
+\end{lrbox}
+
+\newcommand\exampleencoding{
+\begin{figure*}[t]
+\begin{center}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}[t]{lll}
+Program Order & \scalebox{0.7}{\usebox{\boxPOInfinite}} & \scalebox{0.7}{\usebox{\boxPOZero}}\\
+Match Pairs & \scalebox{0.7}{\usebox{\boxMPInfinite}} &  \scalebox{0.7}{\usebox{\boxMPZero}}\\
+Properties   & \scalebox{0.7}{\usebox{\boxProperty}} & \scalebox{0.7}{\usebox{\boxProperty}}\\
+&\multicolumn{1}{c}{(a)} &\multicolumn{1}{c}{(b)}\\
+\end{tabular}
+\end{center}
+\caption{SMT encoding for an MPI concurrent trace program in \figref{fig:mpi}. (a) Infinite Buffer Encoding. (b) Zero Buffer Encoding.}
+\label{fig:mpiencoding}
+\end{figure*}
+}
+
+

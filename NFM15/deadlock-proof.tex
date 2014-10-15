@@ -1,0 +1,109 @@
+\section{Deadlock in MPI}
+fdgfgfdg
+
+The complexity proof is on a
+new decision problem: \emph{Verifying Deadlock Violation in an MPI program}
+(VDMPI).
+\begin{definition}
+\textbf{Verifying Deadlock Violation in an MPI program}.
+\begin{compactdesc}
+\item{INSTANCE}: A set of constants $D$, a set of variables $X$, a finite set of processes $P$, and a
+  set of partial orders $\prec$ over send, receive, assert and
+  collective operations.
+\item{QUESTION}: Is there a coherent schedule $S$ for the operations of $P$ that a deadlock occurs where some send/receive
+is orphaned?
+\end{compactdesc}
+\label{def:np1}
+\end{definition}
+
+
+The VDMPI problem is NP-Complete. The proof is reducing the problem from SAT in polynomial ? time. In particular, given an instance $Q$ of SAT consisting of a set of variables $U$ and a set of clauses $C$ over $U$, an instance $V$ of VDMPI is constructed such that $V$ has a coherent schedule $S$ for the operations of $P$ that a deadlock occurs if and only if a satisfying assignment for $Q$ exists. Coherent in this context indicates the schedule is allowed by the MPI semantics.
+
+The reduction is illustrated in \figref{fig:vdmpi}. The wait functions are omitted because each of them follows its send/receive directly in the figure. The subscript notations of all sends/receives are omitted as well because they are redundant. The values sent are added to the sends as they are essential to the reduction. 
+
+Intuitively, the reduction relies on message non-determinism to evaluate the value of each variable in SAT. The process $\mathit{p_C}$ repeatedly sends the signal $d_s$ to two processes, $\mathit{p_{d_0}}$ and $\mathit{p_{d_1}}$. After the signals are received by $\mathit{p_{d_0}}$ and $\mathit{p_{d_1}}$, they sends the false value $\mathit{d_0}$ or the true value $\mathit{d_1}$ respectively to $\mathit{p_{C}}$ for evaluating a variable in SAT. The message arrivals from $\mathit{p_{d_0}}$ and $\mathit{p_{d_1}}$ are racing due to semantics of wildcard receives in $\mathit{p_C}$. Therefore, the valuation of the variables in SAT can be non-deterministically $\mathit{d_0}$ or $\mathit{d_1}$ that is received by $\mathit{p_C}$. The new signals are sent only when the current variable in $\mathit{p_C}$ is assigned a value. Therefore, the valuation of the new variable is not resolved until the evaluation of the current variable is finished.
+
+The valuation of each variable in SAT is resolved eventually by sequentially requesting and receiving values in $\mathit{p_C}$. After that, $\mathit{p_C}$ evaluates $Q$, the conjunction of all clauses $C$ in SAT, as a logic condition in a if statement. Since each variable in SAT is assigned a value, $Q$ is evaluated sequentially. If a satisfying assignment exists for $Q$, then a wildcard receive is issued by $\mathit{p_C}$. This receive can not match any sends in the program. Therefore, this orphaned receive leads to a deadlock in this coherent schedule. 
+ 
+\begin{figure}
+\begin{center}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}[t]{|l|l|l|}
+\hline
+\multicolumn{3}{|l|}{\textbf{SAT:} $\mathit{U\equiv\{u_0,u_1,...,u_m\}}$}\\
+              \multicolumn{3}{|l|}{$\mathit{C\equiv\{c_0,c_1,...,c_n\}}$}\\
+              \multicolumn{3}{|l|}{$\mathit{Q\equiv\{c_0\wedge c_1\wedge ...\wedge c_n\}}$}\\
+\hline
+\multicolumn{3}{|l|}{\textbf{VAMPI:} $\mathit{P\equiv\{p_{d_0},p_{d_1},p_{C}\}}$}\\
+                \multicolumn{3}{|l|}{$\mathit{X\equiv\{u_0,...,u_{m+1},g_0,g_1\}}$}\\
+                \multicolumn{3}{|l|}{$\mathit{D\equiv\{d_0,d_1,d_s\}}$}\\
+\hline
+$p_{d_0}$ & $p_{d_1}$ & $p_C$ \\
+\hline
+$R(g_{0},*)$   & $R(g_{1},*)$   & $S(d_s,h_{d_0})$ \\
+$S(d_{0},h_C)$ & $S(d_{1},h_C)$ & $S(d_s,h_{d_1})$ \\
+              &                & $R(u_0,*)$        \\
+              &                & $R(u_0,*)$        \\
+\hline
+$R(g_{0},*)$  &  $R(g_{1},*)$   & $S(d_s,h_{d_0})$ \\
+$S(d_{0},h_C)$&  $S(d_{1},h_C)$ & $S(d_s,h_{d_1})$ \\
+              &                & $R(u_1,*)$       \\
+              &                & $R(u_1,*)$       \\
+\hline
+$\ldots$      &  $\ldots$      & $\ldots$                \\
+\hline
+              &                & \textit{if}($c_0\wedge c_1\wedge ...\wedge c_n$) \\
+              &                & $R(u_{m+1},*)$ \\
+\hline
+\end{tabular}
+\end{center}
+\caption{General SAT to VDMPI reduction}
+\label{fig:vdmpi}
+\end{figure}
+
+\begin{lemma} \label{lem:sat}
+$S$ is a coherent schedule for $P$ that a deadlock occurs if and only if $Q$ is satisfiable. 
+\end{lemma}
+\begin{proof}
+\textbf{Coherent schedule for V that a deadlock occurs implies Q is satisfiable}: proof by
+contradiction. Assume that $Q$ is unsatisfiable even though there is a
+coherent schedule $S$ for $V$ that a deadlock occurs that some send/receive is orphaned. The
+reduction in \figref{fig:vdmpi} considers all truth values of the
+variables in $Q$, over every combination, by virtue of the
+non-determinism, and then issues a wildcard receive if each of the clauses in
+$Q$ is true. The complete set of possibilities is realized by sending in
+parallel from $\mathit{p_{d_0}}$ and $\mathit{P_{d_1}}$ the two truth valuations for a
+given variable to $\mathit{p_C}$. As these messages may be received in any
+order, each variable may assume either truth value. Further, each
+variable resolved is an independent choice so all combinations of
+variable valuations must be considered.  This fact is a contradiction
+to the assumption of $Q$ being unsatisfiable as the same truth values
+that meet the assertions would be a satisfying assignment in $Q$.
+
+\noindent \textbf{Q is satisfiable implies feasible schedule for V}:
+the proof is symmetric to the previous case and proceeds in a like
+manner.
+\end{proof}
+
+\begin{theorem}[NP-complete]
+VDMPI is NP-complete.
+\end{theorem}
+\begin{proof}
+\noindent\textbf{Membership in NP}: a certificate is a schedule
+that a deadlock occurs that some send/receive is orphaned. The schedule is
+linearly scanned with the process histories and checked that it does not
+violate MPI semantics. We construct an operational model of MPI semantics that obtains every possible schedule that can be resolved by a program execution. The schedule mentioned above can be obtained by operating this model with the process histories. 
+%The complexity is linear in the size of the schedule.
+
+\noindent\textbf{NP-hard}: polynomial reduction from SAT. The
+correctness of the reduction is established by \lemmaref{lem:sat}.
+The remainder of the proof is the complexity of the reduction. There
+are two processes to send values $d_0$ and $d_1$ upon request. For each
+variable $u_i \in U$, each of these processes, $d_0$ and $d_1$, needs two
+operations: one to synchronize with $h_C$ and another to send the
+value: $O(2 * 2 * |U|)$. The task $h_C$ must request values from
+$h_{d_0}$ and $h_{d_1}$ and then receive both those values; it must do
+this for each variable: $O(2 * 2 * |U|)$.  Once all the values
+are collected, it must then evaluate each clause in the if condition: $O(|C|)$. As every
+term is linear, the reduction is linear.
+\end{proof}

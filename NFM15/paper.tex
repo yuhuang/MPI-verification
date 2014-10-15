@@ -1,0 +1,73 @@
+% This is LLNCS.DEM the demonstration file of
+% the LaTeX macro package from Springer-Verlag
+% for Lecture Notes in Computer Science,
+% version 2.4 for LaTeX2e as of 16. April 2010
+%
+\documentclass[conference]{llncs}
+%
+\usepackage{url}
+\usepackage{comment}
+\usepackage{mathpartir}
+\usepackage{listings}
+\usepackage{alltt}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subfigure}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{paralist, tabularx}
+\usepackage{flushend}
+%\usepackage[none]{hyphenat}
+
+
+\def\UrlBreaks{\do\/\do-}
+
+\usepackage{color}
+\definecolor{egmcolor}{rgb}{1.0,0.0,0.722}
+\newcommand*{\egm}[1]%
+%%
+%% a)
+{\textcolor{egmcolor}{\noindent\textbf{[egm:~}\textit{#1}]}}
+%%
+% Other things...
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+\newcommand{\tableref}[1]{Table~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\lemmaref}[1]{Lemma~\ref{#1}}
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+
+%\newtheorem{definition}{Definition}
+%\newtheorem{theorem}{Theorem}
+%\newtheorem{lemma}{Lemma}
+
+%
+\begin{document}
+\title{A Precise SMT Encoding for MPI Semantics}
+
+\author{Yu Huang \and Eric Mercer}
+\institute{Brigham Young University \\
+          \email{\{yuHuang,egm\}@byu.edu}}
+
+\maketitle
+%
+%
+\emergencystretch=1em
+
+\begin{abstract} 
+\input{abstract}
+\end{abstract}
+\keywords{MPI, SMT, Message Passing}
+
+\input{example-defs}
+\input{introduction}
+\input{example}
+\input{encoding}
+\input{compatibility}
+\input{experiment}
+\input{related}
+\input{conclusion}
+
+\bibliographystyle{splncs03}
+\bibliography{bib/paper}
+\end{document}
