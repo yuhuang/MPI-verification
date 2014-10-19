@@ -90,11 +90,19 @@ Intuitively, the consecutive order over a send and the matching receive is defin
 
 \begin{definition}[Strict Alternating]\label{def:alternate}
 A set of sends, $S$, and a set of receives, $R$, are strictly alternated if and only if each send in $S$ immediately precedes the matching receive in $R$ and each receive in $R$ immediately follows the matching send in $S$.
+%:
 \end{definition}
-
 To further constrain the program order for zero buffer semantics, new rules are added: on each process a send happens before a receive that is issued later (rule $(11)$); and similarly, on each process a send happens before a barrier that is issued later (rule $(12)$). In addition, Rule $(1^*)$ replaces rule $(1)$ as zero buffer semantics do not allow a new send to be issued before the pending send is completed on a common process. Rule $(6^*)$ replaces rule $(6)$ to enforces strict alternating for every send and its matching receive.
 
 \encodingzb
+
+\figref{fig:mpiencoding}(b) illustrates the zero buffer encoding for the sample program in \figref{fig:mpi}. It is very similar to the infinite buffer encoding in \figref{fig:mpiencoding}(a), only the program order on each process is highly constrained, and sends and receives are strictly alternated for match pairs. This encoding is able to detect assertion violations for zero buffer semantics. Further, the encoding strategy can be extended to detect zero buffer incomparability. 
+
+\subsection{Zero Buffer Compatibility}
+A zero buffer incompatible program must deadlock. Notice that the input trace of our encoding is generated from infinite buffer semantics, the match pairs may not be resolved under zero buffer semantics. Taking the program in \figref{fig:mpi} as an example, there is no way to resolve the strict alternating relation for the first send of each process and its matching receive. As such, the zero buffer encoding for these match pairs is unsatisfiable. Therefore, the zero buffer compatibility is checked by merely encoding and resolving the partial order constraints that are allowed by zero buffer semantics. The constraints for user-provided assertions defined in rule $(8)$ are simply removed because they are irrelevant for this purpose. If the encoding is satisfiable, the compatibility of this scenario is proved; otherwise, it can not be executed because the execution would deadlock. The correctness discussed later further demonstrates this solution is capable of precisely checking zero buffer compatibility of an MPI program.
+
+Notice that a deadlock program may not be zero buffer incompatible. Intuitively, deadlock is caused by various reasons: orphan send or receive that is never matched, dependency circuit existing in message communication topology, and improper implementation of collective operations, etc. Given that the MPI semantics are complicated, it is hard to precisely and efficiently check deadlock for an MPI program \cite{}. The approach in this paper, however, focuses on zero buffer compatibility and is able to check it with an SMT encoding in quadric size.  
+
 
 %: add discussion on zero buffer encoding of sample program here
 %: add discussion on zero buffer compatibility here
