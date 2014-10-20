@@ -1,0 +1,83 @@
+infinite buffer:
+
+Program is in process...
+Program starts at 1396476551324
+Message Size: 54
+Match Pair set: 1998
+Over-Approximiated possible choices: 9.378532489310389E79
+========================================
+Generating Match Pair for 0.262seconds
+Program ends at 1396476551697
+Program executes 0.373seconds
+
+sat
+(:add-rows                39956131
+ :added-eqs               65290753
+ :arith-conflicts         443
+ :assert-diseq            67648024
+ :assert-lower            12911482
+ :assert-upper            11900818
+ :binary-propagations     38447972
+ :bound-prop              627943
+ :conflicts               64356
+ :datatype-accessor-ax    108
+ :datatype-constructor-ax 108
+ :datatype-occurs-check   7992
+ :decisions               8312662
+ :del-clause              63631
+ :eq-adapter              18336
+ :final-checks            75
+ :fixed-eqs               186771
+ :interface-eqs           74
+ :memory                  98.56
+ :minimized-lits          79837
+ :mk-clause               165068
+ :offset-eqs              339106
+ :pivots                  113413
+ :propagations            85323380
+ :restarts                280
+ :time                    593.92
+ :total-time              593.97)
+
+
+zero buffer:
+
+Program is in process...
+Program starts at 1396476597370
+Message Size: 54
+Match Pair set: 1998
+Over-Approximiated possible choices: 9.378532489310389E79
+========================================
+Generating Match Pair for 0.253seconds
+Program ends at 1396476597738
+Program executes 0.368seconds
+
+sat
+(:add-rows                1041283
+ :added-eqs               656098
+ :arith-conflicts         515
+ :assert-diseq            457356
+ :assert-lower            74498
+ :assert-upper            168776
+ :binary-propagations     442372
+ :bound-prop              45589
+ :conflicts               1312
+ :datatype-accessor-ax    108
+ :datatype-constructor-ax 108
+ :datatype-occurs-check   140508
+ :decisions               436644
+ :del-clause              29317
+ :eq-adapter              11120
+ :final-checks            1302
+ :fixed-eqs               1850
+ :interface-eqs           1301
+ :memory                  52.54
+ :minimized-lits          817
+ :mk-clause               40716
+ :offset-eqs              10380
+ :pivots                  3239
+ :propagations            828070
+ :restarts                11
+ :time                    10.56
+ :total-time              10.61)
+
