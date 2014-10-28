@@ -1,0 +1,24 @@
+ISP - Insitu Partial Order
+-----------------------------------------
+Command:        ./integrate_infinite.o 
+Number Procs:   4
+Server:         localhost:9999
+Blocking Sends: Enabled
+-----------------------------------------
+Started Process: 26057
+INTERLEAVING :1
+Started Process: 26063
+INTERLEAVING :2
+Started Process: 26069
+INTERLEAVING :3
+Started Process: 26075
+INTERLEAVING :4
+Started Process: 26081
+INTERLEAVING :5
+Started Process: 26087
+INTERLEAVING :6
+-----------------------------------------
+ISP detected no deadlocks!
+Total Explored Interleavings: 6
+Interleaving Exploration Mode: All Relevant Interleavings
+-----------------------------------------

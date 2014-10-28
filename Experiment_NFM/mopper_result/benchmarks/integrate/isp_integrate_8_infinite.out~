@@ -1,0 +1,79 @@
+ISP - Insitu Partial Order
+-----------------------------------------
+Command:        ./integrate.o 
+Number Procs:   8
+Server:         localhost:9999
+Blocking Sends: Disabled
+-----------------------------------------
+Started Process: 28258
+INTERLEAVING :1
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   EXIT CODE: 1
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+-----------------------------------------
+Transition list for 0
+0 o=1 i=0 rank=0 Send integrate_mw.c:135 dest=1 stag=1{} {}	 Matched [1,0]
+1 o=9 i=1 rank=0 Send integrate_mw.c:135 dest=2 stag=1{} {}	 Matched [2,0]
+2 o=10 i=2 rank=0 Send integrate_mw.c:135 dest=3 stag=1{} {}	 Matched [3,0]
+3 o=11 i=3 rank=0 Send integrate_mw.c:135 dest=4 stag=1{} {}	 Matched [4,0]
+4 o=12 i=4 rank=0 Send integrate_mw.c:135 dest=5 stag=1{} {}	 Matched [5,0]
+5 o=13 i=5 rank=0 Send integrate_mw.c:135 dest=6 stag=1{} {}	 Matched [6,0]
+6 o=14 i=6 rank=0 Send integrate_mw.c:135 dest=7 stag=1{} {}	 Matched [7,0]
+7 o=15 i=7 rank=0 Recv integrate_mw.c:170 src=-1 rtag=3{[0, 8]} {}	 Matched [1,1]
+8 o=30 i=8 rank=0 Recv integrate_mw.c:170 src=-1 rtag=3{[0, 9]} {}	 Matched [2,1]
+9 o=31 i=9 rank=0 Recv integrate_mw.c:170 src=-1 rtag=3{[0, 10]} {}	 Matched [3,1]
+10 o=32 i=10 rank=0 Recv integrate_mw.c:170 src=-1 rtag=3{[0, 11]} {}	 Matched [4,1]
+11 o=33 i=11 rank=0 Recv integrate_mw.c:170 src=-1 rtag=3{[0, 12]} {}	 Matched [5,1]
+12 o=34 i=12 rank=0 Recv integrate_mw.c:170 src=-1 rtag=3{[0, 13]} {}	 Matched [6,1]
+13 o=35 i=13 rank=0 Recv integrate_mw.c:170 src=-1 rtag=3{} {}	 Matched [7,1]
+
+Transition list for 1
+0 o=2 i=0 rank=1 Recv integrate_mw.c:96 src=0 rtag=-1{[1, 1][1, 2]} {}	 Matched [0,0]
+1 o=16 i=1 rank=1 Send integrate_mw.c:107 dest=0 stag=3{[1, 2]} {}	 Matched [0,7]
+2 o=17 i=2 rank=1 Finalize integrate_mw.c:219{} {}
+No resource leaks detected, 3 MPI calls trapped.
+
+Transition list for 2
+0 o=3 i=0 rank=2 Recv integrate_mw.c:96 src=0 rtag=-1{[2, 1][2, 2]} {}	 Matched [0,1]
+1 o=18 i=1 rank=2 Send integrate_mw.c:107 dest=0 stag=3{[2, 2]} {}	 Matched [0,8]
+2 o=19 i=2 rank=2 Finalize integrate_mw.c:219{} {}
+No resource leaks detected, 3 MPI calls trapped.
+
+Transition list for 3
+0 o=4 i=0 rank=3 Recv integrate_mw.c:96 src=0 rtag=-1{[3, 1][3, 2]} {}	 Matched [0,2]
+1 o=20 i=1 rank=3 Send integrate_mw.c:107 dest=0 stag=3{[3, 2]} {}	 Matched [0,9]
+2 o=21 i=2 rank=3 Finalize integrate_mw.c:219{} {}
+No resource leaks detected, 3 MPI calls trapped.
+
+Transition list for 4
+0 o=5 i=0 rank=4 Recv integrate_mw.c:96 src=0 rtag=-1{[4, 1][4, 2]} {}	 Matched [0,3]
+1 o=22 i=1 rank=4 Send integrate_mw.c:107 dest=0 stag=3{[4, 2]} {}	 Matched [0,10]
+2 o=23 i=2 rank=4 Finalize integrate_mw.c:219{} {}
+No resource leaks detected, 3 MPI calls trapped.
+
+Transition list for 5
+0 o=6 i=0 rank=5 Recv integrate_mw.c:96 src=0 rtag=-1{[5, 1][5, 2]} {}	 Matched [0,4]
+1 o=24 i=1 rank=5 Send integrate_mw.c:107 dest=0 stag=3{[5, 2]} {}	 Matched [0,11]
+2 o=25 i=2 rank=5 Finalize integrate_mw.c:219{} {}
+No resource leaks detected, 3 MPI calls trapped.
+
+Transition list for 6
+0 o=7 i=0 rank=6 Recv integrate_mw.c:96 src=0 rtag=-1{[6, 1][6, 2]} {}	 Matched [0,5]
+1 o=26 i=1 rank=6 Send integrate_mw.c:107 dest=0 stag=3{[6, 2]} {}	 Matched [0,12]
+2 o=27 i=2 rank=6 Finalize integrate_mw.c:219{} {}
+No resource leaks detected, 3 MPI calls trapped.
+
+Transition list for 7
+0 o=8 i=0 rank=7 Recv integrate_mw.c:96 src=0 rtag=-1{[7, 1][7, 2]} {}	 Matched [0,6]
+1 o=28 i=1 rank=7 Send integrate_mw.c:107 dest=0 stag=3{[7, 2]} {}	 Matched [0,13]
+2 o=29 i=2 rank=7 Finalize integrate_mw.c:219{} {}
+No resource leaks detected, 3 MPI calls trapped.
+
+Program assertion failed!
+Rank 0: integrate_mw.c:181: manager: Assertion `answer==0' failed.
+Killing program integrate.o
+-----------------------------------------

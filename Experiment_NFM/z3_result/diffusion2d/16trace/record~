@@ -1,0 +1,164 @@
+infinite:
+
+Program is in process...
+Program starts at 1414469237590
+avg: 14.361702127659575
+Message Size: 94
+Match Pair set: 1350
+Standard Deviation of match pairs for receives: 136.02096208915574
+Approximiated possible choices: 1.132139008E8
+========================================
+Generating Match Pair for 0.118seconds
+Program ends at 1414469237905
+Program executes 0.315seconds
+
+with user provided assertions:
+
+unsat
+(:add-rows                55080
+ :added-eqs               592808
+ :arith-conflicts         1
+ :assert-diseq            479532
+ :assert-lower            16616
+ :assert-upper            15677
+ :binary-propagations     427786
+ :bound-prop              2401
+ :conflicts               3049
+ :datatype-accessor-ax    188
+ :datatype-constructor-ax 188
+ :decisions               394763
+ :del-clause              16301
+ :eq-adapter              7116
+ :fixed-eqs               188
+ :memory                  30.68
+ :minimized-lits          141
+ :mk-clause               21807
+ :offset-eqs              83
+ :pivots                  1269
+ :propagations            707050
+ :restarts                25
+ :time                    5.14
+ :total-time              5.17)
+
+real	0m5.194s
+user	0m5.152s
+sys	0m0.032s
+
+
+without:
+
+sat
+(:add-rows                547441
+ :added-eqs               3394692
+ :arith-conflicts         43
+ :assert-diseq            3408021
+ :assert-lower            479904
+ :assert-upper            297859
+ :binary-propagations     1968548
+ :bound-prop              11476
+ :conflicts               7572
+ :datatype-accessor-ax    188
+ :datatype-constructor-ax 188
+ :datatype-occurs-check   75952
+ :decisions               1822554
+ :del-clause              20921
+ :eq-adapter              10889
+ :final-checks            405
+ :fixed-eqs               188
+ :interface-eqs           404
+ :memory                  74.56
+ :minimized-lits          867
+ :mk-clause               33284
+ :offset-eqs              2564
+ :pivots                  3354
+ :propagations            3828198
+ :restarts                54
+ :time                    60.11
+ :total-time              60.13)
+
+real	1m0.243s
+user	1m0.092s
+sys	0m0.059s
+
+zero:
+
+Program is in process...
+Program starts at 1414469217417
+avg: 14.361702127659575
+Message Size: 94
+Match Pair set: 1350
+Standard Deviation of match pairs for receives: 136.02096208915574
+Approximiated possible choices: 1.132139008E8
+========================================
+Generating Match Pair for 0.117seconds
+Program ends at 1414469217751
+Program executes 0.334seconds
+
+with user provided assertions:
+
+unsat
+(:add-rows                143437
+ :added-eqs               34125
+ :arith-conflicts         62
+ :assert-diseq            3067
+ :assert-lower            2590
+ :assert-upper            3936
+ :binary-propagations     79607
+ :bound-prop              8903
+ :conflicts               590
+ :datatype-accessor-ax    188
+ :datatype-constructor-ax 188
+ :decisions               32178
+ :del-clause              1246
+ :eq-adapter              1837
+ :fixed-eqs               188
+ :memory                  30.68
+ :minimized-lits          114
+ :mk-clause               6276
+ :offset-eqs              12
+ :pivots                  2041
+ :propagations            118022
+ :restarts                5
+ :time                    1.21
+ :total-time              1.25)
+
+real	0m1.263s
+user	0m1.240s
+sys	0m0.020s
+
+
+without:
+
+unsat
+(:add-rows                294337
+ :added-eqs               303653
+ :arith-conflicts         109
+ :assert-diseq            33325
+ :assert-lower            17236
+ :assert-upper            21686
+ :binary-propagations     420438
+ :bound-prop              20570
+ :conflicts               1809
+ :datatype-accessor-ax    188
+ :datatype-constructor-ax 188
+ :datatype-occurs-check   14100
+ :decisions               307743
+ :del-clause              3120
+ :eq-adapter              2176
+ :final-checks            76
+ :fixed-eqs               188
+ :interface-eqs           76
+ :memory                  36.55
+ :minimized-lits          890
+ :mk-clause               14287
+ :offset-eqs              501
+ :pivots                  3306
+ :propagations            760034
+ :restarts                15
+ :time                    8.95
+ :total-time              8.98)
+
+real	0m9.001s
+user	0m8.961s
+sys	0m0.028s
+

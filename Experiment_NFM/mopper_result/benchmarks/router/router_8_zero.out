@@ -1,0 +1,37 @@
+-----------------------------------------
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   EXIT CODE: 1
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+-----------------------------------------
+Transition list for 0
+0 o=1 i=0 rank=0 Send router.c:87 dest=7 stag=1{} {}
+
+Transition list for 1
+0 o=2 i=0 rank=1 Send router.c:87 dest=0 stag=1{} {}
+
+Transition list for 2
+0 o=3 i=0 rank=2 Send router.c:87 dest=1 stag=1{} {}
+
+Transition list for 3
+0 o=4 i=0 rank=3 Send router.c:87 dest=2 stag=1{} {}
+
+Transition list for 4
+0 o=5 i=0 rank=4 Send router.c:87 dest=3 stag=1{} {}
+
+Transition list for 5
+0 o=6 i=0 rank=5 Send router.c:87 dest=4 stag=1{} {}
+
+Transition list for 6
+0 o=7 i=0 rank=6 Send router.c:87 dest=5 stag=1{} {}
+
+Transition list for 7
+0 o=8 i=0 rank=7 Send router.c:87 dest=6 stag=1{} {}
+
+No matching MPI call found!
+Detected a DEADLOCK in interleaving 1
+-----------------------------------------
+SAT analysis is NOT REQUIRED: no wildcards

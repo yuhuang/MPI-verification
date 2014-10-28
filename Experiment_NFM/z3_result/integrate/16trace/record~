@@ -1,0 +1,136 @@
+infinite:
+
+Program is in process...
+Program starts at 1414469722503
+avg: 8.0
+Message Size: 30
+Match Pair set: 240
+Standard Deviation of match pairs for receives: 38.34057902536163
+Approximiated possible choices: 6300.0
+========================================
+Generating Match Pair for 0.011seconds
+Program ends at 1414469722591
+Program executes 0.088seconds
+
+with user provided assertions:
+
+sat
+(:add-rows                9191
+ :added-eqs               78133
+ :arith-conflicts         3
+ :assert-diseq            60838
+ :assert-lower            3264
+ :assert-upper            3789
+ :binary-propagations     51199
+ :bound-prop              324
+ :conflicts               827
+ :datatype-accessor-ax    60
+ :datatype-constructor-ax 60
+ :datatype-occurs-check   300
+ :decisions               38554
+ :del-clause              5278
+ :eq-adapter              2983
+ :final-checks            6
+ :fixed-eqs               60
+ :interface-eqs           5
+ :memory                  7.50
+ :minimized-lits          327
+ :mk-clause               6576
+ :offset-eqs              14
+ :pivots                  240
+ :propagations            71676
+ :restarts                7
+ :time                    0.30
+ :total-time              0.32)
+
+real	0m0.325s
+user	0m0.317s
+sys	0m0.008s
+
+without:
+
+
+zero:
+
+
+Program is in process...
+Program starts at 1414469762680
+avg: 8.0
+Message Size: 30
+Match Pair set: 240
+Standard Deviation of match pairs for receives: 38.34057902536163
+Approximiated possible choices: 6300.0
+========================================
+Generating Match Pair for 0.011seconds
+Program ends at 1414469762746
+Program executes 0.066seconds
+
+with user provided assertions:
+
+sat
+(:add-rows                12793
+ :added-eqs               51136
+ :arith-conflicts         1
+ :assert-diseq            19361
+ :assert-lower            4482
+ :assert-upper            5591
+ :binary-propagations     90858
+ :bound-prop              1605
+ :conflicts               642
+ :datatype-accessor-ax    60
+ :datatype-constructor-ax 60
+ :datatype-occurs-check   4800
+ :decisions               55868
+ :del-clause              855
+ :eq-adapter              912
+ :final-checks            81
+ :fixed-eqs               75
+ :interface-eqs           80
+ :memory                  8.79
+ :minimized-lits          653
+ :mk-clause               3374
+ :offset-eqs              489
+ :pivots                  558
+ :propagations            164271
+ :restarts                5
+ :time                    0.61
+ :total-time              0.62)
+
+real	0m0.631s
+user	0m0.614s
+sys	0m0.016s
+
+without:
+
+sat
+(:add-rows                9494
+ :added-eqs               46463
+ :assert-diseq            15264
+ :assert-lower            3878
+ :assert-upper            4463
+ :binary-propagations     82821
+ :bound-prop              1397
+ :conflicts               638
+ :datatype-accessor-ax    60
+ :datatype-constructor-ax 60
+ :datatype-occurs-check   4620
+ :decisions               51333
+ :del-clause              817
+ :eq-adapter              809
+ :final-checks            78
+ :fixed-eqs               75
+ :interface-eqs           77
+ :memory                  8.36
+ :minimized-lits          3461
+ :mk-clause               3090
+ :offset-eqs              418
+ :pivots                  521
+ :propagations            148567
+ :restarts                5
+ :time                    0.54
+ :total-time              0.55)
+
+real	0m0.557s
+user	0m0.540s
+sys	0m0.016s
+

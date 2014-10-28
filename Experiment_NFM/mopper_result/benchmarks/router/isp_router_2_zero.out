@@ -1,0 +1,36 @@
+real	0m0.035s
+user	0m0.011s
+sys	0m0.031s
+
+
+ISP - Insitu Partial Order
+-----------------------------------------
+Command:        ./router.o 
+Number Procs:   2
+Server:         localhost:9999
+Blocking Sends: Enabled
+-----------------------------------------
+Started Process: 4220
+INTERLEAVING :1
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   EXIT CODE: 1
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+-----------------------------------------
+Transition list for 0
+0 o=1 i=0 rank=0 Send router.c:87 dest=1 stag=1{} {}
+
+Transition list for 1
+0 o=2 i=0 rank=1 Send router.c:87 dest=0 stag=1{} {}
+
+No matching MPI call found!
+Detected a DEADLOCK in interleaving 1
+-----------------------------------------
+-----------------------------------------
+ISP detected deadlock!!!
+Total Explored Interleavings: 1
+Interleaving Exploration Mode: All Relevant Interleavings
+-----------------------------------------

@@ -1,0 +1,14 @@
+ISP - Insitu Partial Order
+-----------------------------------------
+Command:        ./router.o 
+Number Procs:   2
+Server:         localhost:9999
+Blocking Sends: Disabled
+-----------------------------------------
+Started Process: 15466
+INTERLEAVING :1
+-----------------------------------------
+ISP detected no deadlocks!
+Total Explored Interleavings: 1
+Interleaving Exploration Mode: All Relevant Interleavings
+-----------------------------------------

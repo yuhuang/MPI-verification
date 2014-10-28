@@ -1,0 +1,3 @@
+T0_0: barrier(comm)
+T0_1: snd(1, -1)
+T0_2: wait(T0_1)

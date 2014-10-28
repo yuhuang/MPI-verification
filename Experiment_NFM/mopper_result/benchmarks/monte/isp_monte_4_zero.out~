@@ -1,0 +1,24 @@
+ISP - Insitu Partial Order
+-----------------------------------------
+Command:        ./monte.o 0.5 
+Number Procs:   4
+Server:         localhost:9999
+Blocking Sends: Enabled
+-----------------------------------------
+Started Process: 30404
+INTERLEAVING :1
+Started Process: 30410
+INTERLEAVING :2
+Started Process: 30416
+INTERLEAVING :3
+Started Process: 30422
+INTERLEAVING :4
+Started Process: 30428
+INTERLEAVING :5
+Started Process: 30434
+INTERLEAVING :6
+-----------------------------------------
+ISP detected no deadlocks!
+Total Explored Interleavings: 6
+Interleaving Exploration Mode: All Relevant Interleavings
+-----------------------------------------

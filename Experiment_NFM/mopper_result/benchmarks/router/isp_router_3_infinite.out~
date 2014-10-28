@@ -1,0 +1,256 @@
+ISP - Insitu Partial Order
+-----------------------------------------
+Command:        ../benchmarks/router/router.o 
+Number Procs:   3
+Server:         localhost:9999
+Blocking Sends: Disabled
+-----------------------------------------
+Started Process: 11052
+INTERLEAVING :1
+Started Process: 11057
+INTERLEAVING :2
+Started Process: 11062
+INTERLEAVING :3
+Started Process: 11067
+INTERLEAVING :4
+Started Process: 11072
+INTERLEAVING :5
+Started Process: 11077
+INTERLEAVING :6
+Started Process: 11082
+INTERLEAVING :7
+Started Process: 11087
+INTERLEAVING :8
+Started Process: 11092
+INTERLEAVING :9
+Started Process: 11097
+INTERLEAVING :10
+Started Process: 11102
+INTERLEAVING :11
+Started Process: 11107
+INTERLEAVING :12
+Started Process: 11112
+INTERLEAVING :13
+Started Process: 11117
+INTERLEAVING :14
+Started Process: 11122
+INTERLEAVING :15
+Started Process: 11127
+INTERLEAVING :16
+Started Process: 11132
+INTERLEAVING :17
+Started Process: 11137
+INTERLEAVING :18
+Started Process: 11142
+INTERLEAVING :19
+Started Process: 11147
+INTERLEAVING :20
+Started Process: 11152
+INTERLEAVING :21
+Started Process: 11157
+INTERLEAVING :22
+Started Process: 11162
+INTERLEAVING :23
+Started Process: 11167
+INTERLEAVING :24
+Started Process: 11172
+INTERLEAVING :25
+Started Process: 11177
+INTERLEAVING :26
+Started Process: 11182
+INTERLEAVING :27
+Started Process: 11187
+INTERLEAVING :28
+Started Process: 11192
+INTERLEAVING :29
+Started Process: 11197
+INTERLEAVING :30
+Started Process: 11202
+INTERLEAVING :31
+Started Process: 11207
+INTERLEAVING :32
+Started Process: 11213
+INTERLEAVING :33
+Started Process: 11218
+INTERLEAVING :34
+Started Process: 11223
+INTERLEAVING :35
+Started Process: 11228
+INTERLEAVING :36
+Started Process: 11233
+INTERLEAVING :37
+Started Process: 11238
+INTERLEAVING :38
+Started Process: 11245
+INTERLEAVING :39
+Started Process: 11250
+INTERLEAVING :40
+Started Process: 11255
+INTERLEAVING :41
+Started Process: 11260
+INTERLEAVING :42
+Started Process: 11265
+INTERLEAVING :43
+Started Process: 11270
+INTERLEAVING :44
+Started Process: 11275
+INTERLEAVING :45
+Started Process: 11281
+INTERLEAVING :46
+Started Process: 11286
+INTERLEAVING :47
+Started Process: 11291
+INTERLEAVING :48
+Started Process: 11296
+INTERLEAVING :49
+Started Process: 11301
+INTERLEAVING :50
+Started Process: 11306
+INTERLEAVING :51
+Started Process: 11311
+INTERLEAVING :52
+Started Process: 11316
+INTERLEAVING :53
+Started Process: 11321
+INTERLEAVING :54
+Started Process: 11326
+INTERLEAVING :55
+Started Process: 11331
+INTERLEAVING :56
+Started Process: 11336
+INTERLEAVING :57
+Started Process: 11341
+INTERLEAVING :58
+Started Process: 11346
+INTERLEAVING :59
+Started Process: 11352
+INTERLEAVING :60
+Started Process: 11357
+INTERLEAVING :61
+Started Process: 11362
+INTERLEAVING :62
+Started Process: 11367
+INTERLEAVING :63
+Started Process: 11372
+INTERLEAVING :64
+Started Process: 11377
+INTERLEAVING :65
+Started Process: 11382
+INTERLEAVING :66
+Started Process: 11387
+INTERLEAVING :67
+Started Process: 11392
+INTERLEAVING :68
+Started Process: 11397
+INTERLEAVING :69
+Started Process: 11402
+INTERLEAVING :70
+Started Process: 11407
+INTERLEAVING :71
+Started Process: 11412
+INTERLEAVING :72
+Started Process: 11417
+INTERLEAVING :73
+Started Process: 11422
+INTERLEAVING :74
+Started Process: 11427
+INTERLEAVING :75
+Started Process: 11438
+INTERLEAVING :76
+Started Process: 11443
+INTERLEAVING :77
+Started Process: 11448
+INTERLEAVING :78
+Started Process: 11453
+INTERLEAVING :79
+Started Process: 11458
+INTERLEAVING :80
+Started Process: 11463
+INTERLEAVING :81
+Started Process: 11468
+INTERLEAVING :82
+Started Process: 11473
+INTERLEAVING :83
+Started Process: 11478
+INTERLEAVING :84
+Started Process: 11483
+INTERLEAVING :85
+Started Process: 11488
+INTERLEAVING :86
+Started Process: 11493
+INTERLEAVING :87
+Started Process: 11498
+INTERLEAVING :88
+Started Process: 11503
+INTERLEAVING :89
+Started Process: 11508
+INTERLEAVING :90
+Started Process: 11513
+INTERLEAVING :91
+Started Process: 11518
+INTERLEAVING :92
+Started Process: 11523
+INTERLEAVING :93
+Started Process: 11528
+INTERLEAVING :94
+Started Process: 11533
+INTERLEAVING :95
+Started Process: 11538
+INTERLEAVING :96
+Started Process: 11543
+INTERLEAVING :97
+Started Process: 11548
+INTERLEAVING :98
+Started Process: 11553
+INTERLEAVING :99
+Started Process: 11558
+INTERLEAVING :100
+Started Process: 11563
+INTERLEAVING :101
+Started Process: 11568
+INTERLEAVING :102
+Started Process: 11573
+INTERLEAVING :103
+Started Process: 11578
+INTERLEAVING :104
+Started Process: 11583
+INTERLEAVING :105
+Started Process: 11588
+INTERLEAVING :106
+Started Process: 11593
+INTERLEAVING :107
+Started Process: 11598
+INTERLEAVING :108
+Started Process: 11603
+INTERLEAVING :109
+Started Process: 11608
+INTERLEAVING :110
+Started Process: 11613
+INTERLEAVING :111
+Started Process: 11618
+INTERLEAVING :112
+Started Process: 11623
+INTERLEAVING :113
+Started Process: 11628
+INTERLEAVING :114
+Started Process: 11633
+INTERLEAVING :115
+Started Process: 11638
+INTERLEAVING :116
+Started Process: 11643
+INTERLEAVING :117
+Started Process: 11648
+INTERLEAVING :118
+Started Process: 11653
+INTERLEAVING :119
+Started Process: 11658
+INTERLEAVING :120
+Started Process: 11663
+INTERLEAVING :121
+Started Process: 11668
+INTERLEAVING :122
+Started Process: 11673
+INTERLEAVING :123
+Started Process: 11678
+[mpiexec@yu-Lenovo] Sending Ctrl-C to processes as requested
+[mpiexec@yu-Lenovo] Press Ctrl-C again to force abort

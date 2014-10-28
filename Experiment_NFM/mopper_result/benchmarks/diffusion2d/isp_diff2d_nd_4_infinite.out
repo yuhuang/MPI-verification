@@ -1,0 +1,197 @@
+real	0m32.005s
+user	0m8.346s
+sys	0m2.305s
+
+
+ISP - Insitu Partial Order
+-----------------------------------------
+Command:        ./diffusion2_nd.o 
+Number Procs:   4
+Server:         localhost:9999
+Blocking Sends: Disabled
+-----------------------------------------
+Started Process: 7223
+INTERLEAVING :1
+Started Process: 7229
+INTERLEAVING :2
+Started Process: 7235
+INTERLEAVING :3
+Started Process: 7243
+INTERLEAVING :4
+Started Process: 7249
+INTERLEAVING :5
+Started Process: 7255
+INTERLEAVING :6
+Started Process: 7261
+INTERLEAVING :7
+Started Process: 7267
+INTERLEAVING :8
+Started Process: 7273
+INTERLEAVING :9
+Started Process: 7279
+INTERLEAVING :10
+Started Process: 7285
+INTERLEAVING :11
+Started Process: 7291
+INTERLEAVING :12
+Started Process: 7297
+INTERLEAVING :13
+Started Process: 7304
+INTERLEAVING :14
+Started Process: 7310
+INTERLEAVING :15
+Started Process: 7316
+INTERLEAVING :16
+Started Process: 7322
+INTERLEAVING :17
+Started Process: 7328
+INTERLEAVING :18
+Started Process: 7334
+INTERLEAVING :19
+Started Process: 7340
+INTERLEAVING :20
+Started Process: 7346
+INTERLEAVING :21
+Started Process: 7352
+INTERLEAVING :22
+Started Process: 7358
+INTERLEAVING :23
+Started Process: 7364
+INTERLEAVING :24
+Started Process: 7370
+INTERLEAVING :25
+Started Process: 7376
+INTERLEAVING :26
+Started Process: 7382
+INTERLEAVING :27
+Started Process: 7388
+INTERLEAVING :28
+Started Process: 7394
+INTERLEAVING :29
+Started Process: 7400
+INTERLEAVING :30
+Started Process: 7406
+INTERLEAVING :31
+Started Process: 7412
+INTERLEAVING :32
+Started Process: 7418
+INTERLEAVING :33
+Started Process: 7424
+INTERLEAVING :34
+Started Process: 7430
+INTERLEAVING :35
+Started Process: 7436
+INTERLEAVING :36
+Started Process: 7442
+INTERLEAVING :37
+Started Process: 7448
+INTERLEAVING :38
+Started Process: 7454
+INTERLEAVING :39
+Started Process: 7460
+INTERLEAVING :40
+Started Process: 7466
+INTERLEAVING :41
+Started Process: 7472
+INTERLEAVING :42
+Started Process: 7478
+INTERLEAVING :43
+Started Process: 7484
+INTERLEAVING :44
+Started Process: 7490
+INTERLEAVING :45
+Started Process: 7496
+INTERLEAVING :46
+Started Process: 7502
+INTERLEAVING :47
+Started Process: 7508
+INTERLEAVING :48
+Started Process: 7514
+INTERLEAVING :49
+Started Process: 7520
+INTERLEAVING :50
+Started Process: 7526
+INTERLEAVING :51
+Started Process: 7532
+INTERLEAVING :52
+Started Process: 7538
+INTERLEAVING :53
+Started Process: 7544
+INTERLEAVING :54
+Started Process: 7550
+INTERLEAVING :55
+Started Process: 7556
+INTERLEAVING :56
+Started Process: 7562
+INTERLEAVING :57
+Started Process: 7568
+INTERLEAVING :58
+Started Process: 7574
+INTERLEAVING :59
+Started Process: 7580
+INTERLEAVING :60
+Started Process: 7586
+INTERLEAVING :61
+Started Process: 7592
+INTERLEAVING :62
+Started Process: 7598
+INTERLEAVING :63
+Started Process: 7604
+INTERLEAVING :64
+Started Process: 7610
+INTERLEAVING :65
+Started Process: 7616
+INTERLEAVING :66
+Started Process: 7622
+INTERLEAVING :67
+Started Process: 7628
+INTERLEAVING :68
+Started Process: 7634
+INTERLEAVING :69
+Started Process: 7640
+INTERLEAVING :70
+Started Process: 7646
+INTERLEAVING :71
+Started Process: 7652
+INTERLEAVING :72
+Started Process: 7658
+INTERLEAVING :73
+Started Process: 7664
+INTERLEAVING :74
+Started Process: 7670
+INTERLEAVING :75
+Started Process: 7676
+INTERLEAVING :76
+Started Process: 7682
+INTERLEAVING :77
+Started Process: 7688
+INTERLEAVING :78
+Started Process: 7694
+INTERLEAVING :79
+Started Process: 7700
+INTERLEAVING :80
+Started Process: 7706
+INTERLEAVING :81
+Started Process: 7712
+INTERLEAVING :82
+Started Process: 7718
+INTERLEAVING :83
+Started Process: 7724
+INTERLEAVING :84
+Started Process: 7730
+INTERLEAVING :85
+Started Process: 7736
+INTERLEAVING :86
+Started Process: 7742
+INTERLEAVING :87
+Started Process: 7748
+INTERLEAVING :88
+Started Process: 7754
+INTERLEAVING :89
+Started Process: 7760
+INTERLEAVING :90
+-----------------------------------------
+ISP detected no deadlocks!
+Total Explored Interleavings: 90
+Interleaving Exploration Mode: All Relevant Interleavings
+-----------------------------------------

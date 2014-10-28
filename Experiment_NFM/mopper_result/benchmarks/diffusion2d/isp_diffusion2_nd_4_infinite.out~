@@ -1,0 +1,192 @@
+ISP - Insitu Partial Order
+-----------------------------------------
+Command:        ./diffusion2_nd.o 
+Number Procs:   4
+Server:         localhost:9999
+Blocking Sends: Disabled
+-----------------------------------------
+Started Process: 2711
+INTERLEAVING :1
+Started Process: 2717
+INTERLEAVING :2
+Started Process: 2723
+INTERLEAVING :3
+Started Process: 2731
+INTERLEAVING :4
+Started Process: 2737
+INTERLEAVING :5
+Started Process: 2743
+INTERLEAVING :6
+Started Process: 2749
+INTERLEAVING :7
+Started Process: 2755
+INTERLEAVING :8
+Started Process: 2761
+INTERLEAVING :9
+Started Process: 2767
+INTERLEAVING :10
+Started Process: 2773
+INTERLEAVING :11
+Started Process: 2779
+INTERLEAVING :12
+Started Process: 2785
+INTERLEAVING :13
+Started Process: 2791
+INTERLEAVING :14
+Started Process: 2797
+INTERLEAVING :15
+Started Process: 2803
+INTERLEAVING :16
+Started Process: 2809
+INTERLEAVING :17
+Started Process: 2815
+INTERLEAVING :18
+Started Process: 2821
+INTERLEAVING :19
+Started Process: 2827
+INTERLEAVING :20
+Started Process: 2833
+INTERLEAVING :21
+Started Process: 2839
+INTERLEAVING :22
+Started Process: 2845
+INTERLEAVING :23
+Started Process: 2851
+INTERLEAVING :24
+Started Process: 2857
+INTERLEAVING :25
+Started Process: 2863
+INTERLEAVING :26
+Started Process: 2869
+INTERLEAVING :27
+Started Process: 2875
+INTERLEAVING :28
+Started Process: 2881
+INTERLEAVING :29
+Started Process: 2887
+INTERLEAVING :30
+Started Process: 2893
+INTERLEAVING :31
+Started Process: 2899
+INTERLEAVING :32
+Started Process: 2905
+INTERLEAVING :33
+Started Process: 2911
+INTERLEAVING :34
+Started Process: 2917
+INTERLEAVING :35
+Started Process: 2923
+INTERLEAVING :36
+Started Process: 2929
+INTERLEAVING :37
+Started Process: 2935
+INTERLEAVING :38
+Started Process: 2941
+INTERLEAVING :39
+Started Process: 2947
+INTERLEAVING :40
+Started Process: 2953
+INTERLEAVING :41
+Started Process: 2959
+INTERLEAVING :42
+Started Process: 2965
+INTERLEAVING :43
+Started Process: 2971
+INTERLEAVING :44
+Started Process: 2977
+INTERLEAVING :45
+Started Process: 2983
+INTERLEAVING :46
+Started Process: 2989
+INTERLEAVING :47
+Started Process: 2995
+INTERLEAVING :48
+Started Process: 3001
+INTERLEAVING :49
+Started Process: 3007
+INTERLEAVING :50
+Started Process: 3013
+INTERLEAVING :51
+Started Process: 3019
+INTERLEAVING :52
+Started Process: 3025
+INTERLEAVING :53
+Started Process: 3031
+INTERLEAVING :54
+Started Process: 3037
+INTERLEAVING :55
+Started Process: 3043
+INTERLEAVING :56
+Started Process: 3049
+INTERLEAVING :57
+Started Process: 3055
+INTERLEAVING :58
+Started Process: 3061
+INTERLEAVING :59
+Started Process: 3067
+INTERLEAVING :60
+Started Process: 3073
+INTERLEAVING :61
+Started Process: 3079
+INTERLEAVING :62
+Started Process: 3085
+INTERLEAVING :63
+Started Process: 3091
+INTERLEAVING :64
+Started Process: 3097
+INTERLEAVING :65
+Started Process: 3103
+INTERLEAVING :66
+Started Process: 3109
+INTERLEAVING :67
+Started Process: 3115
+INTERLEAVING :68
+Started Process: 3121
+INTERLEAVING :69
+Started Process: 3127
+INTERLEAVING :70
+Started Process: 3133
+INTERLEAVING :71
+Started Process: 3139
+INTERLEAVING :72
+Started Process: 3145
+INTERLEAVING :73
+Started Process: 3151
+INTERLEAVING :74
+Started Process: 3157
+INTERLEAVING :75
+Started Process: 3163
+INTERLEAVING :76
+Started Process: 3169
+INTERLEAVING :77
+Started Process: 3175
+INTERLEAVING :78
+Started Process: 3181
+INTERLEAVING :79
+Started Process: 3187
+INTERLEAVING :80
+Started Process: 3193
+INTERLEAVING :81
+Started Process: 3199
+INTERLEAVING :82
+Started Process: 3205
+INTERLEAVING :83
+Started Process: 3211
+INTERLEAVING :84
+Started Process: 3217
+INTERLEAVING :85
+Started Process: 3223
+INTERLEAVING :86
+Started Process: 3229
+INTERLEAVING :87
+Started Process: 3235
+INTERLEAVING :88
+Started Process: 3241
+INTERLEAVING :89
+Started Process: 3247
+INTERLEAVING :90
+-----------------------------------------
+ISP detected no deadlocks!
+Total Explored Interleavings: 90
+Interleaving Exploration Mode: All Relevant Interleavings
+-----------------------------------------

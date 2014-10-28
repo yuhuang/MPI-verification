@@ -1,0 +1,18 @@
+real	0m0.546s
+user	0m1.419s
+sys	0m0.312s
+
+ISP - Insitu Partial Order
+-----------------------------------------
+Command:        ./GE.o 
+Number Procs:   8
+Server:         localhost:9999
+Blocking Sends: Enabled
+-----------------------------------------
+Started Process: 31497
+INTERLEAVING :1
+-----------------------------------------
+ISP detected no deadlocks!
+Total Explored Interleavings: 1
+Interleaving Exploration Mode: All Relevant Interleavings
+-----------------------------------------

@@ -1,0 +1,120 @@
+infinite:
+
+Program is in process...
+Program starts at 1414482308455
+avg: 7.533333333333333
+Message Size: 120
+Match Pair set: 904
+Standard Deviation of match pairs for receives: 5.465040408511778
+Approximiated possible choices: 13380.530973451327
+========================================
+Generating Match Pair for 0.05seconds
+Program ends at 1414482309811
+Program executes 1.356seconds
+
+with user provided assertions:
+
+unsat
+(:add-rows                1706
+ :added-eqs               5589
+ :assert-lower            449
+ :assert-upper            778
+ :binary-propagations     897
+ :bound-prop              2
+ :conflicts               1
+ :datatype-accessor-ax    240
+ :datatype-constructor-ax 240
+ :eq-adapter              729
+ :memory                  17.55
+ :mk-clause               1475
+ :pivots                  335
+ :propagations            897
+ :time                    0.18
+ :total-time              0.21)
+
+real	0m0.228s
+user	0m0.215s
+sys	0m0.012s
+
+
+without:
+
+
+
+zero:
+
+Program is in process...
+Program starts at 1414482274976
+avg: 7.533333333333333
+Message Size: 120
+Match Pair set: 904
+Standard Deviation of match pairs for receives: 5.465040408511778
+Approximiated possible choices: 13380.530973451327
+========================================
+Generating Match Pair for 0.05seconds
+Program ends at 1414482276360
+Program executes 1.384seconds
+
+with user provided assertions:
+
+unsat
+(:add-rows                1743
+ :added-eqs               5589
+ :assert-lower            449
+ :assert-upper            1369
+ :binary-propagations     897
+ :bound-prop              2
+ :conflicts               1
+ :datatype-accessor-ax    240
+ :datatype-constructor-ax 240
+ :eq-adapter              1648
+ :memory                  21.58
+ :mk-clause               2379
+ :pivots                  824
+ :propagations            897
+ :time                    0.22
+ :total-time              0.26)
+
+real	0m0.273s
+user	0m0.260s
+sys	0m0.012s
+
+
+without:
+
+
+sat
+(:add-rows                7390590
+ :added-eqs               718858
+ :arith-conflicts         934
+ :assert-diseq            212996
+ :assert-lower            391381
+ :assert-upper            437008
+ :binary-propagations     2074698
+ :bound-prop              275531
+ :conflicts               15749
+ :datatype-accessor-ax    240
+ :datatype-constructor-ax 240
+ :datatype-occurs-check   352560
+ :decisions               1698838
+ :del-clause              30573
+ :eq-adapter              5438
+ :final-checks            1470
+ :fixed-eqs               2159
+ :interface-eqs           1469
+ :memory                  73.58
+ :minimized-lits          51499
+ :mk-clause               33014
+ :offset-eqs              1359
+ :pivots                  22272
+ :propagations            3203159
+ :restarts                100
+ :time                    99.58
+ :total-time              99.62)
+
+real	1m39.780s
+user	1m39.572s
+sys	0m0.068s
+
+
+

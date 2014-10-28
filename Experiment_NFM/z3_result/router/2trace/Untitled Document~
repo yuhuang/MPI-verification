@@ -1,0 +1,15 @@
+../FileMerge/2trace.tr ../FileMerge/z3_router_2_infinite.smt2 2 N
+
+
+
+Program is in process...
+Program starts at 1414382636032
+avg: 1.0
+Message Size: 8
+Match Pair set: 8
+Standard Deviation of match pairs for receives: 0.0
+Approximiated possible choices: 8.0
+========================================
+Generating Match Pair for 0.004seconds
+Program ends at 1414382636055
+Program executes 0.023seconds

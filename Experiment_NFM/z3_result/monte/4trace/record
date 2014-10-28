@@ -1,0 +1,152 @@
+infinite:
+
+Program is in process...
+Program starts at 1414470790957
+avg: 2.4285714285714284
+Message Size: 7
+Match Pair set: 17
+Standard Deviation of match pairs for receives: 3.422613871631697
+Approximiated possible choices: 5.764705882352942
+========================================
+Generating Match Pair for 0.004seconds
+Program ends at 1414470790982
+Program executes 0.025seconds
+
+with user provided assertions:
+
+unsat
+(:add-rows                175
+ :added-eqs               343
+ :assert-diseq            2
+ :assert-lower            23
+ :assert-upper            83
+ :binary-propagations     133
+ :bound-prop              1
+ :conflicts               20
+ :datatype-accessor-ax    14
+ :datatype-constructor-ax 14
+ :decisions               62
+ :del-clause              14
+ :eq-adapter              24
+ :fixed-eqs               14
+ :memory                  3.42
+ :mk-clause               51
+ :pivots                  71
+ :propagations            166
+ :time                    0.01
+ :total-time              0.02)
+
+real	0m0.023s
+user	0m0.019s
+sys	0m0.004s
+
+
+without:
+
+sat
+(:add-rows                1951
+ :added-eqs               2144
+ :assert-diseq            1052
+ :assert-lower            1304
+ :assert-upper            1600
+ :binary-propagations     2130
+ :bound-prop              23
+ :conflicts               66
+ :datatype-accessor-ax    14
+ :datatype-constructor-ax 14
+ :datatype-occurs-check   658
+ :decisions               2393
+ :del-clause              202
+ :eq-adapter              348
+ :final-checks            48
+ :fixed-eqs               14
+ :interface-eqs           47
+ :memory                  3.91
+ :mk-clause               303
+ :pivots                  125
+ :propagations            3261
+ :time                    0.03
+ :total-time              0.05)
+
+real	0m0.056s
+user	0m0.047s
+sys	0m0.008s
+
+
+
+zero:
+
+Program is in process...
+Program starts at 1414470809669
+avg: 2.4285714285714284
+Message Size: 7
+Match Pair set: 17
+Standard Deviation of match pairs for receives: 3.422613871631697
+Approximiated possible choices: 5.764705882352942
+========================================
+Generating Match Pair for 0.004seconds
+Program ends at 1414470809691
+Program executes 0.022seconds
+
+with user provided assertions:
+
+unsat
+(:add-rows                573
+ :added-eqs               313
+ :arith-conflicts         1
+ :assert-diseq            3
+ :assert-lower            29
+ :assert-upper            98
+ :binary-propagations     140
+ :bound-prop              19
+ :conflicts               9
+ :datatype-accessor-ax    14
+ :datatype-constructor-ax 14
+ :decisions               13
+ :del-clause              32
+ :eq-adapter              41
+ :fixed-eqs               14
+ :memory                  3.62
+ :mk-clause               64
+ :pivots                  88
+ :propagations            163
+ :time                    0.01
+ :total-time              0.02)
+
+real	0m0.028s
+user	0m0.022s
+sys	0m0.008s
+
+without:
+
+sat
+(:add-rows                1649
+ :added-eqs               944
+ :arith-conflicts         3
+ :assert-diseq            38
+ :assert-lower            296
+ :assert-upper            294
+ :binary-propagations     769
+ :bound-prop              40
+ :conflicts               34
+ :datatype-accessor-ax    14
+ :datatype-constructor-ax 14
+ :datatype-occurs-check   336
+ :decisions               596
+ :del-clause              154
+ :eq-adapter              83
+ :final-checks            25
+ :fixed-eqs               16
+ :interface-eqs           24
+ :memory                  3.92
+ :mk-clause               220
+ :pivots                  116
+ :propagations            1277
+ :time                    0.02
+ :total-time              0.03)
+
+real	0m0.040s
+user	0m0.035s
+sys	0m0.004s
+
+

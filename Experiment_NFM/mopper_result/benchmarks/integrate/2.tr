@@ -1,0 +1,4 @@
+T2_0: rcv(2, task_2_0)
+T2_1: wait(T2_0)
+T2_2: snd(0, result_2_0)
+T2_3: wait(T2_2)

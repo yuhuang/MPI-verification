@@ -1,0 +1,132 @@
+ISP - Insitu Partial Order
+-----------------------------------------
+Command:        ./router.o 
+Number Procs:   2
+Server:         localhost:9999
+Blocking Sends: Disabled
+-----------------------------------------
+Started Process: 7823
+INTERLEAVING :1
+Started Process: 7827
+INTERLEAVING :2
+Started Process: 7831
+INTERLEAVING :3
+Started Process: 7835
+INTERLEAVING :4
+Started Process: 7839
+INTERLEAVING :5
+Started Process: 7843
+INTERLEAVING :6
+Started Process: 7847
+INTERLEAVING :7
+Started Process: 7851
+INTERLEAVING :8
+Started Process: 7855
+INTERLEAVING :9
+Started Process: 7859
+INTERLEAVING :10
+Started Process: 7863
+INTERLEAVING :11
+Started Process: 7867
+INTERLEAVING :12
+Started Process: 7871
+INTERLEAVING :13
+Started Process: 7875
+INTERLEAVING :14
+Started Process: 7879
+INTERLEAVING :15
+Started Process: 7883
+INTERLEAVING :16
+Started Process: 7887
+INTERLEAVING :17
+Started Process: 7891
+INTERLEAVING :18
+Started Process: 7895
+INTERLEAVING :19
+Started Process: 7899
+INTERLEAVING :20
+Started Process: 7903
+INTERLEAVING :21
+Started Process: 7907
+INTERLEAVING :22
+Started Process: 7911
+INTERLEAVING :23
+Started Process: 7915
+INTERLEAVING :24
+Started Process: 7919
+INTERLEAVING :25
+Started Process: 7923
+INTERLEAVING :26
+Started Process: 7927
+INTERLEAVING :27
+Started Process: 7931
+INTERLEAVING :28
+Started Process: 7935
+INTERLEAVING :29
+Started Process: 7939
+INTERLEAVING :30
+Started Process: 7943
+INTERLEAVING :31
+Started Process: 7947
+INTERLEAVING :32
+Started Process: 7951
+INTERLEAVING :33
+Started Process: 7955
+INTERLEAVING :34
+Started Process: 7959
+INTERLEAVING :35
+Started Process: 7963
+INTERLEAVING :36
+Started Process: 7967
+INTERLEAVING :37
+Started Process: 7971
+INTERLEAVING :38
+Started Process: 7975
+INTERLEAVING :39
+Started Process: 7979
+INTERLEAVING :40
+Started Process: 7983
+INTERLEAVING :41
+Started Process: 7987
+INTERLEAVING :42
+Started Process: 7991
+INTERLEAVING :43
+Started Process: 7995
+INTERLEAVING :44
+Started Process: 7999
+INTERLEAVING :45
+Started Process: 8003
+INTERLEAVING :46
+Started Process: 8007
+INTERLEAVING :47
+Started Process: 8011
+INTERLEAVING :48
+Started Process: 8015
+INTERLEAVING :49
+Started Process: 8019
+INTERLEAVING :50
+Started Process: 8023
+INTERLEAVING :51
+Started Process: 8027
+INTERLEAVING :52
+Started Process: 8031
+INTERLEAVING :53
+Started Process: 8035
+INTERLEAVING :54
+Started Process: 8039
+INTERLEAVING :55
+Started Process: 8043
+INTERLEAVING :56
+Started Process: 8047
+INTERLEAVING :57
+Started Process: 8051
+INTERLEAVING :58
+Started Process: 8055
+INTERLEAVING :59
+Started Process: 8059
+INTERLEAVING :60
+-----------------------------------------
+ISP detected no deadlocks!
+Total Explored Interleavings: 60
+Interleaving Exploration Mode: All Relevant Interleavings
+-----------------------------------------

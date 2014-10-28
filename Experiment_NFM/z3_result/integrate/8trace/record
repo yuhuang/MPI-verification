@@ -1,0 +1,162 @@
+infinite:
+
+Program is in process...
+Program starts at 1414469881283
+avg: 4.0
+Message Size: 14
+Match Pair set: 56
+Standard Deviation of match pairs for receives: 11.224972160321824
+Approximiated possible choices: 42.0
+========================================
+Generating Match Pair for 0.004seconds
+Program ends at 1414469881321
+Program executes 0.038seconds
+
+with user provided assertions:
+
+sat
+(:add-rows                441
+ :added-eqs               2067
+ :assert-diseq            1083
+ :assert-lower            142
+ :assert-upper            507
+ :binary-propagations     1286
+ :bound-prop              28
+ :conflicts               50
+ :datatype-accessor-ax    28
+ :datatype-constructor-ax 28
+ :datatype-occurs-check   28
+ :decisions               2439
+ :del-clause              70
+ :eq-adapter              300
+ :final-checks            1
+ :fixed-eqs               28
+ :memory                  4.20
+ :minimized-lits          26
+ :mk-clause               205
+ :pivots                  78
+ :propagations            1636
+ :time                    0.02
+ :total-time              0.04)
+
+real	0m0.044s
+user	0m0.043s
+sys	0m0.000s
+
+without:
+
+sat
+(:add-rows                494
+ :added-eqs               5983
+ :assert-diseq            2212
+ :assert-lower            332
+ :assert-upper            672
+ :binary-propagations     4624
+ :bound-prop              30
+ :conflicts               209
+ :datatype-accessor-ax    28
+ :datatype-constructor-ax 28
+ :datatype-occurs-check   28
+ :decisions               2656
+ :del-clause              108
+ :eq-adapter              403
+ :final-checks            1
+ :fixed-eqs               28
+ :memory                  4.22
+ :minimized-lits          104
+ :mk-clause               377
+ :pivots                  79
+ :propagations            6133
+ :restarts                2
+ :time                    0.03
+ :total-time              0.04)
+
+real	0m0.047s
+user	0m0.027s
+sys	0m0.019s
+
+
+zero:
+
+
+Program is in process...
+Program starts at 1414469911998
+avg: 4.0
+Message Size: 14
+Match Pair set: 56
+Standard Deviation of match pairs for receives: 11.224972160321824
+Approximiated possible choices: 42.0
+========================================
+Generating Match Pair for 0.005seconds
+Program ends at 1414469912035
+Program executes 0.037seconds
+
+with user provided assertions:
+
+sat
+(:add-rows                1950
+ :added-eqs               5650
+ :arith-conflicts         1
+ :assert-diseq            1627
+ :assert-lower            1059
+ :assert-upper            1777
+ :binary-propagations     7870
+ :bound-prop              141
+ :conflicts               80
+ :datatype-accessor-ax    28
+ :datatype-constructor-ax 28
+ :datatype-occurs-check   1204
+ :decisions               7300
+ :del-clause              257
+ :eq-adapter              519
+ :final-checks            44
+ :fixed-eqs               35
+ :interface-eqs           43
+ :memory                  4.71
+ :minimized-lits          29
+ :mk-clause               543
+ :offset-eqs              41
+ :pivots                  166
+ :propagations            12877
+ :time                    0.07
+ :total-time              0.08)
+
+real	0m0.087s
+user	0m0.075s
+sys	0m0.012s
+
+
+without:
+
+sat
+(:add-rows                1880
+ :added-eqs               5349
+ :arith-conflicts         2
+ :assert-diseq            1528
+ :assert-lower            922
+ :assert-upper            1595
+ :binary-propagations     7429
+ :bound-prop              132
+ :conflicts               78
+ :datatype-accessor-ax    28
+ :datatype-constructor-ax 28
+ :datatype-occurs-check   1120
+ :decisions               6840
+ :del-clause              257
+ :eq-adapter              493
+ :final-checks            41
+ :fixed-eqs               35
+ :interface-eqs           40
+ :memory                  4.71
+ :minimized-lits          29
+ :mk-clause               535
+ :offset-eqs              38
+ :pivots                  163
+ :propagations            12093
+ :time                    0.06
+ :total-time              0.07)
+
+real	0m0.080s
+user	0m0.076s
+sys	0m0.004s
+

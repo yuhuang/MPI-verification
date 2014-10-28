@@ -1,0 +1,13 @@
+real	0m44.574s
+user	0m44.218s
+sys	0m0.090s
+
+-----------------------------------------
+********* SAT VALUATIONS ************
+Number of Clauses: 128708
+Number of Variables: 35092
+Constraint Generation Time: 0.204477sec 
+Solving Time: 43.0847sec 
+Mem (MB): 67.5273
+Formula is UNSAT
+
