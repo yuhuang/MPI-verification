@@ -13,63 +13,64 @@ We set a series of experiments for five typical benchmark programs that are modi
 		\hline
          \multicolumn{7}{|c||}{Test Programs} & \multicolumn{2}{c||}{Our Method} & \multicolumn{2}{c||}{ISP} & \multicolumn{2}{c|}{MOPPER}  \\ \hline
           $Name$ & \#Procs & \#Calls&Match&B&Error & ZIC &Mem & Time &\#Runs&Time & Mem & Time\\ \hline
-          \multirow{6}{*}{\textit{Monte}} & \multirow{2}{*}{4} & \multirow{2}{*}{35} &  \multirow{2}{*}{?} 
+          \multirow{6}{*}{\textit{Monte}} & \multirow{2}{*}{4} & \multirow{2}{*}{35} &  \multirow{2}{*}{24} 
           												     & 0 & No & No\tnote{\textdagger} & 3.62 & 0.02s & 6 & 0.25s & 6.09 & $<$0.01s\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 3.42 & 0.02s & 6 & 0.96s &  -- & --\\ \cline{2-13}
-						       		& \multirow{2}{*}{8} & \multirow{2}{*}{75} &  \multirow{2}{*}{?} 
+						       		& \multirow{2}{*}{8} & \multirow{2}{*}{75} &  \multirow{2}{*}{40K} 
           												     & 0 & No & No\tnote{\textdagger} & 4.83 & 0.04s & $>$5K & TO & 11.28 & 0.02s\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 4.34 & 0.04s & $>$5K & TO &  -- & --\\ \cline{2-13}
-						              & \multirow{2}{*}{16} & \multirow{2}{*}{155} &  \multirow{2}{*}{?} 
+						              & \multirow{2}{*}{16} & \multirow{2}{*}{155} &  \multirow{2}{*}{2E13} 
           												     & 0 & No & No\tnote{\textdagger} & 8.97 & 0.29s & $>$5K & TO & 24.42 & 0.08s\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 7.22 & 0.15s & $>$5K & TO & --  & --\\ \hline
 						       \hline
 						       
-	   \multirow{6}{*}{\textit{Integrate}} & \multirow{2}{*}{8} & \multirow{2}{*}{36} &  \multirow{2}{*}{?} 
+	   \multirow{6}{*}{\textit{Integrate}} & \multirow{2}{*}{8} & \multirow{2}{*}{36} &  \multirow{2}{*}{5K} 
           												     & 0 & Yes & No & 4.71 & 0.08s & 1 & 0.15s & --  & -- \tnote{a}\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & Yes & -- & 4.20 & 0.04s & 1 & 0.16s &  -- & --\\ \cline{2-13}
-						       		& \multirow{2}{*}{10} & \multirow{2}{*}{46} &  \multirow{2}{*}{?} 
+						       		& \multirow{2}{*}{10} & \multirow{2}{*}{46} &  \multirow{2}{*}{362K} 
           												     & 0 & Yes & No & 5.39 & 0.08s & 1 & 0.16s & -- & -- \tnote{a}\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & Yes & -- & 4.76 & 0.05s & 1 & 0.26s &  -- & --\\ \cline{2-13}
-						              & \multirow{2}{*}{16} & \multirow{2}{*}{76} &  \multirow{2}{*}{?} 
+						              & \multirow{2}{*}{16} & \multirow{2}{*}{76} &  \multirow{2}{*}{1E12} 
           												     & 0 & Yes & No & 8.79 & 0.62s & 1 & 0.25s & -- & -- \tnote{a}\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & Yes & -- & 7.50 & 0.32s & 1 & 0.54s & --  & --\\ \hline
 						       \hline
 						       
-	    \multirow{6}{*}{\textit{Diffusion2D}} & \multirow{2}{*}{4} & \multirow{2}{*}{52} &  \multirow{2}{*}{?} 
+	    \multirow{6}{*}{\textit{Diffusion2D}} & \multirow{2}{*}{4} & \multirow{2}{*}{52} &  \multirow{2}{*}{6E9} 
           												     & 0 & No & Yes & 5.50 & 0.04s & 90 & 3.09s & 6.10 & 0.01s\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 4.80 & 0.03s & 90 & 32.01s &  -- & --\\ \cline{2-13}
-						       		& \multirow{2}{*}{8} & \multirow{2}{*}{108} &  \multirow{2}{*}{?} 
+						       		& \multirow{2}{*}{8} & \multirow{2}{*}{108} &  \multirow{2}{*}{2E21} 
           												     & 0 & No & Yes & 11.94 & 0.22s & $>$9K & TO & -- & TO\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 8.51 & 0.12s & $>$9K & TO &  -- & --\\ \cline{2-13}
-						              & \multirow{2}{*}{16} & \multirow{2}{*}{228} &  \multirow{2}{*}{?} 
+						              & \multirow{2}{*}{16} & \multirow{2}{*}{228} &  \multirow{2}{*}{3E57} 
           												     & 0 & No & Yes & 30.68 & 1.25s & $>$10K & TO & -- & TO\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 30.76 & 5.11s & $>$10K & TO & --  & --\\ \hline
 						       \hline
 						       
-            \multirow{6}{*}{\textit{Router}} & \multirow{2}{*}{2} & \multirow{2}{*}{34} &  \multirow{2}{*}{?} 
+            \multirow{6}{*}{\textit{Router}} & \multirow{2}{*}{2} & \multirow{2}{*}{34} &  \multirow{2}{*}{1} 
           												     & 0 & No & Yes & 3.39 & 0.02s & 1 & 0.04s & -- & -- \tnote{a}\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 3.37 & 0.02s & 60 & 13.24s &  -- & --\\ \cline{2-13}
-						       		& \multirow{2}{*}{4} & \multirow{2}{*}{68} &  \multirow{2}{*}{?} 
+						       		& \multirow{2}{*}{4} & \multirow{2}{*}{68} &  \multirow{2}{*}{83K} 
           												     & 0 & No & Yes & 4.18 & 0.02s & 1 & 0.04s & -- & --\tnote{a}\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 3.99 & 0.03s & $>$10K & TO &  -- & --\\ \cline{2-13}
-						              & \multirow{2}{*}{8} & \multirow{2}{*}{136} &  \multirow{2}{*}{?} 
+						              & \multirow{2}{*}{8} & \multirow{2}{*}{136} &  \multirow{2}{*}{7E9} 
           												     & 0 & No & Yes & 5.17 & 0.04s & 1 & 0.15s & -- & --\tnote{a}\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 5.06 & 0.05s & $>$11K & TO & --  & --\\ \hline
 						       \hline
 						       
-	    \multirow{6}{*}{\textit{Floyd}} & \multirow{2}{*}{8} & \multirow{2}{*}{120} &  \multirow{2}{*}{?} 
+	    \multirow{6}{*}{\textit{Floyd}} & \multirow{2}{*}{8} & \multirow{2}{*}{120} &  \multirow{2}{*}{4E29} 
           												     & 0 & No & No & 13.87 & 0.15s & $>$20K & TO & 18.05 & 0.27s\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 12.14 & 0.12s & $>$20K & TO &  -- & --\\ \cline{2-13}
-						       		& \multirow{2}{*}{16} & \multirow{2}{*}{256} &  \multirow{2}{*}{?} 
+						       		& \multirow{2}{*}{16} & \multirow{2}{*}{256} &  \multirow{2}{*}{1E58} 
           												     & 0 & No & No & 21.58 & 0.26s & $>$20K & TO & 67.53 & 43.08s\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 17.55 & 0.21s & $>$20K & TO &  -- & --\\ \cline{2-13}
-						              & \multirow{2}{*}{32} & \multirow{2}{*}{528} &  \multirow{2}{*}{?} 
+						              & \multirow{2}{*}{32} & \multirow{2}{*}{528} &  \multirow{2}{*}{3E137} 
           												     & 0 & No & No & 252.97 & 439.89s & $>$20K & TO & 212.30 & 476.52s\\ \cline{5-13}
           						       &                            & &  &  $\infty$ & No & -- & 57.91 & 19.34s & $>$20K & TO & --  & --\\ \hline
          
 \end{tabular}
 \begin{tablenotes}
-\item[\textdagger] MOPPER detects deadlock \item[a] SAT analysis is not required
+\item[\textdagger] MOPPER detects deadlock. 
+\item[a] MOPPER does not launch SAT analysis.
 \end{tablenotes}
      \end{threeparttable}
 \end{center}
