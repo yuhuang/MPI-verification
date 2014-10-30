@@ -1,0 +1,126 @@
+\section{Zero Buffer Semantics}
+The zero buffer semantics enforce messages to be delivered once they are sent. The prior work \cite{DBLP:conf/kbse/HuangMM13} provides a complicated method that is hard to encode. This paper presents a new zero buffer encoding that is easy to build automatically. To be precise, we need to refine the existing rules for the infinite buffer encoding. The significant change is to order a send immediately preceding the matching receive in a match pair. Therefore, the new match pair is defined in \defref{def:match*}. 
+
+\begin{definition}[Match Pair *] \label{def:match*}
+A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle^*$, for a receive
+$\mathtt{R}$ $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$ and a send $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, corresponds to the constraints:
+\begin{compactenum}
+\item $M_{\mathtt{R}} = \mathit{time}_{\mathtt{S}}$
+\item $M_{\mathtt{S}} = \mathit{time}_{\mathtt{R}}$
+\item $e_{\mathtt{R}} = e_{\mathtt{S}}$
+\item $src_\mathtt{R} = -1 \vee src_\mathtt{S} = src_\mathtt{R}$
+\item $\mathit{value}_{\mathtt{R}} = \mathit{value}_{\mathtt{S}}$ 
+\item $\mathit{\textbf{time}}_{\mathtt{\textbf{S}}}\ = \ \mathit{\textbf{time}}_{\mathtt{\textbf{R}}} - \mathit{\textbf{1}}$
+\end{compactenum}
+\end{definition}
+
+Intuitively, the consecutive order over a send and the matching receive is defined in the bold rule $6$ of \defref{def:match*}. Any resolved execution strictly alternates sends and receives as defined in \defref{def:alternate}. 
+
+\begin{definition}[Strict Alternating]\label{def:alternate}
+A set of sends, $S$, and a set of receives, $R$, are strictly alternated if and only if each send in $S$ immediately precedes the matching receive in $R$ and each receive in $R$ immediately follows the matching send in $S$.
+%:
+\end{definition}
+To further constrain the program order for zero buffer semantics, new rules are added: on each process a send happens before a receive that is issued later (rule $(11)$); and similarly, on each process a send happens before a barrier that is issued later (rule $(12)$). In addition, Rule $(1^*)$ replaces rule $(1)$ as zero buffer semantics do not allow a new send to be issued before the pending send is completed on a common process. Rule $(6^*)$ replaces rule $(6)$ to enforces strict alternating for every send and its matching receive.
+
+\encodingzb
+
+\figref{fig:mpiencoding}(b) illustrates the zero buffer encoding for the sample program in \figref{fig:mpi}. It is very similar to the infinite buffer encoding in \figref{fig:mpiencoding}(a), only the program order on each process is highly constrained, and sends and receives are strictly alternated for match pairs. This encoding is able to detect assertion violations for zero buffer semantics. Further, the encoding strategy can be extended to check zero buffer comparability. 
+
+\subsection{Zero Buffer Compatibility}
+A zero buffer incompatible program must deadlock. Notice that the input trace of our encoding is generated from infinite buffer semantics, the match pairs may not be resolved under zero buffer semantics. Taking the program in \figref{fig:mpi} as an example, there is no way to resolve the strict alternating relation for the first send of each process and its matching receive. As such, the zero buffer encoding for these match pairs is unsatisfiable. Therefore, the zero buffer compatibility is checked by merely encoding and resolving the partial order constraints that are allowed by zero buffer semantics. The constraints for user-provided assertions defined in rule $(8)$ are simply removed because they are irrelevant for this purpose. If the encoding is satisfiable, the zero buffer compatibility of this scenario is proved; otherwise, it can not be executed because the execution is deadlock. The correctness discussed later further demonstrates this solution is capable of precisely checking zero buffer compatibility of an MPI program.
+
+Notice that a deadlock program may be zero buffer compatible. Intuitively, deadlock is caused by various reasons: orphan send or receive that is never matched, dependency circuit existing in message communication topology, and improper implementation of collective operations, etc. Given that the MPI semantics are complicated, it is hard to precisely and efficiently check deadlock for an MPI program. The approach in this paper, however, focuses on zero buffer compatibility and is able to check it using an SMT encoding with quadric size.  
+
+
+%: add discussion on zero buffer encoding of sample program here
+%: add discussion on zero buffer compatibility here
+
+
+%: Correctness
+\subsection{Correctness}
+The prior work \cite{DBLP:conf/kbse/HuangMM13} proves the encoding technique is correct for wildcard receives. To be precise, the encoding is sound, meaning any satisfying schedule resolved by the encoding reflects an actual violating execution. It is also complete, meaning any actual violation can be resolved in a satisfying schedule by the encoding. 
+
+To prove the new technique for MPI semantics is also correct, we rely on the existing soundness and completeness proofs. The soundness proof is consistent with the prior work for two aspects: 1) the program order is precisely constrained in the encoding; 2) any match pair used in a resolved satisfying schedule is valid. The deterministic receive operations and the collective operations for the new encoding do not violate both aspects. To be precise, the first aspect still exists because the program order for deterministic receive operations and collective operations are precisely defined in the new encoding. The second aspect is also true because the set of match pairs is given as input, which is not affected by deterministic receive operations and collective operations. 
+
+The completeness proof of the new technique is similar to the prior work that uses the operational semantics to simulate the encoding during its operation to ensure that the two make identical conclusions. To prove the new encoding is complete, the operational semantics are extended to support deterministic receive operations and collective operations. A simulation of the extended operational semantics is then able to prove that any behavior of MPI semantics is encoded by the new technique in this paper. Because the soundness and the completeness for the new encoding are both proved, we conclude that the encoding is correct for MPI semantics. 
+
+In addition to the soundness and completeness, the improved zero buffer encoding needs to prove the coverage of message communication. As shown earlier, the zero buffer encoding extends the rules for match pair and program order. The rules constrain the order over a send and the matching receive in a match pair to be consecutive. Based on this rule, the encoding assumes that sends and receives strictly alternate in any resolved execution without message non-determinism as in \defref{def:alternate}. This assumption is inspired by the Threaded-C Bounded Model Checking (TCBMC) that assumes each lock operation and its paired unlock operation is ordered alternatingly in any execution \cite{DBLP:conf/cav/RabinovitzG05}. Similarly, the encoding in this paper detects assertion violations by only considering schedules that strictly alternate sends and receives in an execution. 
+
+This strict alternating assumption leads to an important proof obligation: how do we know this encoding covers all possible ways of message communication in zero buffer semantics? We prove a theorem later that asserts that strict alternating sequences of sends and receives cover the message communication that may occur in any execution under zero buffer semantics. Before that, we need to define a few terms.
+
+\begin{definition}[Method Invocation]\label{def:invocation}
+A invocation of a method, $M$, with a list of specific values of arguments, $(args\ \cdots)$, on process $P$, denoted as $P:M_\mathit{In}(args\ \cdots)$, is a event that occurs when $M$ is invoked. 
+\end{definition}
+
+\begin{definition}[Method Response]\label{def:response}
+A response of a method, $M$, with a specific return value, $resp$, on process $P$, denoted as $P:M_\mathit{Re}(resp)$, is a event that occurs when $M$ returns. 
+\end{definition}
+
+Based on \defref{def:invocation} and \defref{def:response}, an operation is split into two events: invocation and response. The invocation asserts the issuing of an operation with concrete arguments. The response asserts the completion of an operation with a concrete return value. The next definition relies on both method invocation and method response. 
+
+\begin{definition}[History]\label{def:history}
+For an MPI program, let $\mathcal{H}$ be a history with a total order over method invocations and method responses for a set of send operations, $\mathbb{S}$, a set of receive operations, $\mathbb{R}$, and a set of barriers, $\mathbb{B}$.
+\end{definition}
+
+Based on \defref{def:history}, we further define the legal history as follows.
+
+\begin{definition}[Legal History]\label{def:legal}
+A history, $\mathcal{H}$, for an MPI program is legal if the partial order over any pair of events in $\mathcal{H}$ is allowed by MPI semantics.
+\end{definition}
+
+A legal history defined in \defref{def:legal} represents a total order over events for an MPI program. A legal history only takes care of sends, receives and barriers because only they matter to message communication. In other words, the events in a legal history can be used to evaluate how messages may flow in a runtime system. Since the arguments are concrete in any method invocation and the return value is also concrete in any method response, a legal history corresponds to a precise resolution of message communication. To find a feasible message communication for a receive $R$, one only needs to search through the preceding events and find a send $S$ that matches the endpoints of $R$ and obeys the non-overtaking order for all the sends to the common destination endpoint. The legal history asserts that the partial order over any pair of events is allowed by MPI semantics. In particular, if a legal history is allowed by zero buffer semantics, we call it zero-buffer legal history.
+
+To prove the theorem later, we need to compare two legal histories for equivalence. The equivalence relation relies on the following definitions for projections. 
+
+\begin{definition}[Projection To Process]\label{def:projection_process}
+A projection of a legal history, $\mathcal{H}$, to a process, $P$, denoted as $\mathcal{H} | _P$, is a sequence of all the events on process $P$ in $\mathcal{H}$, such that the order over any pair of events in $\mathcal{H} | _P$ is identical as in $\mathcal{H}$.
+\end{definition}
+
+\begin{definition}[Projection To Receive Response]\label{def:projection_receive}
+A projection of a legal history, $\mathcal{H}$, to the receive responses, $\mathbb{R}_r$, denoted as $\mathcal{H} | _{\mathbb{R}_r}$, is a sequence of receive responses in $\mathcal{H}$ such that the order over any pair of receive responses in $\mathcal{H} | _{\mathbb{R}_r}$ is identical as in $\mathcal{H}$.
+\end{definition}
+
+Based on \defref{def:projection_process} and \defref{def:projection_receive}, a legal history can be further projected to the receive responses $\mathbb{R}_r$ on process $P$ that produces a sequences of receive responses on process $P$. We use $\mathcal{H} | _{\mathbb{R}_r,P}$ to represent this projection. The equivalence relation relies on $\mathcal{H} | _{\mathbb{R}_r,P}$.
+
+\begin{definition}[Equivalence Relation]\label{def:er}
+Two legal histories for an MPI program, say $\mathcal{H}$ and $\mathcal{L}$ respectively, are equivalent, denoted as $\mathcal{H}$ $\sim$ $\mathcal{L}$, if and only if their projections to the receive responses $\mathbb{R}_r$ and each single process $P$, $\mathcal{H} | _{\mathbb{R}_r,P}$ and $\mathcal{L} | _{\mathbb{R}_r,P}$ respectively, agree on the return values of $\mathbb{R}_r$.
+\end{definition}
+
+%We further use the notation $\not\sim$ for two legal histories $\mathcal{H}$ and $\mathcal{L}$ when they are not equivalent. 
+The following lemma is essential to proving that \defref{def:er} is a valid equivalence relation. \defref{def:reachable} defines the reachable set of legal histories for an MPI program. 
+
+\begin{definition}[Reachable Legal Histories]\label{def:reachable}
+For an MPI program, $\mathit{p}$, let $\mathcal{RS}(\mathit{p})$ be a set of all the legal histories that is reachable from $\mathit{p}$.
+\end{definition}
+
+\begin{lemma}[validity of equivalence relation]\label{lemma:rst}
+The $\sim$-operator is an equivalence relation over the set of all legal histories.
+\end{lemma}
+
+\begin{proof}
+Consider three legal histories, $\mathcal{H}, \mathcal{L}, \mathcal{T}$ $\in$ $\mathcal{RS}(\mathit{p})$, for an MPI program, $\mathit{p}$, the equivalence relation in \defref{def:er} is reflexive, symmetric and transitive. 
+\begin{compactenum}
+\item $\mathcal{H}$ $\sim$ $\mathcal{H}$. The reflexivity is true because the projection $\mathcal{H} | _{\mathbb{R}_r,P}$ to the receive responses $\mathbb{R}_r$ on any process $P$, is identical to the projection of itself.
+\item $\mathcal{H}$ $\sim$ $\mathcal{L}$ then $\mathcal{L}$ $\sim$ $\mathcal{H}$. The symmetry is also true because $\mathcal{H}$ $\sim$ $\mathcal{L}$ and $\mathcal{L}$ $\sim$ $\mathcal{H}$ both indicate that the projections $\mathcal{H} | _{\mathbb{R}_r,P}$ and $\mathcal{L} | _{\mathbb{R}_r,P}$ to the receive responses $\mathbb{R}_r$ on any process $P$ agree on the return values of $\mathbb{R}_r$. 
+\item $\mathcal{H}$ $\sim$ $\mathcal{L}$ and $\mathcal{L}$ $\sim$ $\mathcal{T}$ then $\mathcal{H}$ $\sim$ $\mathcal{T}$. As for the transitivity, for all the receive responses $\mathbb{R}_r$ on any process $P$ in the MPI program, $\mathcal{H}$ $\sim$ $\mathcal{L}$ indicates that the projections $\mathcal{H} | _{\mathbb{R}_r,P}$ and $\mathcal{L} | _{\mathbb{R}_r,P}$ to the receive responses $\mathbb{R}_r$ on any process $P$ agree on the return values of $\mathbb{R}_r$. Further, $\mathcal{L}$ $\sim$ $\mathcal{T}$ indicates that $\mathcal{L} | _{\mathbb{R}_r,P}$ is also identical to $\mathcal{T} | _{\mathbb{R}_r,P}$. Therefore, $\mathcal{H} | _{\mathbb{R}_r,P}$ is identical to $\mathcal{T} | _{\mathbb{R}_r,P}$. Since $P$ is an arbitrary process in the MPI program and $\mathbb{R}_r$ do not change on $P$, thus $\mathcal{H}$ $\sim$ $\mathcal{T}$ is implied.
+\end{compactenum}
+Based on the reflexivity, symmetry and transitivity, this equivalence relation is able to partition the reachable set of legal histories, $\mathcal{RS}(\mathit{p})$, therefore identifies the equivalent classes among $\mathcal{RS}(\mathit{p})$.
+\end{proof}
+
+Based on \lemmaref{lemma:rst}, we further use $\mathcal{E}$$(\mathcal{RS}(\mathit{p}))$ to represent the equivalent classes for all the legal histories in $\mathcal{RS}(\mathit{p})$. If a equivalent class includes zero-buffer legal histories, we call it zero-buffer available equivalent class. The following theorem states that a representative exists for each zero-buffer available equivalent class. 
+
+%\begin{definition}[Equivalent Class]\label{def:equal_class}
+%A set of legal histories, $\mathit{set_H}$, is a equivalent class, denoted as $\mathcal{E}$$(\mathit{set_H})$, if and only if,
+%\begin{compactenum}
+%\item for any two legal history, $L,T$ $\in$ $\mathit{set_H}$, $\mathcal{L}$ $\sim$ $\mathcal{T}$;
+%\item for any legal history, $L$ $\notin$ $\mathit{set_H}$, and any legal history, $T$ $\in$ $\mathit{set_H}$, $\mathcal{L}$ $\not\sim$ $\mathcal{T}$.
+%\end{compactenum}
+%\end{definition}
+
+\begin{theorem}
+For any MPI program, $\mathit{p}$, each zero-buffer available equivalent class, $\mathit{E}$ $\in$ $\mathcal{E}(\mathcal{RS}(\mathit{p}))$, has a representative zero-buffer legal history, $T$, that strictly alternates the sends, $\mathbb{S}$, and the receives, $\mathbb{R}$.
+\end{theorem}
+
+\begin{proof}
+First, assume there is a legal history $\mathcal{L}$ $\in$ $\mathit{E}$. Second, assume $\mathbb{R}_r$ is a set of all the receive responses, and $\mathbb{S}_r$ is a set of all the send responses. The projection $\mathcal{L} | _{\mathbb{R}_r}$ is a sequence of receive responses that reflects how messages are received in $\mathcal{L}$ for all the processes. Since the message communication is precisely resolved in $\mathcal{L}$, each receive in $\mathbb{R}$ is matched with a send in $\mathbb{S}$. Based on $\mathcal{L}$ and $\mathcal{L} | _{\mathbb{R}_r}$, a new sequence, $\mathcal{T}$, can be produced by two steps: 1) inserting the corresponding receive invocation immediately preceding each receive response; and 2) inserting the invocation and the response of the matching send immediately preceding each receive invocation. Based on those steps, $\mathcal{T}$ strictly alternates $\mathbb{S}$ and $\mathbb{R}$. Further, it obeys the condition defined in \defref{def:legal} for two reasons. First, the consecutive order over a send and the matching receive in $\mathcal{L}$ still exists in $\mathcal{T}$; second, if the matching receive is issued earlier on process $P$, there is no way to execute any operation after the receive on process $P$ until it is matched with a send, therefore, postponing issuing the receive after the matching send does not violate the MPI semantics. Under zero buffer semantics, it is not possible to order a send and the matching receive other than these two situations above. Notice that $\mathcal{T}$ is equivalent to $\mathcal{L}$ as they receive a common sequence of messages on each process. Therefore, for any existing zero-buffer available equivalent class, the procedure above is able to find a representative zero-buffer legal history that strictly alternates sends and receives. 
+\end{proof}
