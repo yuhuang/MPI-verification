@@ -122,7 +122,7 @@ P0 & P1 & P2 \\
 \qquad&&M_{\mathtt{S}}\ \mathrm{\prec_{\mathtt{HB}}}\ M_{\mathtt{S^\prime}}\\
 &\text{Match pairs for any receive \texttt{R}} \qquad &&  \bigvee_{\mathtt{S} \in \mathrm{Match}(\mathtt{R})} \langle\mathtt{R},\mathtt{S}\rangle\\ 
 &\text{Assumption \texttt{A} on control flow} \qquad &&  \mathtt{A}\\
-&\text{Property assertion \texttt{P}}  \qquad &&  \neg \mathtt{P}
+&\text{User provided assertion \texttt{P}}  \qquad &&  \neg \mathtt{P}
 \end{alignat}
 \caption{SMT encoding for MPI point-to-point communication}
 \label{fig:ptp}
@@ -253,7 +253,7 @@ Program Properties   & \scalebox{0.7}{\usebox{\boxProperty}} & \scalebox{0.7}{\u
 &\multicolumn{1}{c}{(a)} &\multicolumn{1}{c}{(b)}\\
 \end{tabular}
 \end{center}
-\caption{SMT encoding for an MPI concurrent trace program in \figref{fig:mpi}. (a) Infinite Buffer Encoding. (b) Zero Buffer Encoding.}
+\caption{SMT encoding for an MPI concurrent trace program in \figref{fig:mpi}. (a) The infinite buffer encoding. (b) The zero buffer encoding.}
 \label{fig:mpiencoding}
 \end{figure*}
 }

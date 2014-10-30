@@ -2,7 +2,7 @@
 %
 A prevalent asynchronous message passing standard is the Message Passing Interface (MPI).
 %
-A problem in any MPI program, intended or otherwise, is message non-determinism where a receive may match more than one send in a runtime system.
+A problem in any MPI program, intended or otherwise, is assertion violation that is caused by message non-determinism.
 %
 This message non-determinism is notorious for its difficulty to test or debug without exploring the full program state space. 
 %
