@@ -3,9 +3,9 @@ The dynamic analyzer ISP implements the POE algorithm, a Dynamic Partial Order R
 
 The MPI-Spin is integrated in the classic model checker, SPIN \cite{DBLP:journals/tse/Holzmann97}, for verifying MPI programs \cite{DBLP:conf/vmcai/Siegel07,DBLP:conf/pvm/Siegel07}. It generates a model of an MPI program and allows one to symbolically execute it. As such, violations such as deadlock are detected. It does not scale to large programs with high message non-determinism.
 
-To resolve the scalability problem, Vo. et al. use lamport clocks to update the auxiliary information via piggyback messages \cite{DBLP:conf/sc/VoAGSSB10,DBLP:conf/IEEEpact/VoGKSSB11}. While completeness is abandoned in their analysis, they claim this work is useful and efficient in practice. 
+To resolve the scalability problem, Vo et al. use lamport clocks to update the auxiliary information via piggyback messages \cite{DBLP:conf/sc/VoAGSSB10,DBLP:conf/IEEEpact/VoGKSSB11}. While completeness is abandoned in their analysis, they show this work is useful and efficient in practice. 
 
-The MCC is a model checker that systematically enumerates all message non-determinism in the MCAPI runtime under zero buffer semantics \cite{DBLP:conf/fmcad/SharmaGMH09}. It employs dynamic partial order reduction to avoid enumerating redundant message orders. This work claims SMT technology is more efficient in practice in resolving message non-determinism. 
+The MCC is a model checker that systematically enumerates all message non-determinism in the MCAPI runtime under zero buffer semantics \cite{DBLP:conf/fmcad/SharmaGMH09}. It employs dynamic partial order reduction to avoid enumerating redundant message orders. This work show SMT technology is more efficient in practice in resolving message non-determinism. 
 
 Elwakil et al. also use SMT techniques to reason about the program behavior in the MCAPI domain \cite{DBLP:conf/issta/ElwakilY10,DBLP:conf/atva/ElwakilYW10}. State-based and order-based encoding techniques are both used. As discussed earlier, this technique fails to reason about the infinite buffer semantics and requires a precise match set which is non-trivial to compute beforehand.
 
