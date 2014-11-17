@@ -94,35 +94,35 @@ P0 & P1 & P2 \\
 \newcommand\encodingptp{
 \begin{figure*}[t]
 \begin{alignat}{8}
-&
-\begin{aligned} 
+-&
+\begin{aligned} [t]
 &\text{Sequential sends}\, \mathtt{S}\, \text{and}\, \mathtt{S^\prime}\, \text{from a common}\\
 &\text{source to a common destination}\, e_\mathtt{S} = e_\mathtt{S^\prime}
 \end{aligned}
 \qquad && \mathit{time}_\mathtt{S} \prec_\mathtt{HB} \mathit{time}_\mathtt{S^\prime}\\
-&
-\begin{aligned} 
+-&
+\begin{aligned}[t] 
 &\text{Sequential receives}\, \mathtt{R}\, \text{and}\, \mathtt{R^\prime},\, \texttt{on a common}\\
 &\text{process},\, e_\mathtt{R} = e_\mathtt{R^\prime}
 \end{aligned}
 \qquad && \mathit{time}_\mathtt{R} \prec_\mathtt{HB} \mathit{time}_\mathtt{R^\prime}\\
-&\text{Receive \texttt{R} and its nearest-enclosing wait}\, \mathtt{W}_\mathtt{R} 
+-&\text{Receive \texttt{R} and its nearest-enclosing wait}\, \mathtt{W}_\mathtt{R} 
 \qquad && \mathit{time}_\mathtt{R} \prec_\mathtt{HB} \mathit{time}_{\mathtt{W}_\mathtt{R}}\\
-&
-\begin{aligned}
+-&
+\begin{aligned}[t]
 &\text{Sequential order over a nearest-enclosing} \\
 &\text{wait}\, \mathtt{W}_\mathtt{R}\, \text{and a send \texttt{S}}
 \end{aligned}
 \qquad && \mathit{time}_{\mathtt{W}_\mathtt{R}} \prec_\mathtt{HB} \mathit{time}_\mathtt{S}\\
-&
-\begin{aligned}
+-&
+\begin{aligned}[t]
 &\text{Two Sends, \texttt{S} and}\, \mathtt{S^\prime},\, \text{to a common destination},\\
 &e_{\mathtt{S}}=e_{\mathtt{S^\prime}},\, \text{such that}\,  \mathit{time}_\mathtt{S}\ \mathrm{\prec_\mathtt{HB}}\ \mathit{time}_\mathtt{S^\prime}
 \end{aligned}
 \qquad&&M_{\mathtt{S}}\ \mathrm{\prec_{\mathtt{HB}}}\ M_{\mathtt{S^\prime}}\\
-&\text{Match pairs for any receive \texttt{R}} \qquad &&  \bigvee_{\mathtt{S} \in \mathrm{Match}(\mathtt{R})} \langle\mathtt{R},\mathtt{S}\rangle\\ 
-&\text{Assumption \texttt{A} on control flow} \qquad &&  \mathtt{A}\\
-&\text{User provided assertion \texttt{P}}  \qquad &&  \neg \mathtt{P}
+-&\text{Match pairs for any receive \texttt{R}} \qquad &&  \bigvee_{\mathtt{S} \in \mathrm{Match}(\mathtt{R})} \langle\mathtt{R},\mathtt{S}\rangle\\ 
+-&\text{Assumption \texttt{A} on control flow} \qquad &&  \mathtt{A}\\
+-&\text{User provided assertion \texttt{P}}  \qquad &&  \neg \mathtt{P}
 \end{alignat}
 \caption{SMT encoding for MPI point-to-point communication}
 \label{fig:ptp}
@@ -133,14 +133,14 @@ P0 & P1 & P2 \\
 \newcommand\encodingcc{
 \begin{figure*}[t]
 \begin{alignat}{2}
-&
-\begin{aligned}
+-&
+\begin{aligned}[t]
 &\text{Any receive \texttt{R} that has a nearest-enclosing}\\
 &\text{barrier \texttt{B} and a nearest-enclosing wait}\, \mathtt{W}_\mathtt{R}
 \end{aligned}
 \qquad&& \mathit{time}_{\mathtt{W}_\mathtt{R}} \prec_\mathtt{HB} \mathit{time}_\mathtt{B}\\
-&
-\begin{aligned}
+-&
+\begin{aligned}[t]
 &\text{Any barrier \texttt{B} and any operation \texttt{O} ordered}\\
 &\text{after a member of \texttt{B}}
 \end{aligned}
@@ -154,21 +154,21 @@ P0 & P1 & P2 \\
 \newcommand\encodingzb{
 \begin{figure*}[t]
 \begin{alignat}{3}
-&
-\begin{aligned} 
+-&
+\begin{aligned}[t] 
 &\text{Sequential sends}\, \mathtt{S}\, \text{and}\, \mathtt{S^\prime}\, \text{from a common}\\
 &\text{source to any destinations}
 \end{aligned}
 \qquad && \mathit{time}_\mathtt{S} \prec_\mathtt{HB} \mathit{time}_\mathtt{S^\prime} \tag{1*}\\
-&\text{Match pairs for any receive \texttt{R}} \qquad &&  \bigvee_{\mathtt{S}_i \in \mathrm{Match}(\mathtt{R})} \langle\mathtt{R},\mathtt{S}_i\rangle^* \tag{6*}\\ 
-&
-\begin{aligned}
+-&\text{Match pairs for any receive \texttt{R}} \qquad &&  \bigvee_{\mathtt{S}_i \in \mathrm{Match}(\mathtt{R})} \langle\mathtt{R},\mathtt{S}_i\rangle^* \tag{6*}\\ 
+-&
+\begin{aligned}[t]
 &\text{Send \texttt{S} and receive \texttt{R} are in}\\
 &\text{a sequential order on a common process}
 \end{aligned}
 \qquad && \mathit{time}_\mathtt{S} \prec_\mathtt{HB} \mathit{time}_\mathtt{R}\\
-&
-\begin{aligned}
+-&
+\begin{aligned}[t]
 &\text{Send \texttt{S} and barrier \texttt{B} are in}\\
 &\text{a sequential order on a common process}
 \end{aligned}
@@ -184,9 +184,9 @@ P0 & P1 & P2 \\
 \begin{minipage}[t]{0.55\linewidth}
 \large
 \begin{align*}
-\bigvee_{0 \leq i \leq 2} & (\mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,5}}\\
-                                     & \mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
-                                     & \mathit{time}_\mathtt{R_{i,6}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,7}})\\
+\bigwedge_{0 \leq i \leq 2} & (\mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,5}}\\
+                                     & \wedge \mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
+                                     & \wedge \mathit{time}_\mathtt{R_{i,6}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,7}})\\
 \end{align*}
 \end{minipage}
 \end{lrbox}
@@ -207,14 +207,14 @@ P0 & P1 & P2 \\
 \begin{minipage}[t]{0.55\linewidth}
 \large
 \begin{align*}
-\bigvee_{0 \leq i \leq 2} & (\mathit{time}_\mathtt{S_{i,0}}\prec_\mathtt{HB} \mathit{time}_\mathtt{S_{i,2}}\\
-				   & \mathit{time}_\mathtt{S_{i,0}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,4}}\\
-				   & \mathit{time}_\mathtt{S_{i,0}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
-				   & \mathit{time}_\mathtt{S_{i,2}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,4}}\\
-				   & \mathit{time}_\mathtt{S_{i,2}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
-				   & \mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,5}}\\
-                                     & \mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
-                                     & \mathit{time}_\mathtt{R_{i,6}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,7}})
+\bigwedge_{0 \leq i \leq 2} & (\mathit{time}_\mathtt{S_{i,0}}\prec_\mathtt{HB} \mathit{time}_\mathtt{S_{i,2}}\\
+				   & \wedge \mathit{time}_\mathtt{S_{i,0}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,4}}\\
+				   & \wedge \mathit{time}_\mathtt{S_{i,0}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
+				   & \wedge \mathit{time}_\mathtt{S_{i,2}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,4}}\\
+				   & \wedge \mathit{time}_\mathtt{S_{i,2}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
+				   & \wedge \mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,5}}\\
+                                     & \wedge \mathit{time}_\mathtt{R_{i,4}} \prec_\mathtt{HB} \mathit{time}_\mathtt{R_{i,6}}\\
+                                     & \wedge \mathit{time}_\mathtt{R_{i,6}} \prec_\mathtt{HB} \mathit{time}_\mathtt{W_{i,7}})
 \end{align*}
 \end{minipage}
 \end{lrbox}
