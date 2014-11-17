@@ -31,15 +31,20 @@ In particular, the message passing may be non-deterministic such that a receive 
 %Therefore, the freedom of message passing can be balanced out in some way with respect to the runtime behaviors. 
 
 %related works
-Several solutions were proposed to verify MPI programs. The POE algorithm is capable of dynamically analyzing the behavior of an MPI program \cite{DBLP:conf/ppopp/VakkalankaSGK08}. This algorithm is implemented by a modern MPI verifier, ISP. By postponing the cooperative operations for message passing in transit, this algorithm is possible to reduce the program state space. Although the POE algorithm correctly detects assertion violations, it suffers from poor scalability as the number of messages increases. 
-
-Vo et al. developed a dynamic analysis tool for large-scale MPI programs using Lamport clocks with lazy updates \cite{DBLP:conf/sc/VoAGSSB10,DBLP:conf/IEEEpact/VoGKSSB11}. This method detects potential send-receive matches by collecting piggyback data, however is unable to obtain the full set of matches. As a result, this method does not provide completeness meaning some errors might not be detected, even though it scales well practically.
-
-In the context of the Multicore Communications API (MCAPI) \cite{mcapi}, another message passing API standard, Sharma et al. proposed the first push button model checker -- MCC \cite{DBLP:conf/fmcad/SharmaGMH09}. It indirectly controls the MCAPI runtime to verify MCAPI programs under zero buffer semantics. An obvious drawback of this work is its inability to analyze infinite buffer semantics which is known as a common runtime environment in message passing. A key insight, though, is the direct use of match pairs -- couplings for potential sends and receives.
-
-Elwakil et al. encoded a message passing program execution into a SMT problem \cite{DBLP:conf/issta/ElwakilY10,DBLP:conf/atva/ElwakilYW10}. This approach fails for two reasons. First, the encoding does not support infinite buffer semantics. Second, it assumes that potential send-receive matches are given as an input to the encoding. However, the problem of generating such a set is NP-Complete.
+Several solutions were proposed to verify MPI programs. The POE algorithm is capable of dynamically analyzing the behavior of an MPI program \cite{DBLP:conf/ppopp/VakkalankaSGK08}. This algorithm is implemented by a modern MPI verifier, ISP. By postponing the cooperative operations for message passing in transit, this algorithm is capable of reducing the program state space. Although the POE algorithm correctly detects assertion violations, it suffers from poor scalability as the number of messages increases. 
 
 As far as we know, there is no research proposed merely for zero buffer incompatibility. Though the works on MPI deadlock are also capable of detecting zero buffer incompatibility, they suffer from the scalability problem \cite{DBLP:conf/sbmf/SharmaGB12,DBLP:conf/fm/ForejtKNS14}. In particular, the algorithm MSPOE is an extension of POE. It is able to detect deadlock in an MPI program \cite{DBLP:conf/sbmf/SharmaGB12}. Similar to the POE algorithm, MSPOE does not scale to the programs with large degree of message communication. Forejt et al. proposed a SAT based approach to detect deadlock in a single-path MPI program \cite{DBLP:conf/fm/ForejtKNS14}. However, since the size of their encoding is cubic, checking large programs is time consuming. 
+
+%Vo et al. developed a dynamic analysis tool for large-scale MPI programs using Lamport clocks with lazy updates \cite{DBLP:conf/sc/VoAGSSB10,DBLP:conf/IEEEpact/VoGKSSB11}. This method detects potential send-receive matches by collecting piggyback data, however is unable to obtain the full set of matches. As a result, this method does not provide completeness meaning some errors might not be detected, even though it scales well practically.
+
+In the context of the Multicore Communications API (MCAPI) \cite{mcapi}, another message passing API standard, Elwakil et al. encoded an MCAPI program execution into an SMT problem \cite{DBLP:conf/issta/ElwakilY10,DBLP:conf/atva/ElwakilYW10}. This approach fails for two reasons. First, the encoding does not support infinite buffer semantics. Second, it assumes that potential send-receive matches are given as an input to the encoding. However, the problem of generating such a set is NP-Complete.
+
+
+
+%Sharma et al. proposed the first push button model checker -- MCC \cite{DBLP:conf/fmcad/SharmaGMH09}. It indirectly controls the MCAPI runtime to verify MCAPI programs under zero buffer semantics. An obvious drawback of this work is its inability to analyze infinite buffer semantics which is known as a common runtime environment in message passing. A key insight, though, is the direct use of match pairs -- couplings for potential sends and receives.
+
+
+
 %Further, their rules for zero buffer encoding is too simple, therefore is hard to enforce the zero buffer semantics into SAT formulas. 
 
 %our solution: SMT, statically encode MPI semantics
