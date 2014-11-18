@@ -6,8 +6,7 @@ This paper presents a new zero buffer encoding that is easy to build automatical
 The key insight is to order a send immediately preceding the matching receive in a match pair. Therefore, the new match pair is defined in \defref{def:match*}.
 
 \begin{definition}[Match Pair *] \label{def:match*}
-A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle^*$, for a receive
-$\mathtt{R}$ $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$ and a send $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, corresponds to the constraints:
+A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle^*$, for a receive $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$ and a send $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, corresponds to the constraints:
 \begin{compactenum}
 \item $M_{\mathtt{R}} = \mathit{time}_{\mathtt{S}}$
 \item $M_{\mathtt{S}} = \mathit{time}_{\mathtt{R}}$
@@ -21,7 +20,7 @@ $\mathtt{R}$ $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\m
 Intuitively, the consecutive order over a send and the matching receive is defined in the bold rule $6$ of \defref{def:match*}. Any resolved execution strictly alternates sends and receives as defined in \defref{def:alternate}.
 
 \begin{definition}[Strict Alternation]\label{def:alternate}
-A set of sends, $S$, and a set of receives, $R$, are strictly alternated if and only if each send in $S$ immediately precedes the matching receive in $R$ and each receive in $R$ immediately follows the matching send in $S$.
+A set of sends, $\mathbb{S}$, and a set of receives, $\mathbb{R}$, are strictly alternated if and only if each send in $\mathbb{S}$ immediately precedes the matching receive in $\mathbb{R}$ and each receive in $\mathbb{R}$ immediately follows the matching send in $\mathbb{S}$.
 %:
 \end{definition}
 To further constrain the program order for zero buffer semantics, new rules are added in \figref{fig:zb}: on each process a send happens before a receive that is issued later (rule $(11)$); and similarly, on each process a send happens before a barrier that is issued later (rule $(12)$). In addition, Rule $(1^*)$ replaces rule $(1)$ as zero buffer semantics do not allow a new send to be issued before the pending send is completed on a common process. Rule $(6^*)$ replaces rule $(6)$ to enforce strict alternation for every send and its matching receive.
@@ -31,11 +30,12 @@ To further constrain the program order for zero buffer semantics, new rules are 
 %\figref{fig:mpiencoding}(b) illustrates the zero buffer encoding for the sample program in \figref{fig:mpi}. It is very similar to the infinite buffer encoding in \figref{fig:mpiencoding}(a), only the program order on each process is highly constrained, and sends and receives are strictly alternated for match pairs. This encoding is able to detect zero buffer incompatibility. Further, the encoding strategy checks assertion violations.
 
 %\subsection{Zero Buffer Incompatibility}
-A zero buffer incompatible program deadlocks.
+A zero buffer incompatible MPI program deadlocks.
 %Notice that the input trace of our encoding is generated from infinite buffer semantics, the match pairs may not be resolved under zero buffer semantics.
 Note that the match pairs are over-approximated, they may not be resolved under zero buffer semantics. For instance, if a program issues two consecutive sends on each process, there is no way to resolve the strictly alternating relation for the first send on each process and its matching receive. As such, the zero buffer encoding for the over-approximiated match pairs is unsatisfiable.
 %Taking the program in \figref{fig:mpi} as an example, there is no way to resolve the strictly alternating relation for the first send on each process and its matching receive. As such, the zero buffer encoding for these match pairs is unsatisfiable. 
-Therefore, the zero buffer incompatibility is checked by merely encoding and resolving the program order and the strictly alternating order that are allowed by zero buffer semantics. The constraints for user-provided assertions defined in rule $(8)$ are simply removed because they are irrelevant for this purpose. If the encoding is satisfiable, the zero buffer compatibility of this scenario is proved; otherwise, it cannot be executed because it deadlocks. The correctness discussed later proves that this encoding with strict alternation of sends and receives is capable of precisely checking zero buffer incompatibility of an MPI program.
+Therefore, the zero buffer incompatibility is checked by merely encoding and resolving the program order and the strictly alternating order that are allowed by zero buffer semantics. The constraints for user-provided assertions defined in rule $(8)$ are simply removed because they are irrelevant for this purpose. If the encoding is satisfiable, the zero buffer compatibility of this scenario is proved; otherwise, it cannot be executed because it deadlocks. 
+%The correctness discussed later proves that this encoding with strict alternation of sends and receives is capable of precisely checking zero buffer incompatibility of an MPI program.
 
 Notice that a program with deadlock may be zero buffer compatible. Intuitively, a deadlock can be caused by many ways on orphaned send or receive that is never matched, a dependency circuit existing in the message communication topology, the improper implementation of collective operations, etc. 
 %Given that the MPI semantics are complicated, it is hard to precisely and efficiently check deadlock for an MPI program. The approach in this paper, however, focuses on zero buffer incompatibility and is able to check it using an SMT encoding with quadric size.
@@ -56,14 +56,14 @@ As discussed earlier, the zero buffer encoding only considers schedules that str
 
 
 \begin{definition}[Method Invocation]\label{def:invocation}
-A invocation of a method, $M$, with a list of specific values of arguments, $(args\ \cdots)$, on process $P$, denoted as $P:M_\mathit{In}(args\ \cdots)$, is a event that occurs when $M$ is invoked.
+A invocation of a method, $\mathtt{M}$, with a list of specific values of arguments, $(args\ \cdots)$, on process $P$, denoted as $P:\mathtt{M}_i(args\ \cdots)$, is a event that occurs when $\mathtt{M}$ is invoked.
 \end{definition}
 
 \begin{definition}[Method Response]\label{def:response}
-A response of a method, $M$, with a specific return value, $resp$, on process $P$, denoted as $P:M_\mathit{Re}(resp)$, is a event that occurs when $M$ returns.
+A response of a method, $\mathtt{M}$, with a specific return value, $resp$, on process $P$, denoted as $P:\mathtt{M}_r(resp)$, is a event that occurs when $\mathtt{M}$ returns.
 \end{definition}
 
-Based on \defref{def:invocation} and \defref{def:response}, an operation is split into two events: invocation and response. The invocation asserts the issuing of an operation with concrete arguments. We use the notations $\mathbb{S}_i$ and $\mathbb{R}_i$ to represent the set of all the send invocations and the set of all the receive invocations in an MPI program respectively. The response asserts the completion of an operation with a concrete return value. We use the notations $\mathbb{S}_r$ and $\mathbb{R}_r$ to represent the set of all the send responses and the set of all the receive responses in an MPI program respectively. The next definition relies on both method invocation and method response. 
+Based on \defref{def:invocation} and \defref{def:response}, an operation is split into two events: invocation and response. The invocation asserts the issuing of an operation with concrete arguments. We use the notations $\mathbb{S}_i$ and $\mathbb{R}_i$ to represent the set of all the send invocations and the set of all the receive invocations respectively for an MPI program. The response asserts the completion of an operation with a concrete return value. We use the notations $\mathbb{S}_r$ and $\mathbb{R}_r$ to represent the set of all the send responses and the set of all the receive responses respectively for an MPI program. A history of an MPI program relies on method invocation and method response. 
 
 \begin{definition}[History]\label{def:history}
 For an MPI program, let $\mathcal{H}$ be a history with a total order over method invocations and method responses for a set of send operations, $\mathbb{S}$, a set of receive operations, $\mathbb{R}$, and a set of barriers, $\mathbb{B}$.
