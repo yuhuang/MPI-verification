@@ -1,6 +1,7 @@
 \section{Zero Buffer Incompability}
 %The zero buffer semantics enforce messages to be delivered once they are sent. 
-The prior work provides a complicated method that is hard to encode. This paper presents a new zero buffer encoding that is easy to build automatically. 
+%The prior work provides a complicated method that is hard to encode. 
+This paper presents a new zero buffer encoding that is easy to build automatically. 
 %To be precise, we need to refine the existing rules for the infinite buffer encoding. 
 The key insight is to order a send immediately preceding the matching receive in a match pair. Therefore, the new match pair is defined in \defref{def:match*}.
 
@@ -19,11 +20,11 @@ $\mathtt{R}$ $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\m
 
 Intuitively, the consecutive order over a send and the matching receive is defined in the bold rule $6$ of \defref{def:match*}. Any resolved execution strictly alternates sends and receives as defined in \defref{def:alternate}.
 
-\begin{definition}[Strict Alternating]\label{def:alternate}
+\begin{definition}[Strict Alternation]\label{def:alternate}
 A set of sends, $S$, and a set of receives, $R$, are strictly alternated if and only if each send in $S$ immediately precedes the matching receive in $R$ and each receive in $R$ immediately follows the matching send in $S$.
 %:
 \end{definition}
-To further constrain the program order for zero buffer semantics, new rules are added in \figref{fig:zb}: on each process a send happens before a receive that is issued later (rule $(11)$); and similarly, on each process a send happens before a barrier that is issued later (rule $(12)$). In addition, Rule $(1^*)$ replaces rule $(1)$ as zero buffer semantics do not allow a new send to be issued before the pending send is completed on a common process. Rule $(6^*)$ replaces rule $(6)$ to enforce strict alternating for every send and its matching receive.
+To further constrain the program order for zero buffer semantics, new rules are added in \figref{fig:zb}: on each process a send happens before a receive that is issued later (rule $(11)$); and similarly, on each process a send happens before a barrier that is issued later (rule $(12)$). In addition, Rule $(1^*)$ replaces rule $(1)$ as zero buffer semantics do not allow a new send to be issued before the pending send is completed on a common process. Rule $(6^*)$ replaces rule $(6)$ to enforce strict alternation for every send and its matching receive.
 
 \encodingzb
 
@@ -33,7 +34,7 @@ To further constrain the program order for zero buffer semantics, new rules are 
 Running a zero buffer incompatible program causes deadlock.
 %Notice that the input trace of our encoding is generated from infinite buffer semantics, the match pairs may not be resolved under zero buffer semantics.
 Note that the match pairs are over-approximated, they may not be resolved under zero buffer semantics.
-Taking the program in \figref{fig:mpi} as an example, there is no way to resolve the strict alternating relation for the first send on each process and its matching receive. As such, the zero buffer encoding for these match pairs is unsatisfiable. Therefore, the zero buffer incompatibility is checked by merely encoding and resolving the partial order constraints that are allowed by zero buffer semantics. The constraints for user-provided assertions defined in rule $(8)$ are simply removed because they are irrelevant for this purpose. If the encoding is satisfiable, the zero buffer compatibility of this scenario is proved; otherwise, it cannot be executed because it deadlocks. The correctness discussed later proves that this encoding with strict alternating of sends and receives is capable of precisely checking zero buffer incompatibility of an MPI program.
+Taking the program in \figref{fig:mpi} as an example, there is no way to resolve the strictly alternating relation for the first send on each process and its matching receive. As such, the zero buffer encoding for these match pairs is unsatisfiable. Therefore, the zero buffer incompatibility is checked by merely encoding and resolving the partial order constraints that are allowed by zero buffer semantics. The constraints for user-provided assertions defined in rule $(8)$ are simply removed because they are irrelevant for this purpose. If the encoding is satisfiable, the zero buffer compatibility of this scenario is proved; otherwise, it cannot be executed because it deadlocks. The correctness discussed later proves that this encoding with strict alternation of sends and receives is capable of precisely checking zero buffer incompatibility of an MPI program.
 
 Notice that a program with deadlock may be zero buffer compatible. Intuitively, a deadlock can be caused by many ways on orphaned send or receive that is never matched, a dependency circuit existing in the message communication topology, the improper implementation of collective operations, etc. 
 %Given that the MPI semantics are complicated, it is hard to precisely and efficiently check deadlock for an MPI program. The approach in this paper, however, focuses on zero buffer incompatibility and is able to check it using an SMT encoding with quadric size.
@@ -53,7 +54,7 @@ The completeness proof of the new technique is similar to the prior work that us
 
 In addition to the soundness and completeness, the improved encoding strategy for zero buffer incompatibility needs to prove the coverage of message communication. As shown earlier, the zero buffer encoding extends the rules for match pair and program order. The rules constrain the order over a send and the matching receive in a match pair to be consecutive. Based on this rule, the encoding assumes that sends and receives strictly alternate in any resolved execution without message non-determinism as in \defref{def:alternate}. 
 
-This strict alternating assumption leads to an important proof obligation: how do we know this encoding covers all possible ways of message communication in zero buffer semantics? We prove a theorem later that asserts that strict alternating sequences of sends and receives cover the message communication that may occur in any execution under zero buffer semantics. Before that, we need to define a few terms.
+This strict alternation assumption leads to an important proof obligation: how do we know this encoding covers all possible ways of message communication in zero buffer semantics? We prove a theorem later that asserts that strictly alternating sequences of sends and receives cover the message communication that may occur in any execution under zero buffer semantics. Before that, we need to define a few terms.
 
 \begin{definition}[Method Invocation]\label{def:invocation}
 A invocation of a method, $M$, with a list of specific values of arguments, $(args\ \cdots)$, on process $P$, denoted as $P:M_\mathit{In}(args\ \cdots)$, is a event that occurs when $M$ is invoked.
