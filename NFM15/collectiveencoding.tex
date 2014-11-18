@@ -31,10 +31,10 @@ For any process $i$, a receive $\mathtt{R}$ has a nearest-enclosing barrier $\ma
 
 Based on the definitions above, The encoding defines two rules for program order in \figref{fig:cc}. Rule $(9)$ only constrains the program order over the nearest-enclosing wait and the nearest-enclosing barrier for a receive. The order over this receive and the nearest-enclosing barrier is not constrained. For rule $(10)$, a barrier has to happen before any operation ordered after it. 
 
-Given the encoding rules for MPI non-deterministic point-to-point communication, MPI deterministic point-to-point communication and MPI collective communication, we are able encode the sample program in \figref{fig:mpi} under infinite buffer semantics. \figref{fig:mpiencoding}(a) is the encoding. Resolving these formulas by a common SMT solver (e.g., Z3 \cite{demoura:tacas08}) produces a violating trace (e.g., trace $\pi_1$ mentioned earlier). 
+%Given the encoding rules for MPI non-deterministic point-to-point communication, MPI deterministic point-to-point communication and MPI collective communication, we are able encode the sample program in \figref{fig:mpi} under infinite buffer semantics. \figref{fig:mpiencoding}(a) is the encoding. Resolving these formulas by a common SMT solver (e.g., Z3 \cite{demoura:tacas08}) produces a violating trace (e.g., trace $\pi_1$ mentioned earlier). 
 
 %Intuitively, the program order, match pairs and program properties are encoded with respect to infinite buffer semantics. The encoding does not add too many constraints for program order because infinite buffer semantics give more possibilities for message communication. The much pair encoding further gives all possible choices for message communication. The program properties are also encoded so the solver is capable of finding assertion violation for the program.
 
 \encodingcc
 
-\exampleencoding
+%\exampleencoding
