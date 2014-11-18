@@ -7,7 +7,7 @@ Nowadays, message passing technology has become widely used in many fields such 
 \item MPI collective operations (e.g., barrier and broadcast).
 \end{compactitem}
 
-A problem in any MPI program is zero buffer incompatibility. A zero buffer incompatible program deadlocks. Note that the zero buffer incompatibility is not equivalent to deadlock that may be caused by reasons other than buffering. The zero buffer incompatibility is essential to any MPI application since it is difficult for a developer to predict. 
+A problem in any MPI program is zero buffer incompatibility. A zero buffer incompatible program deadlocks. If there exists any schedule for a program under zero buffer semantics, this program is zero buffer compatible. Note that the zero buffer incompatibility is not equivalent to deadlock that may be caused by reasons other than buffering. The zero buffer incompatibility is essential to any MPI application since it is difficult for a developer to predict. 
 This problem is also very difficult to verify because of the complicated MPI semantics.
 In particular, the message passing may be non-deterministic such that a receive may match more than one send in the runtime system. Also, the MPI collective operations that synchronize the program may change how messages communicate. To address the problem of zero buffer incompatibility, this paper presents an algorithm that encodes a single-path MPI program into a Satisfiability Modulo Theories (SMT) problem \cite{barrett2008satisfiability}. This encoding is resolved by a standard SMT solver in such a way that the program is proved/disproved to be zero buffer compatible. This encoding is also adaptable to checking assertion violation caused by message non-determinism.
 

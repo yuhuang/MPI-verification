@@ -2,7 +2,7 @@
 %
 A prevalent asynchronous message passing standard is the Message Passing Interface (MPI). 
 %
-As many MPI applications imperatively request, two runtime semantics, infinite buffer (message is copied into a runtime buffer on the API call) and zero buffer (message has no buffering) are supported.
+As many MPI applications imperatively request, two runtime semantics, zero buffer (message has no buffering) and infinite buffer (message is copied into a runtime buffer on the API call) are supported.
 %
 A problem in any MPI program, intended or otherwise, is zero buffer incompatibility. A zero buffer incompatible MPI program deadlocks.
 %
@@ -12,7 +12,7 @@ This paper presents an algorithm that encodes a single-path MPI program as a Sat
 %
 To support MPI semantics, this algorithm correctly defines the point-to-point communication and collective communication with respective rules for both infinite buffer semantics and zero buffer semantics. 
 %
-The novelty in this paper is considering only the schedules that strictly alternates sends and receives leading to a intuitive zero buffer encoding.
+The novelty in this paper is considering only the schedules that strictly alternates sends and receives leading to an intuitive zero buffer encoding.
 %
 This paper proves that the set of all the strictly alternating schedules is capable of covering the message communication that may occur in any execution under zero buffer semantics. 
 %
