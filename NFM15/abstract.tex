@@ -6,7 +6,7 @@ As many MPI applications imperatively request, two runtime semantics, infinite b
 %
 A problem in any MPI program, intended or otherwise, is zero buffer incompatibility. A zero buffer incompatible MPI program deadlocks.
 %
-This problem is difficult because a developer does not know if the deadlock is based on buffering setting or improper implementation. 
+This problem is difficult to predict because a developer does not know if the deadlock is based on buffering setting or improper implementation. 
 %
 This paper presents an algorithm that encodes a single-path MPI program as a Satisfiability Modulo Theories (SMT) problem, which if satisfiable, yields a feasible schedule, such that it proves this program is zero buffer compatible. This encoding is also adaptable to checking assertion violation for correct computation.
 %

@@ -13,7 +13,6 @@ $\mathtt{R}$ $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\m
 \item $e_{\mathtt{R}} = e_{\mathtt{S}}$
 \item $src_\mathtt{R} = \ast \vee src_\mathtt{S} = src_\mathtt{R}$
 \item $\mathit{value}_{\mathtt{R}} = \mathit{value}_{\mathtt{S}}$ 
-\item $\mathit{value}_{\mathtt{R}} = \mathit{value}_{\mathtt{S}}$
 \item $\mathit{\textbf{time}}_{\mathtt{\textbf{S}}}\ = \ \mathit{\textbf{time}}_{\mathtt{\textbf{R}}} - \mathit{\textbf{1}}$
 \end{compactenum}
 \end{definition}
@@ -28,7 +27,7 @@ To further constrain the program order for zero buffer semantics, new rules are 
 
 \encodingzb
 
-\figref{fig:mpiencoding}(b) illustrates the zero buffer encoding for the sample program in \figref{fig:mpi}. It is very similar to the infinite buffer encoding in \figref{fig:mpiencoding}(a), only the program order on each process is highly constrained, and sends and receives are strictly alternated for match pairs. This encoding is able to detect zero buffer incomparability. Further, the encoding strategy checks assertion violations.
+\figref{fig:mpiencoding}(b) illustrates the zero buffer encoding for the sample program in \figref{fig:mpi}. It is very similar to the infinite buffer encoding in \figref{fig:mpiencoding}(a), only the program order on each process is highly constrained, and sends and receives are strictly alternated for match pairs. This encoding is able to detect zero buffer incompatibility. Further, the encoding strategy checks assertion violations.
 
 %\subsection{Zero Buffer Incompatibility}
 Running a zero buffer incompatible program causes deadlock.
@@ -48,7 +47,7 @@ Notice that a program with deadlock may be zero buffer compatible. Intuitively, 
 \subsection{Correctness}
 %The prior work proves the encoding technique is correct for wildcard receives. To be precise, the encoding is sound, meaning any satisfying schedule resolved by the encoding reflects an actual violating execution. It is also complete, meaning any actual violation can be resolved in a satisfying schedule by the encoding.
 
-To prove the new technique for MPI semantics is also correct, we rely on the existing soundness and completeness proofs. The soundness proof is consistent with the prior work for two aspects: 1) the program order is precisely constrained in the encoding; 2) any match pair used in a resolved satisfying schedule is valid. The deterministic receive operations and the collective operations for the new encoding do not violate both aspects. To be precise, the first aspect still exists because the program order for deterministic receive operations and collective operations are precisely defined in the new encoding. The second aspect is also true because the set of match pairs is given as input, which is not affected by deterministic receive operations and collective operations.
+To prove that the new technique for MPI semantics is correct, we rely on the existing soundness and completeness proofs. The soundness proof is consistent with the prior work for two aspects: 1) the program order is precisely constrained in the encoding; 2) any match pair used in a resolved satisfying schedule is valid. The deterministic receive operations and the collective operations for the new encoding do not violate both aspects. To be precise, the first aspect still exists because the program order for deterministic receive operations and collective operations are precisely defined in the new encoding. The second aspect is also true because the set of match pairs is given as input, which is not affected by deterministic receive operations and collective operations.
 
 The completeness proof of the new technique is similar to the prior work that uses the operational semantics to simulate the encoding during its operation to ensure that the two make identical conclusions. To prove the new encoding is complete, the operational semantics are extended to support deterministic receive operations and collective operations. A simulation of the extended operational semantics is then able to prove that any behavior of MPI semantics is encoded by the new technique in this paper. Because the soundness and the completeness for the new encoding are both proved, we conclude that the encoding is correct for MPI semantics.
 
@@ -115,7 +114,7 @@ Proof by the definition of equivalence relation. Consider three legal histories,
 Based on the reflexivity, symmetry and transitivity, this equivalence relation is able to partition the reachable set of legal histories, $\mathcal{RS}(\mathit{p})$, therefore identifies the equivalent classes among $\mathcal{RS}(\mathit{p})$.
 \end{proof}
 
-Based on \lemmaref{lemma:rst}, we further use $\mathcal{E}$$(\mathcal{RS}(\mathit{p}))$ to represent the equivalent classes for all the legal histories in $\mathcal{RS}(\mathit{p})$. If a equivalent class includes zero-buffer legal histories, we call it a zero-buffer available equivalent class. The following theorem states that a representative exists for each zero-buffer available equivalent class.
+Based on \lemmaref{lemma:rst}, we further use $\mathcal{E}$$(\mathcal{RS}(\mathit{p}))$ to represent the equivalent classes for all the legal histories in $\mathcal{RS}(\mathit{p})$. If an equivalent class includes zero-buffer legal histories, we call it a zero-buffer available equivalent class. The following theorem states that a representative exists for each zero-buffer available equivalent class.
 
 %\begin{definition}[Equivalent Class]\label{def:equal_class}
 %A set of legal histories, $\mathit{set_H}$, is a equivalent class, denoted as $\mathcal{E}$$(\mathit{set_H})$, if and only if,
