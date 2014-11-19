@@ -6,7 +6,7 @@ This section presents a new zero buffer encoding that is easy to build automatic
 The key insight is to order a send immediately preceding the matching receive in a match pair captured in \defref{def:match*}.
 
 \begin{definition}[Match Pair *] \label{def:match*}
-A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle^*$, for a receive $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$ and a send $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, corresponds to the constraints:
+A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle^*$, for a receive $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $src_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$ and a send $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $src_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, corresponds to the constraints:
 \begin{compactenum}
 \item $M_{\mathtt{R}} = \mathit{time}_{\mathtt{S}}$
 \item $M_{\mathtt{S}} = \mathit{time}_{\mathtt{R}}$
