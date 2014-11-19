@@ -2,19 +2,19 @@
 %
 A prevalent asynchronous message passing standard is the Message Passing Interface (MPI). 
 %
-As many MPI applications imperatively request, two runtime semantics, zero buffer (message has no buffering) and infinite buffer (message is copied into a runtime buffer on the API call) are supported.
+There are two runtime semantics for MPI: zero buffer (messages have no buffering) and infinite buffer (messages are copied into a runtime buffer on the API call).
 %
 A problem in any MPI program, intended or otherwise, is zero buffer incompatibility. A zero buffer incompatible MPI program deadlocks.
 %
-This problem is difficult to predict because a developer does not know if the deadlock is based on buffering setting or improper implementation. 
+This problem is difficult to predict because a developer does not know if the deadlock is based on the buffering semantics or a bad program. 
 %
-This paper presents an algorithm that encodes a single-path MPI program as a Satisfiability Modulo Theories (SMT) problem, which if satisfiable, yields a feasible schedule, such that it proves this program is zero buffer compatible. This encoding is also adaptable to checking assertion violation for correct computation.
+This paper presents an algorithm that encodes a single-path MPI program as a Satisfiability Modulo Theories (SMT) problem, which if satisfiable, yields a feasible schedule, such that it proves the program is zero buffer compatible. This encoding is also adaptable to checking assertion violation for correct computation.
 %
 To support MPI semantics, this algorithm correctly defines the point-to-point communication and collective communication with respective rules for both infinite buffer semantics and zero buffer semantics. 
 %
-The novelty in this paper is considering only the schedules that strictly alternates sends and receives leading to an intuitive zero buffer encoding.
+The novelty in this paper is considering only the schedules that strictly alternate sends and receives leading to an intuitive zero buffer encoding.
 %
-This paper proves that the set of all the strictly alternating schedules is capable of covering the message communication that may occur in any execution under zero buffer semantics. 
+This paper proves that the set of all the strictly alternating schedules is capable of covering all the message communication that may occur in any execution under zero buffer semantics. 
 %
 % message non-determinism is notorious for its difficulty to test or debug without exploring the full program state space. 
 %
