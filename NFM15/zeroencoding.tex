@@ -8,16 +8,14 @@ The key insight is to order a send immediately preceding the matching receive in
 \begin{definition}[Match Pair *] \label{def:match*}
 A match pair, $\langle\mathtt{R}, \mathtt{S}\rangle^*$, for a receive $\mathtt{R}$ $=$ $(M_\mathtt{R},$ $\mathit{time}_\mathtt{R},$ $e_\mathtt{R},$ $src_\mathtt{R},$ $\mathit{value}_\mathtt{R},$ $\mathit{time}_{\mathtt{W}_\mathtt{R}})$ and a send $\mathtt{S}$ $=$ $(M_\mathtt{S},$ $\mathit{time}_\mathtt{S},$ $e_\mathtt{S},$ $src_\mathtt{S},$ $\mathit{value}_\mathtt{S})$, corresponds to the constraints:
 \begin{compactenum}
-\item $M_{\mathtt{R}} = \mathit{time}_{\mathtt{S}}$
-\item $M_{\mathtt{S}} = \mathit{time}_{\mathtt{R}}$
-\item $e_{\mathtt{R}} = e_{\mathtt{S}}$
+\item $M_{\mathtt{R}} = \mathit{time}_{\mathtt{S}} \wedge M_{\mathtt{S}} = \mathit{time}_{\mathtt{R}}$
+\item $e_{\mathtt{R}} = e_{\mathtt{S}} \wedge \mathit{value}_{\mathtt{R}} = \mathit{value}_{\mathtt{S}}$
 \item $src_\mathtt{R} = \ast \vee src_\mathtt{S} = src_\mathtt{R}$
-\item $\mathit{value}_{\mathtt{R}} = \mathit{value}_{\mathtt{S}}$ 
 \item $\mathit{\textbf{time}}_{\mathtt{\textbf{S}}}\ = \ \mathit{\textbf{time}}_{\mathtt{\textbf{R}}} - \mathit{\textbf{1}}$
 \end{compactenum}
 \end{definition}
 
-Intuitively, the consecutive order over a send and the matching receive is defined in the bold rule $6$ of \defref{def:match*}. Any resolved execution strictly alternates sends and receives.
+Intuitively, the consecutive order over a send and the matching receive is defined in the bold rule $4$ of \defref{def:match*}. Any resolved execution strictly alternates sends and receives.
 
 \begin{definition}[Strict Alternation]\label{def:alternate}
 A set of sends, $\mathbb{S}$, and a set of receives, $\mathbb{R}$, are strictly alternated if and only if each send in $\mathbb{S}$ immediately precedes the matching receive in $\mathbb{R}$ and each receive in $\mathbb{R}$ immediately follows the matching send in $\mathbb{S}$.
@@ -29,7 +27,7 @@ To further constrain the program order for zero buffer semantics, new rules are 
 
 %\figref{fig:mpiencoding}(b) illustrates the zero buffer encoding for the sample program in \figref{fig:mpi}. It is very similar to the infinite buffer encoding in \figref{fig:mpiencoding}(a), only the program order on each process is highly constrained, and sends and receives are strictly alternated for match pairs. This encoding is able to detect zero buffer incompatibility. Further, the encoding strategy checks assertion violations.
 
-To check zero buffer incompatibility, the encoding intends to find a feasible strictly alternating schedule by constraining the over-approximated match relation and the program order. If no feasible schedule exists meaning there is an inconsistence or a contradiction by resolving the encoding, this program is zero buffer incompatible and it deadlocks under zero buffer semantics; otherwise, the zero buffer compatibility is proved. Since this process only relies on the event ordering, the constraints of user-provided assertions defined in rule $(8)$ are removed. 
+To check zero buffer incompatibility, the encoding intends to find a feasible strictly alternating schedule by constraining the over-approximated match relation and the program order. If no feasible schedule exists, meaning there is no ordering that satisfies the happens-before relation, the program is zero buffer incompatible, and it deadlocks under zero buffer semantics; otherwise, the zero buffer compatibility is proved. Since this process only relies on the event ordering, the constraints of user-provided assertions defined in rule $(8)$ are removed. 
 
 %A zero buffer incompatible MPI program deadlocks. Note that the match pairs are over-approximated, they may not be resolved under zero buffer semantics. For instance, if a program issues two consecutive sends on each process, there is no way to resolve the strictly alternating relation for the first send on each process and its matching receive. As such, the zero buffer encoding for the over-approximiated match pairs is unsatisfiable. Therefore, the zero buffer incompatibility is checked by merely encoding and resolving the program order and the strictly alternating order that are allowed by zero buffer semantics. The constraints for user-provided assertions defined in rule $(8)$ are simply removed because they are irrelevant for this purpose. If the encoding is satisfiable, the zero buffer compatibility of this scenario is proved; otherwise, it cannot be executed because it deadlocks. 
 
